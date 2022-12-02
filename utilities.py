@@ -59,7 +59,7 @@ class Tiempo:
     def toString(self):
         return self.__repr__()
     
-    def segundos(self):
+    def __int__ (self):
         return self.hours*3600 + self.minutes*60 + self.seconds
 
     def __repr__(self):
