@@ -9,9 +9,6 @@ class Tiempo:
             self.hours = 0
             self.minutes = 0
             self.seconds = 0
-            
-            if inicio[0] == '-':
-                positivo = False
 
             erHours = re.compile(r'\d*h')
             erMinutes = re.compile(r'\d*m')
