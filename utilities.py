@@ -6,6 +6,7 @@ class Tiempo:
     def __init__ (self, inicio, final = -1, seconds = -1): #Necesario para tener 2 constructores
         self.positivo = True;
         if final == -1: #Primer constructor (1 argumento)
+
             self.hours = 0
             self.minutes = 0
             self.seconds = 0
@@ -23,6 +24,17 @@ class Tiempo:
                 self.minutes = m[0][:-1]
             if s != None:
                 self.seconds = s[0][:-1]
+                
+            self.hours = int(self.hours)
+            self.minutes = int(self.minutes)
+            self.seconds = int(self.seconds)
+                
+            if self.seconds >= 60:
+                self.minutes += int(self.seconds/60)
+                self.seconds = self.seconds%60
+            if self.minutes >= 60:
+                self.hours += int(self.minutes/60)
+                self.minutes = self.minutes%60
             
         elif seconds == -1: #Segundo constructor (2 aregumentos)
             self.hours = 0
@@ -69,6 +81,8 @@ class Tiempo:
             t += str(self.seconds) + "s"
         else:
             t = t[:-1]
+        if self.hours == 0 and self.minutes == 0 and self.seconds == 0:
+            return "0s"
         return t
     
     def __add__(self, t): #Sobrecarga del operador +
@@ -84,6 +98,12 @@ class Tiempo:
             h += 1
             
         return Tiempo(h,m,s)
+    
+    def __sub__(self, t):
+        sSelf = self.hours*3600 + self.minutes*60 + self.seconds
+        sT = t.hours*3600 + t.minutes*60 + t.seconds
+        
+        return Tiempo(str(sSelf-sT) + "s")
     
     def __mul__(self, n): #Sobrecarga del operador *
         s = self.seconds * n
@@ -120,6 +140,9 @@ class Tiempo:
             h += int(m/60)
             m = m%60
         return Tiempo(int(h),int(m),int(s))
+    
+    def __abs__(self):
+        return Tiempo(abs(self.hours), abs(self.minutes), abs(self.seconds))
     
     def __le__(self, t):   #Sobrecarga del operado <=  
         sSelf = self.hours*3600 + self.minutes*60 + self.seconds
