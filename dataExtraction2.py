@@ -1,4 +1,9 @@
-def anadirAlDiccionario(diccionario, evento, name, levelCode):
+def anadirAlDiccionario(diccionario, evento, name, nivel):
+
+    levelCode = -1
+    
+    if name in nivel:
+        levelCode = nivel[name][-1]
 
     #Si ya esta el jugador, se suma 1 en el correspondiente sitio
     if levelCode in diccionario[name]:

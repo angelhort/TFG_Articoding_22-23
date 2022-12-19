@@ -6,6 +6,8 @@ def anadirAlDiccionario(diccionario, evento, name):
         creadas = int(diccionario[name][0]["laserCreados"])
         movidas = int(diccionario[name][0]["laserMovidos"]) 
         eliminadas = int(diccionario[name][0]["laserEliminados"])
+
+        print(evento)
     
         #Si crea
         if(evento["result"]["extensions"]["action"] == "create" and evento["result"]["extensions"]["element_type"] == "laser"):
