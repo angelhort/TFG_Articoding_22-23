@@ -109,17 +109,17 @@ class Tiempo:
         s = self.seconds * n
         m = self.minutes * n
         h = self.hours * n
-        
+
         m += (h - int(h))*60
         s += (m - int(m))*60
-        
+
         if s >= 60:
             m += int(s/60)
             s = s%60
         if m >= 60:
             h += int(m/60)
             m = m%60
-        
+            
         return Tiempo(h,m,s)
     
     def __truediv__(self, n): #Sobrecarga del operador /
