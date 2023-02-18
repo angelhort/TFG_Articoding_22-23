@@ -1,5 +1,4 @@
 *.json
 *.ipynb_checkpoints
 *.pyc
-*.csv
 analisisTrazas_backup.ipynb
