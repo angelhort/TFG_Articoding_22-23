@@ -1,0 +1,48 @@
+:root {
+    --lighter-blue: #C3CEDA;
+    --light-blue: #738FA7;
+    --light-blue-hover: #678096;
+    --dark-blue: #0C4160;
+    --darker-blue: #071330;
+}
+
+.backgroundColor1{
+    background-color: var(--lighter-blue);
+}
+
+.backgroundColor2{
+    background-color: var(--light-blue);
+}
+
+.backgroundColor3{
+    background-color: var(--dark-blue);
+}
+
+.backgroundColor4{
+    background-color: var(--darker-blue);
+}
+
+html, body{
+    font-family: 'Inter', sans-serif;
+    height: 100%;
+}
+
+h1{
+    color: var(--darker-blue);
+    font-weight: 800;
+}
+
+h5{
+    color: var(--darker-blue);
+    font-weight: 800;
+}
+
+.btn {
+    background-color: var(--light-blue);
+    color: white;
+}
+
+.btn:hover {
+    background-color: var(--light-blue-hover);
+    color: white;
+}
