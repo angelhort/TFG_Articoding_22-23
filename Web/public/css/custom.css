@@ -56,3 +56,14 @@ h5{
     background-color: var(--light-blue-hover);
     color: white;
 }
+
+.btn:active {
+    background-color: var(--light-blue-hover);
+    color: white;
+}
+
+.table{
+    --bs-table-accent-bg: var(--light-blue);
+    --bs-table-striped-bg: var(--lighter-blue);
+    --bs-table-border-color: var(--dark-blue);
+}
