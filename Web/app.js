@@ -5,16 +5,17 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
+const profesor = require("./profesor");
+app.use("/profesor", profesor);
 
 const ficherosEstaticos = path.join(__dirname, "public");
 app.use(express.static(ficherosEstaticos));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.get("/prueba", function(request, response){
-    response.render("prueba")
+app.get("/login", function(request, response){
+    response.render("login")
 });
-
 
 app.listen(config.port, function(err) {
     if (err) {

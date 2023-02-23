@@ -32,9 +32,19 @@ h1{
     font-weight: 800;
 }
 
+h2{
+    color: var(--darker-blue);
+    font-weight: 700;
+}
+
+h4{
+    color: var(--darker-blue);
+    font-weight: 700;
+}
+
 h5{
     color: var(--darker-blue);
-    font-weight: 800;
+    font-weight: 600;
 }
 
 .btn {

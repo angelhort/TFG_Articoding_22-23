@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("header", {titulo : "Resumen"}) %>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Resultados generales</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 border-end border-dark-subtle border-2">
+                <h4>Categorías superadas</h4>
+                <h5>Número de alumnos: 145</h5>
+            </div>
+            <div class="col-6">
+                <h4>Resultados</h4>
+                <h5>Valores medios de la clase</h5>
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                          <th scope="col">Categorías</th>
+                          <th scope="col">Tiempo</th>
+                          <th scope="col">Intentos</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <th scope="row">Tutorials</th>
+                            <td>2m/32s</td>
+                            <td>3</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Variables</th>
+                            <td>2m/32s</td>
+                            <td>3</td>
+                          </tr>
+                      </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
