@@ -8,4 +8,8 @@ profesor.get("/resumen", function(request, response){
     response.render("resumen")
 });
 
+profesor.get("/categorias", function(request, response){
+    response.render("categorias")
+});
+
 module.exports = profesor;

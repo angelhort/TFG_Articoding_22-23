@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("header", {titulo : "Categorías"}) %>
+
+<body>
+    <%- include("navBar") %>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div id="plotIntentos" class="p-0"></div>
+                </div>
+                <div class="row">
+                    <div id="plotTiempos" class="p-0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        fetch('./variables_Intentos.json')
+            .then(response => response.json())
+            .then(data => {
+                Plotly.newPlot('plotIntentos', data.data, data.layout, {responsive: true});
+            })
+            .catch(error => console.error(error));
+
+        fetch('./variables_Tiempo(s).json')
+        .then(response => response.json())
+        .then(data => {
+            Plotly.newPlot('plotTiempos', data.data, data.layout, {responsive: true});
+        })
+        .catch(error => console.error(error));
+    </script>
+</body>
+</html>
