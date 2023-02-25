@@ -67,3 +67,11 @@ h5{
     --bs-table-striped-bg: var(--lighter-blue);
     --bs-table-border-color: var(--dark-blue);
 }
+
+.bg-body-tertiary{
+    background-color: var(--light-blue)!important;
+}
+
+.nav-link, .navbar-brand{
+    color:white;
+}
