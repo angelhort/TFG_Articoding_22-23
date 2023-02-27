@@ -47,6 +47,11 @@ h5{
     font-weight: 600;
 }
 
+h6{
+    color: var(--darker-blue);
+    font-weight: 600;
+}
+
 .btn {
     background-color: var(--light-blue);
     color: white;
@@ -74,4 +79,13 @@ h5{
 
 .nav-link, .navbar-brand{
     color:white;
+}
+
+a{
+    color:var(--dark-blue)
+}
+
+.form-select{
+    background-color: var(--light-blue);
+    color: white;
 }

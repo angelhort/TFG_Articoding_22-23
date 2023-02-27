@@ -5,17 +5,127 @@
 
 <body>
     <%- include("navBar") %>
-    <div class="container">
-        <div class="row">
-            <div class="col-6">
-                
-            </div>
-            <div class="col-6">
+    <div class="container-fluid p-0">
+        <div class="row mt-5 pb-5">
+            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
                 <div class="row">
-                    <div id="plotIntentos" class="p-0"></div>
+                    <div class="col ms-5">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <select class="form-select">
+                                    <option selected></option>
+                                    <option value="1">Tutorials</option>
+                                    <option value="2">Variables</option>
+                                    <option value="3">Types</option>
+                                    <option value="4">Basic Operators</option>
+                                    <option value="3">Loops</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <a href="">¿Qué conocimientos se adquieren en cada categoría?</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
-                    <div id="plotTiempos" class="p-0"></div>
+                    <div class="col ms-5 mt-5">
+                        <h6>Valores medios de la clase</h6>
+                    </div>
+                </div>
+                <div class="row ms-5 me-5 mb-5">
+                    <div class="col mt-3">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nivel</th>
+                                    <th scope="col">Tiempo</th>
+                                    <th scope="col">Intentos</th>
+                                    <th scope="col">Estrellas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Variables 1</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 2</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 3</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 4</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 5</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 6</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 7</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 8</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Variables 9</th>
+                                    <td>2m/32s</td>
+                                    <td>3</td>
+                                    <td>3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="row ms-5">
+                    <div class="col-auto">
+                        <h6>Distribución Intentos</h6>
+                    </div>
+                    <div class="col-auto">                        
+                        <a href="">¿Qué representan los boxplots?</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="plotIntentos" class="p-0"></div>
+                    </div>                   
+                </div>
+                <div class="row ms-5">
+                    <div class="col">
+                        <h6>Distribución tiempo empleado</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="plotTiempos" class="p-0"></div>
+                    </div>
                 </div>
             </div>
         </div>
