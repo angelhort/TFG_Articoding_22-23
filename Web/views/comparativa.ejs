@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include("header", {titulo : "Comparativa"}) %>
+
+<body>
+    <%- include("navBar") %>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mt-5">
+                <h2>Comparativa General</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 border-end border-dark-subtle border-2">
+                <div class="row">
+                    <div id="plotCategorias" class="p-0">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div id="plotMediaTiempos" class="p-0">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Load the JSON file using the fetch() method
+        fetch('./porcentajeCategorias.json')
+            .then(response => response.json())
+            .then(data => {
+                // Create the Plotly graph using the JSON data
+                Plotly.newPlot('plotCategorias', data.data, data.layout, {responsive: true});
+            })
+            .catch(error => console.error(error));
+
+            fetch('./mediaTiempos.json')
+            .then(response => response.json())
+            .then(data => {
+                // Create the Plotly graph using the JSON data
+                Plotly.newPlot('plotMediaTiempos', data.data, data.layout, {responsive: true});
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+</html>

@@ -12,4 +12,8 @@ profesor.get("/categorias", function(request, response){
     response.render("categorias")
 });
 
+profesor.get("/comparativa", function(request, response){
+    response.render("comparativa")
+});
+
 module.exports = profesor;
