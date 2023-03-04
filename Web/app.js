@@ -39,11 +39,6 @@ app.set("views", path.join(__dirname, "views"));
 
 /* -------------------------------------------------------------------------- */
 
-app.use(function(request, response, next){
-    //COMPROBAR USUARIO LOGADO
-    next();
-});
-
 app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
