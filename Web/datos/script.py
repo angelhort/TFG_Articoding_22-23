@@ -10,6 +10,9 @@ import plotly.graph_objects as go
 import sys
 import os
 
+sys.stdout.flush()
+print("Analizando datos...")
+
 nombreInstituto = sys.argv[1]
 
 if not os.path.exists("./datos/" + nombreInstituto + "/plots"):
@@ -305,4 +308,4 @@ getChartPorcentajeCategorias(tiemposMedios["listaNiveles"], ultNivelAlcanzado, l
 
 create_boxplotsComparativa(tiemposMedios["mediaTiempos"], 'Intentos')
 
-print("JSONS Creados con exito")
+print("Datos analizados con exito")

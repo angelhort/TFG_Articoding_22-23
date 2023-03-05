@@ -2,6 +2,7 @@
 
 const config = require("./config");
 const DAOUsuario = require("./DAO/DAOUsuario")
+const DAOInstituto = require("./DAO/DAOInstituto")
 
 const express = require("express");
 const mysql = require("mysql");
@@ -17,7 +18,6 @@ const sessionStore = new MySQLStore({
     database: "Articoding"
 });
 
-const profesor = require("./profesor");
 
 const app = express();
 
@@ -30,6 +30,7 @@ app.use(session({
 
 const pool = mysql.createPool(config.mysqlConfig);
 const daoU = new DAOUsuario(pool);
+const daoI = new DAOInstituto(pool);
 
 const ficherosEstaticos = path.join(__dirname, "public");
 app.use(express.static(ficherosEstaticos));
@@ -39,6 +40,7 @@ app.set("views", path.join(__dirname, "views"));
 
 /* -------------------------------------------------------------------------- */
 
+const profesor = require("./profesor")(daoI);
 app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
@@ -55,7 +57,6 @@ app.post("/login", function(request, response){
         }
         else if(ok){
             request.session.usuario = usuario.nombre;
-            request.session.contrasenia = usuario.contrasenya;
             request.session.instituto = usuario.instituto;
             response.redirect("/profesor/resumen");
            
