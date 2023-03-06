@@ -17,21 +17,6 @@ module.exports = function(daoI){
     profesor.use(comprobarUsuario);
     
     profesor.get("/resumen", function(request, response){
-        /*var spawn = require('child_process').spawn;
-        var process = spawn('python', ['./datos/script.py', "escolapias"]);
-        process.stdout.on('data', function (data) {
-            console.log(data.toString());
-            response.render("resumen")
-    
-        });
-        process.stderr.on('data', function (data) {
-            console.error(data.toString());
-            response.render("resumen")
-        });
-        process.on('error', function (error) {
-            console.error(error.toString());
-            response.render("resumen")
-        });*/
         response.render("resumen")
     });
     

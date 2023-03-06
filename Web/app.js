@@ -58,7 +58,23 @@ app.post("/login", function(request, response){
         else if(ok){
             request.session.usuario = usuario.nombre;
             request.session.instituto = usuario.instituto;
-            response.redirect("/profesor/resumen");
+
+            var spawn = require('child_process').spawn;
+            var process = spawn('python', ['./datos/script.py', "escolapias"]);
+            process.stdout.on('data', function (data) {
+                console.log(data.toString());
+                response.redirect("/profesor/resumen");
+        
+            });
+            process.stderr.on('data', function (data) {
+                console.error(data.toString());
+                response.redirect("/profesor/resumen");
+            });
+            process.on('error', function (error) {
+                console.error(error.toString());
+                response.redirect("/profesor/resumen");
+            });
+                
            
         } else{
             response.status(200);

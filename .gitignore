@@ -1,3 +1,4 @@
 *.json
 *.ipynb_checkpoints
 *.pyc
+!Web/node_modules/**/*.json
