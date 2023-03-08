@@ -28,8 +28,8 @@ module.exports = function(daoI){
         response.render("comparativa")
     });
     
-    profesor.get("/getDatosResumen/:idInstituto", function(request, response){
-        daoI.getNameById(request.params.idInstituto, nombreInstituto);
+    profesor.get("/getDatosResumen", function(request, response){
+        daoI.getNameById(request.session.instituto, nombreInstituto);
         function nombreInstituto(err, nombre){
             if(err){
                 //TODO pagina error 500
