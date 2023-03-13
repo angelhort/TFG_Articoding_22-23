@@ -1,4 +1,5 @@
 "use strict"
+var dataPath = './datos/'
 
 const config = require("./config");
 const DAOUsuario = require("./DAO/DAOUsuario")
@@ -40,7 +41,7 @@ app.set("views", path.join(__dirname, "views"));
 
 /* -------------------------------------------------------------------------- */
 
-const profesor = require("./profesor")(daoI);
+const profesor = require("./profesor")(dataPath);
 app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
@@ -60,7 +61,7 @@ app.post("/login", function(request, response){
             request.session.instituto = usuario.instituto;
 
             var spawn = require('child_process').spawn;
-            var process = spawn('python', ['./datos/script.py', "escolapias"]);
+            var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
             process.stdout.on('data', function (data) {
                 console.log(data.toString());
                 response.redirect("/profesor/resumen");

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include("header", {titulo : "Categorías"}) %>
+<head>
+    <%- include("header", {titulo : "Categorías"}) %>
+</head>
 
 <body>
     <%- include("navBar") %>
@@ -13,11 +15,11 @@
                         <div class="row align-items-center">
                             <div class="col-auto">
                                 <select class="form-select">
-                                    <option selected>Tutorials</option>
-                                    <option value="1">Variables</option>
-                                    <option value="2">Types</option>
-                                    <option value="3">Basic Operators</option>
-                                    <option value="4">Loops</option>
+                                    <option selected value="tutorials">Tutorials</option>
+                                    <option value="variables">Variables</option>
+                                    <option value="types">Types</option>
+                                    <option value="basic">Basic Operators</option>
+                                    <option value="loops">Loops</option>
                                 </select>
                             </div>
                             <div class="col-auto">
@@ -105,7 +107,7 @@
             <div class="col-12 col-lg-6">
                 <div class="row ms-5">
                     <div class="col-auto">
-                        <h6>Distribución Intentos</h6>
+                        <h6>Distribución tiempo empleado</h6>
                     </div>
                     <div class="col-auto">                        
                         <a href="">¿Qué representan los boxplots?</a>
@@ -113,17 +115,17 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div id="plotIntentos" class="p-0"></div>
+                        <div id="tiempos" class="plotTiempo p-0" ruta="/profesor/getTiempoCategoria/"></div>
                     </div>                   
                 </div>
                 <div class="row ms-5 mt-4">
                     <div class="col">
-                        <h6>Distribución tiempo empleado</h6>
+                        <h6>Distribución intentos</h6>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div id="plotTiempos" class="p-0"></div>
+                        <div id="intentos" class="plotIntentos p-0" ruta="/profesor/getIntentosCategoria/"></div>
                     </div>
                 </div>
             </div>
@@ -131,19 +133,40 @@
     </div>
 
     <script>
-        fetch('./variables_Intentos.json')
-            .then(response => response.json())
-            .then(data => {
-                Plotly.newPlot('plotIntentos', data.data, data.layout, {responsive: true});
-            })
-            .catch(error => console.error(error));
 
-        fetch('./variables_Tiempo(s).json')
-        .then(response => response.json())
-        .then(data => {
-            Plotly.newPlot('plotTiempos', data.data, data.layout, {responsive: true});
-        })
-        .catch(error => console.error(error));
+        $(document).ready(cambiarPlot);
+
+        $(document).ready(function(){
+            $(".form-select").change(cambiarPlot);
+        });
+
+
+        function cambiarPlot(){
+            var categoria = $(this).val();
+            if(categoria=="")
+                categoria="tutorials"
+            $('.plotTiempo').each(function() {
+                var ruta = $(this).attr('ruta');
+                fetch(ruta + categoria)
+                .then(response => response.json())
+                .then(data => {
+                    // Create the Plotly graph using the JSON data
+                    Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true});
+                })
+                .catch(error => console.error(error));
+            });
+
+            $('.plotIntentos').each(function() {
+                var ruta = $(this).attr('ruta');
+                fetch(ruta + categoria)
+                .then(response => response.json())
+                .then(data => {
+                    // Create the Plotly graph using the JSON data
+                    Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true});
+                })
+                .catch(error => console.error(error));
+            });
+        }
     </script>
 </body>
 </html>

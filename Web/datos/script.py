@@ -238,40 +238,66 @@ def create_boxplots(data_dict, titulo):
         fig.update_traces(marker_color='#738FA7', hovertemplate='<b>%{hovertext}</b><br>' + titulo + ': %{y}')
         fig.write_json("./datos/" + nombreInstituto + "/plots/"+ c + "_"+ titulo +".json")
 
-def getChartPorcentajeCategorias(niveles, ultNivelCompletado, total_players):
+def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
     cuantosHanLlegadoAlNivel = getCuantasPersonasHanAlcanzadoNivel(ultNivelCompletado, niveles)
     ultNivelCat = {}
     for level in cuantosHanLlegadoAlNivel:
         ultNivelCat[(" ".join(level.split("_")[:-1])).capitalize()] = cuantosHanLlegadoAlNivel[level]
 
     for c in ultNivelCat:
-        ultNivelCat[c] = round((ultNivelCat[c]/total_players)*100, 2)
+        ultNivelCat[c] = round((ultNivelCat[c]/jugClase)*100, 2)
+
+    categorias = defaultdict(defaultdict)
+    for d in tiemposMedios:
+        categorias[(" ".join(d[0].split("_")[:-1])).capitalize()][d[0]] = int(d[1])
+
+    ### Actualizar datos globales
+    JSONFile = open('./datos/datosGlobales.json')
+    datosGlobales = json.load(JSONFile)
+    JSONFile.close()
+
+    if( nombreInstituto not in datosGlobales["institutos"]):
+        jugTotales = jugClase + datosGlobales["numeroAlumnos"]
+        for c in datosGlobales["porcentaje"]:
+            if c in ultNivelCat:
+                datosGlobales["porcentaje"][c] = (datosGlobales["porcentaje"][c]*datosGlobales["numeroAlumnos"]/jugTotales) + (ultNivelCat[c]*jugClase/jugTotales)
+
+        
+
+        for c in datosGlobales["tiempoMedio"]:
+            if c in categorias:
+                for l in datosGlobales["tiempoMedio"][c]:
+                    if l in categorias[c]:
+                        datosGlobales["tiempoMedio"][c][l] = (datosGlobales["tiempoMedio"][c][l]*datosGlobales["numeroAlumnos"]/jugTotales) + (categorias[c][l]*jugClase/jugTotales)
+                        
+        datosGlobales["numeroAlumnos"] = jugTotales        
+        datosGlobales["institutos"].append(nombreInstituto)
+        with open('./datos/datosGlobales.json', 'w') as json_file:
+            json.dump(datosGlobales, json_file)
+
 
     fig = go.Figure(data=[
         go.Bar(name="Clase", x=list(ultNivelCat.keys()), y=list(ultNivelCat.values()), marker_color="#738FA7",
-               hovertemplate='<b>%{y}%</b>'),
-        go.Bar(name="Global", x=list(ultNivelCat.keys()), y=list(ultNivelCat.values()), marker_color="#0C4160",
-               hovertemplate='<b>%{y}%</b>'),
+            hovertemplate='<b>%{y}%</b>'),
+        go.Bar(name="Global", x=list(datosGlobales["porcentaje"].keys()), y=list(datosGlobales["porcentaje"].values()), marker_color="#0C4160",
+            hovertemplate='<b>%{y}%</b>'),
     ])
     fig.update_layout(plot_bgcolor='#C3CEDA')
     fig.update_layout(barmode='group')
     fig.update_layout(title_text='Porcentaje Categorías Superadas VS Global')
     fig.write_json("./datos/" + nombreInstituto + "/plots/porcentajeCategorias.json")
 
-def create_boxplotsComparativa(data_dict, titulo):
-    categorias = defaultdict(defaultdict)
-    for d in data_dict:
-        categorias[(" ".join(d[0].split("_")[:-1])).capitalize()][d[0]] = int(d[1])
-
-    fig = go.Figure(data=[
-        go.Bar(name = "Clase", x=list(categorias["Tutorials"].keys()), y=list(categorias["Tutorials"].values()), marker_color="#738FA7",
-               hovertemplate='<b>%{y}s</b>'),
-        go.Bar(name = "Clase", x=list(categorias["Tutorials"].keys()), y=list(categorias["Tutorials"].values()), marker_color="#0C4160",
-               hovertemplate='<b>%{y}s</b>')
-    ])
-    fig.update_layout(plot_bgcolor='#C3CEDA')
-    fig.update_layout(barmode='group')
-    fig.write_json("./datos/" + nombreInstituto + "/plots/mediaTiempos.json")
+    for c in datosGlobales["tiempoMedio"]:
+        if c in categorias:
+            fig = go.Figure(data=[
+                go.Bar(name = "Clase", x=list(categorias[c].keys()), y=list(categorias[c].values()), marker_color="#738FA7",
+                    hovertemplate='<b>%{y}s</b>'),
+                go.Bar(name = "Global", x=list(datosGlobales["tiempoMedio"][c].keys()), y=list(datosGlobales["tiempoMedio"][c].values()), marker_color="#0C4160",
+                    hovertemplate='<b>%{y}s</b>')
+            ])
+            fig.update_layout(plot_bgcolor='#C3CEDA')
+            fig.update_layout(barmode='group')
+            fig.write_json("./datos/" + nombreInstituto + "/plots/" + c.split(" ")[0].lower() + "_mediaTiemposComparativa.json")
 
 #####################################################################################################################
 
@@ -304,8 +330,6 @@ create_boxplots(intentosListNombres, 'Intentos')
 
 create_boxplots(parseTiemposDictConNombresToInteger(tiemposListNombres), "Tiempo(s)")
 
-getChartPorcentajeCategorias(tiemposMedios["listaNiveles"], ultNivelAlcanzado, len(ultNivelAlcanzado))
-
-create_boxplotsComparativa(tiemposMedios["mediaTiempos"], 'Intentos')
+getChartsComparativas(tiemposMedios["listaNiveles"], tiemposMedios["mediaTiempos"], ultNivelAlcanzado, len(ultNivelAlcanzado))
 
 print("Datos analizados con exito")

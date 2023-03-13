@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include("header", {titulo : "Comparativa"}) %>
+<head>
+    <%- include("header", {titulo : "Comparativa"}) %>
+</head>
 
 <body>
     <%- include("navBar") %>
@@ -12,39 +14,72 @@
             </div>
         </div>
         <div class="row">
+            <div class="col mt-5">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <select class="form-select">
+                            <option selected value="tutorials">Tutorials</option>
+                            <option value="variables">Variables</option>
+                            <option value="types">Types</option>
+                            <option value="basic">Basic Operators</option>
+                            <option value="loops">Loops</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <a href="">¿Qué conocimientos se adquieren en cada categoría?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-6 border-end border-dark-subtle border-2">
                 <div class="row">
-                    <div id="plotCategorias" class="p-0">
-
-                    </div>
+                    <div id="tiempos" class="plotCategorias" ruta="/profesor/getComparativaCategorias"></div>
                 </div>
             </div>
             <div class="col-6">
                 <div class="row">
-                    <div id="plotMediaTiempos" class="p-0">
+                    <div id="intentos" class="plotMediaTiempos" ruta="/profesor/getTiempoCategoriaComparativa/"></div>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        // Load the JSON file using the fetch() method
-        fetch('./porcentajeCategorias.json')
-            .then(response => response.json())
-            .then(data => {
-                // Create the Plotly graph using the JSON data
-                Plotly.newPlot('plotCategorias', data.data, data.layout, {responsive: true});
-            })
-            .catch(error => console.error(error));
 
-            fetch('./mediaTiempos.json')
-            .then(response => response.json())
-            .then(data => {
-                // Create the Plotly graph using the JSON data
-                Plotly.newPlot('plotMediaTiempos', data.data, data.layout, {responsive: true});
-            })
-            .catch(error => console.error(error));
+        $(document).ready(cambiarPlot);
+
+        $(document).ready(function(){
+            $(".form-select").change(cambiarPlot);
+        });
+
+
+        function cambiarPlot(){
+            var categoria = $(this).val();
+            if(categoria=="")
+                categoria="tutorials"
+            $('.plotCategorias').each(function() {
+                var ruta = $(this).attr('ruta');
+                fetch(ruta)
+                .then(response => response.json())
+                .then(data => {
+                    // Create the Plotly graph using the JSON data
+                    Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true});
+                })
+                .catch(error => console.error(error));
+            });
+
+            $('.plotMediaTiempos').each(function() {
+                var ruta = $(this).attr('ruta');
+                fetch(ruta + categoria)
+                .then(response => response.json())
+                .then(data => {
+                    // Create the Plotly graph using the JSON data
+                    Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true});
+                })
+                .catch(error => console.error(error));
+            });
+        }
     </script>
 </body>
 </html>

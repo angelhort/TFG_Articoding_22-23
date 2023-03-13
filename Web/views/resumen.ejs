@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<%- include("header", {titulo : "Resumen"}) %>
+    
+<head>
+    <%- include("header", {titulo : "Resumen"}) %>
+    <script src="js/plotGenerator.js"></script>
+</head>
 
 <body>
     <%- include("navBar") %>
@@ -18,7 +21,7 @@
                     <h5 class="mt-3">Número de alumnos: 145</h5>
                 </div>
                 <div class="row">
-                    <div id="plot" class="p-0"></div>
+                    <div id="categoriasSuperadas" class="plot p-0" ruta="/profesor/getDatosResumen"></div>
                 </div>
             </div>
             <div class="col-12 col-lg-6">
@@ -69,15 +72,5 @@
             </div>
         </div>
     </div>
-    <script>
-        // Load the JSON file using the fetch() method
-        fetch('/profesor/getDatosResumen')
-            .then(response => response.json())
-            .then(data => {
-                // Create the Plotly graph using the JSON data
-                Plotly.newPlot('plot', data.data, data.layout, {responsive: true});
-            })
-            .catch(error => console.error(error));
-    </script>
 </body>
 </html>
