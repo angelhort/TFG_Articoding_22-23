@@ -15,7 +15,12 @@ module.exports = function(dataPath){
     }
     
     profesor.use(comprobarUsuario);
-    
+
+    //PR(15/03) La ruta inicial es /, profesor envía a resumen
+    profesor.get("/", function(request, response){
+        response.render("resumen")
+    });
+
     profesor.get("/resumen", function(request, response){
         response.render("resumen")
     });

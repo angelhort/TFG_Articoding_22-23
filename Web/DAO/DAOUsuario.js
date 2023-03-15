@@ -14,7 +14,7 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    connection.query("SELECT nombre, contrasenya, instituto FROM usuario WHERE nombre = ? AND contrasenya = ?", [usuario, contrasenia], 
+                    connection.query("SELECT nombre, contrasenya, instituto, rol FROM usuario WHERE nombre = ? AND contrasenya = ?", [usuario, contrasenia], 
                     function(err, user){
                         if(err){
                             connection.release();
