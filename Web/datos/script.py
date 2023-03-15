@@ -307,7 +307,7 @@ def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
                         datosGlobales["tiempoMedio"][c][l]["tiempo"] = (datosGlobales["tiempoMedio"][c][l]["tiempo"]*datosGlobales["tiempoMedio"][c][l]["jugadores"]/jugTotales) + (categorias[c][l]*cuantosHanLlegadoAlNivel[l]/jugTotales)
                         datosGlobales["tiempoMedio"][c][l]["jugadores"] += cuantosHanLlegadoAlNivel[l]
                         
-        datosGlobales["numeroAlumnos"] = jugTotales        
+        datosGlobales["numeroAlumnos"] = jugClase + datosGlobales["numeroAlumnos"]        
         datosGlobales["institutos"].append(nombreInstituto)
         with open('./datos/datosGlobales.json', 'w') as json_file:
             json.dump(datosGlobales, json_file)
