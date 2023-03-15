@@ -5,5 +5,29 @@
 </head>
 <body>
     <%- include("navBar") %>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Tiempo Jugado</th>
+                            <th scope="col">Último nivel alcanzado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var alumno in infoAlumnos){ %>
+                            <tr>
+                                <th scope="row"> <%= alumno %></th>
+                                <td><%= infoAlumnos[alumno]["tiempo"] %></td>
+                                <td><%= infoAlumnos[alumno]["ultNivel"] %></td>
+                            </tr>
+                        <% }; %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

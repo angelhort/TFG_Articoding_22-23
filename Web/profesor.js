@@ -29,7 +29,16 @@ module.exports = function(dataPath){
     });
 
     profesor.get("/alumnos", function(request, response){
-        response.render("alumnos")
+        fs.readFile(dataPath + request.session.instituto + "/plots/jugadores.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo");
+            }
+            else{
+                const infoAlumnos = JSON.parse(data);
+                response.render("alumnos", {"infoAlumnos" : infoAlumnos})
+            }
+        });  
     });
     
     profesor.get("/getDatosResumen", function(request, response){

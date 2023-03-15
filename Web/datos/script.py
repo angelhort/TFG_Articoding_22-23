@@ -102,13 +102,13 @@ def tiempoTotalJuego(inicioYFinJuego, ultNivelAlcanzado):
 
     for p in tiempoTotal:
         if p in ultNivelAlcanzado:
-            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p]}
+            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p].replace("_", " ").capitalize()}
         else:
             tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : "None"}
 
 
     with open('./datos/'+ nombreInstituto +'/plots/jugadores.json', 'w') as json_file:
-            json.dump(json.dumps(tiempoTotal), json_file)
+        json.dump(tiempoTotal, json_file)
 
 def getMediaTiempoPorNivel(tiempos, soloPrimerExito = True, tiemposOrdenados = False):
     medias = defaultdict(list)
