@@ -27,6 +27,10 @@ module.exports = function(dataPath){
     profesor.get("/comparativa", function(request, response){
         response.render("comparativa")
     });
+
+    profesor.get("/alumnos", function(request, response){
+        response.render("alumnos")
+    });
     
     profesor.get("/getDatosResumen", function(request, response){
         fs.readFile(dataPath + request.session.instituto + "/plots/categoriasSuperadas.json", function(err, data){

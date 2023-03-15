@@ -22,12 +22,17 @@ def extraerTiemposPorNivelJugador(rawData):
     
     tiempos = defaultdict(defaultdict)
     intentosNecesarios = defaultdict(defaultdict)
-    
+    inicioYFinJuego = defaultdict()
+
     erLevel = re.compile(r'\blevel$\b')
     erIdLevel = re.compile(r'/')
     
     erInitialized = re.compile(r'\binitialized$\b')
     erCompleted = re.compile(r'\bcompleted$\b')
+    erAccessed = re.compile(r'\baccessed$\b')
+
+    erSeriousGame = re.compile(r'\bserious-game$\b')  
+    erCategoryMain = re.compile(r'\bcategories_main$\b')  
     
     for evento in rawData:
         verb = evento["verb"]["id"]
@@ -35,7 +40,7 @@ def extraerTiemposPorNivelJugador(rawData):
         name = evento["actor"]["name"]
         timestamp = evento["timestamp"]
         objectId = evento["object"]["id"]
-        
+       
         if erLevel.search(obj): #Si el objeto de la acción es un nivel
             levelCode = erIdLevel.split(objectId)[-1]
             if levelCode != "editor_level":
@@ -60,7 +65,17 @@ def extraerTiemposPorNivelJugador(rawData):
                         if levelCode in tiempos[name]:
                             tiempos[name][levelCode][-1]["fin"] = timestamp
                             tiempos[name][levelCode][-1]["stars"] = evento["result"]["score"]["raw"]
-    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios}
+        
+        elif erSeriousGame.search(obj) and erInitialized.search(verb):
+            if name in inicioYFinJuego:
+                inicioYFinJuego[name].append({"inicio" : timestamp, "fin" : None})
+            else:
+                inicioYFinJuego[name] = [{"inicio" : timestamp, "fin" : None}]
+        
+        if not(erAccessed.search(verb) and erCategoryMain.search(objectId)):
+            inicioYFinJuego[name][-1]["fin"] = timestamp
+    
+    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego}
 
 def tiempoPorNiveles_Jugador(data):
     tiemposJugados = defaultdict(defaultdict)
@@ -74,6 +89,26 @@ def tiempoPorNiveles_Jugador(data):
                     else:
                         tiemposJugados[player][level] = [{"time" : timeDifference, "stars" : times["stars"]}]
     return tiemposJugados
+
+def tiempoTotalJuego(inicioYFinJuego, ultNivelAlcanzado):
+    tiempoTotal = defaultdict()
+    for player in inicioYFinJuego:
+        for time in inicioYFinJuego[player]:
+            if time["fin"] != None:
+                if player in tiempoTotal:
+                    tiempoTotal[player] += Tiempo(time["inicio"], time["fin"])
+                else:
+                    tiempoTotal[player] = Tiempo(time["inicio"], time["fin"])
+
+    for p in tiempoTotal:
+        if p in ultNivelAlcanzado:
+            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p]}
+        else:
+            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : "None"}
+
+
+    with open('./datos/'+ nombreInstituto +'/plots/jugadores.json', 'w') as json_file:
+            json.dump(json.dumps(tiempoTotal), json_file)
 
 def getMediaTiempoPorNivel(tiempos, soloPrimerExito = True, tiemposOrdenados = False):
     medias = defaultdict(list)
@@ -268,7 +303,9 @@ def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
             if c in categorias:
                 for l in datosGlobales["tiempoMedio"][c]:
                     if l in categorias[c]:
-                        datosGlobales["tiempoMedio"][c][l] = (datosGlobales["tiempoMedio"][c][l]*datosGlobales["numeroAlumnos"]/jugTotales) + (categorias[c][l]*jugClase/jugTotales)
+                        jugTotales = datosGlobales["tiempoMedio"][c][l]["jugadores"] + cuantosHanLlegadoAlNivel[l]
+                        datosGlobales["tiempoMedio"][c][l]["tiempo"] = (datosGlobales["tiempoMedio"][c][l]["tiempo"]*datosGlobales["tiempoMedio"][c][l]["jugadores"]/jugTotales) + (categorias[c][l]*cuantosHanLlegadoAlNivel[l]/jugTotales)
+                        datosGlobales["tiempoMedio"][c][l]["jugadores"] += cuantosHanLlegadoAlNivel[l]
                         
         datosGlobales["numeroAlumnos"] = jugTotales        
         datosGlobales["institutos"].append(nombreInstituto)
@@ -288,11 +325,14 @@ def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
     fig.write_json("./datos/" + nombreInstituto + "/plots/porcentajeCategorias.json")
 
     for c in datosGlobales["tiempoMedio"]:
+        valores = []
+        for l in datosGlobales["tiempoMedio"][c]:
+            valores.append(datosGlobales["tiempoMedio"][c][l]["tiempo"])
         if c in categorias:
             fig = go.Figure(data=[
                 go.Bar(name = "Clase", x=list(categorias[c].keys()), y=list(categorias[c].values()), marker_color="#738FA7",
                     hovertemplate='<b>%{y}s</b>'),
-                go.Bar(name = "Global", x=list(datosGlobales["tiempoMedio"][c].keys()), y=list(datosGlobales["tiempoMedio"][c].values()), marker_color="#0C4160",
+                go.Bar(name = "Global", x=list(datosGlobales["tiempoMedio"][c].keys()), y=list(valores), marker_color="#0C4160",
                     hovertemplate='<b>%{y}s</b>')
             ])
             fig.update_layout(plot_bgcolor='#C3CEDA')
@@ -307,6 +347,7 @@ JSONFile.close()
 
 resultados_Tiempos_Nivel_Jugador = extraerTiemposPorNivelJugador(rawData)
 
+
 tiemposIntentosJugadores = tiempoPorNiveles_Jugador(resultados_Tiempos_Nivel_Jugador["tiempos"])
 
 soloPrimerExito = True
@@ -314,6 +355,7 @@ tiemposOrdenados = False
 tiemposMedios = getMediaTiempoPorNivel(tiemposIntentosJugadores, soloPrimerExito, tiemposOrdenados)
 
 ultNivelAlcanzado = getUltimoNivelAlcanzado(tiemposMedios["tiemposIndividuales"])
+tiempoTotalJuego(resultados_Tiempos_Nivel_Jugador["inicioYFinJuego"], ultNivelAlcanzado)
 
 intentosOrdenados = False
 intentosMedios_Individual = getIntentosMedios_HastaCompletarNivel(resultados_Tiempos_Nivel_Jugador["intentosNecesarios"], intentosOrdenados)
