@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <%- include("header", {titulo : "Resumen"}) %>
+    <script src="js/plotGenerator.js"></script>
+</head>
+
+<body>
+    <%- include("adminBar") %>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mt-5">
+                <h2>Información General</h2>
+            </div>
+        </div>
+        <div class="row mt-5 pb-5">
+            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
+                <div class="row">
+                    <h4>Número de institutos</h4>
+                    <h5 class="mt-3">Número de institutos: 3</h5>
+                </div>
+                <div class="row">
+                    <div id="categoriasSuperadas" class="plot p-0" ruta="/admin/getContInstitutos"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

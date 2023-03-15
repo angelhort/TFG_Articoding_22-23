@@ -41,6 +41,8 @@ app.set("views", path.join(__dirname, "views"));
 
 /* -------------------------------------------------------------------------- */
 
+const admin = require('./admin')(dataPath);
+app.use("/admin",admin);
 const profesor = require("./profesor")(dataPath);
 app.use("/profesor", profesor);
 
@@ -59,21 +61,22 @@ app.post("/login", function(request, response){
         else if(ok){
             request.session.usuario = usuario.nombre;
             request.session.instituto = usuario.instituto;
+            request.session.rol = usuario.rol;
 
             var spawn = require('child_process').spawn;
             var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
             process.stdout.on('data', function (data) {
                 console.log(data.toString());
-                response.redirect("/profesor/resumen");
+                response.redirect('/'+usuario.rol+'/');
         
             });
             process.stderr.on('data', function (data) {
                 console.error(data.toString());
-                response.redirect("/profesor/resumen");
+                response.redirect('/'+usuario.rol+'/');
             });
             process.on('error', function (error) {
                 console.error(error.toString());
-                response.redirect("/profesor/resumen");
+                response.redirect('/'+usuario.rol+'/');
             });
                 
            
