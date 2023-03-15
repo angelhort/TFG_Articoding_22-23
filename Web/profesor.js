@@ -8,7 +8,7 @@ module.exports = function(dataPath){
     profesor.use(express.static(path.join(__dirname, "public")));
     
     function comprobarUsuario(request, response, next){
-        if(request.session.usuario)
+        if(request.session.usuario && request.session.rol == "profesor")
             next();
         else
             response.redirect("/login");
@@ -16,10 +16,6 @@ module.exports = function(dataPath){
     
     profesor.use(comprobarUsuario);
 
-    //PR(15/03) La ruta inicial es /, profesor envía a resumen
-    profesor.get("/", function(request, response){
-        response.render("resumen")
-    });
 
     profesor.get("/resumen", function(request, response){
         response.render("resumen")

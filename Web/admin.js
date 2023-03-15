@@ -8,7 +8,7 @@ module.exports = function(dataPath){
     admin.use(express.static(path.join(__dirname, "public")));
 
     function comprobarUsuario(request, response, next){
-        if(request.session.usuario)
+        if(request.session.usuario && request.session.rol == "admin")
             next();
         else
             response.redirect("/login");
