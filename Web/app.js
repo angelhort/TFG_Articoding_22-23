@@ -11,6 +11,7 @@ const path = require("path");
 const session = require("express-session")
 const bodyParser = require("body-parser");
 const mysqlSession = require("express-mysql-session");
+const fs = require('fs');
 const MySQLStore = mysqlSession(session);
 const sessionStore = new MySQLStore({
     host: "localhost",
@@ -64,21 +65,26 @@ app.post("/login", function(request, response){
             request.session.rol = usuario.rol;
 
             if (usuario.rol == "profesor"){
-                var spawn = require('child_process').spawn;
-                var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
-                process.stdout.on('data', function (data) {
-                    console.log(data.toString());
+                if(!fs.existsSync(dataPath + "/" +usuario.instituto + "/plots")){
+                    var spawn = require('child_process').spawn;
+                    var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
+                    process.stdout.on('data', function (data) {
+                        console.log(data.toString());
+                        response.redirect('/profesor/resumen');
+                
+                    });
+                    process.stderr.on('data', function (data) {
+                        console.error(data.toString());
+                        response.redirect('/profesor/resumen');
+                    });
+                    process.on('error', function (error) {
+                        console.error(error.toString());
+                        response.redirect('/profesor/resumen');
+                    });
+                }
+                else{
                     response.redirect('/profesor/resumen');
-            
-                });
-                process.stderr.on('data', function (data) {
-                    console.error(data.toString());
-                    response.redirect('/profesor/resumen');
-                });
-                process.on('error', function (error) {
-                    console.error(error.toString());
-                    response.redirect('/profesor/resumen');
-                });
+                }
             }
             else if (usuario.rol == "admin"){
                 response.redirect('/admin/general/');

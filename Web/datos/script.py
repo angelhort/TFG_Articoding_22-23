@@ -102,9 +102,9 @@ def tiempoTotalJuego(inicioYFinJuego, ultNivelAlcanzado):
 
     for p in tiempoTotal:
         if p in ultNivelAlcanzado:
-            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p].replace("_", " ").capitalize()}
+            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p].replace("_", " ").capitalize(), "nombre" : p}
         else:
-            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : "None"}
+            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : "None", "nombre" : p}
 
 
     with open('./datos/'+ nombreInstituto +'/plots/jugadores.json', 'w') as json_file:
@@ -246,7 +246,7 @@ def generateChartNivelesAlcanzados(niveles, ultNivelCompletado):
         ultNivelCat[(" ".join(level.split("_")[:-1])).capitalize()] = cuantosHanLlegadoAlNivel[level]
     
     df = pd.DataFrame({"levels" : list(ultNivelCat.keys()), "nJugadores" : list(ultNivelCat.values())})
-    fig = px.bar(df, x="levels", y='nJugadores', labels={'levels':'Categorías', 'nJugadores':'Numero Jugadores'})
+    fig = px.bar(df, x="levels", y='nJugadores', labels={'levels':'Categorías', 'nJugadores':'Numero Jugadores'}, title = "Categorías superadas")
     fig.update_layout(plot_bgcolor='#C3CEDA')
     fig.update_traces(marker_color='#738FA7', hovertemplate='<b>Numero Jugadores: %{y}</b>')
     fig.write_json("./datos/" + nombreInstituto + "/plots/categoriasSuperadas.json")
@@ -260,7 +260,7 @@ def parseTiemposDictConNombresToInteger(tiemposDict):
 def create_boxplots(data_dict, titulo):
     categorias = defaultdict(defaultdict)
     for d in data_dict:
-        categorias[d.split("_")[0]][d] = data_dict[d]
+        categorias[(" ".join(d.split("_")[:-1]))][d] = data_dict[d]
 
     for c in categorias:
         df = pd.DataFrame.from_dict(categorias[c], orient="index")
@@ -268,10 +268,10 @@ def create_boxplots(data_dict, titulo):
         df = df.rename(columns={'index' : 'Niveles'})
         df_melted = df.melt(id_vars=['Niveles'], var_name='Jugador', value_name=titulo)
         # create boxplot
-        fig = px.box(df_melted, x='Niveles', y=titulo, hover_name='Jugador')
+        fig = px.box(df_melted, x='Niveles', y=titulo, hover_name='Jugador', title = c.capitalize())
         fig.update_layout(plot_bgcolor='#C3CEDA')
         fig.update_traces(marker_color='#738FA7', hovertemplate='<b>%{hovertext}</b><br>' + titulo + ': %{y}')
-        fig.write_json("./datos/" + nombreInstituto + "/plots/"+ c + "_"+ titulo +".json")
+        fig.write_json("./datos/" + nombreInstituto + "/plots/"+ c.split(" ")[0] + "_"+ titulo +".json")
 
 def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
     cuantosHanLlegadoAlNivel = getCuantasPersonasHanAlcanzadoNivel(ultNivelCompletado, niveles)

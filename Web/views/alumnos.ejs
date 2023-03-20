@@ -12,6 +12,7 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
                             <th scope="col">Tiempo Jugado</th>
                             <th scope="col">Último nivel alcanzado</th>
                         </tr>
@@ -20,6 +21,7 @@
                         <% for(var alumno in infoAlumnos){ %>
                             <tr>
                                 <th scope="row"> <%= alumno %></th>
+                                <td><%= infoAlumnos[alumno]["nombre"] %> <i class="fa-solid fa-pencil"></i></td>
                                 <td><%= infoAlumnos[alumno]["tiempo"] %></td>
                                 <td><%= infoAlumnos[alumno]["ultNivel"] %></td>
                             </tr>
