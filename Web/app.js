@@ -68,20 +68,19 @@ app.post("/login", function(request, response){
                 var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
                 process.stdout.on('data', function (data) {
                     console.log(data.toString());
-                    response.redirect('/profesor/resumen/');
-            
+                    response.redirect('/profesor/resumen');
                 });
                 process.stderr.on('data', function (data) {
                     console.error(data.toString());
-                    response.redirect('/profesor/resumen/');
+                    response.redirect('/profesor/resumen');
                 });
                 process.on('error', function (error) {
                     console.error(error.toString());
-                    response.redirect('/profesor/resumen/');
+                    response.redirect('/profesor/resumen');
                 });
             }
             else if (usuario.rol == "admin"){
-                response.redirect('/admin/general/');
+                response.redirect('/admin/general');
             }
                 
            

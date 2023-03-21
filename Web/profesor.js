@@ -1,6 +1,11 @@
 const express = require("express");
 const path = require("path");
 const fs = require('fs');
+const config = require("./config");
+const mysql = require("mysql");
+
+// Crear un pool de conexiones a la base de datos de MySQL
+const pool = mysql.createPool(config.mysqlConfig);
 
 const profesor = express.Router();
 

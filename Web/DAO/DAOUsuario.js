@@ -29,6 +29,58 @@ class DAOUsuario {
             }
         );
     }
+
+    getAllUsers (callback){
+        this.#poolConnections.getConnection(
+            function (err, connection){
+                if (err){
+                    connection.release();
+                    callback(err.message);
+                }
+                else{
+                    connection.query("SELECT nombre, contrasenya, instituto, rol FROM usuario WHERE rol != 'admin'",
+                    function(err, rows){
+                        if(err){
+                            connection.release();
+                            callback(err.message);
+                        }
+                        else{
+                            connection.release();
+                            let users =JSON.parse(JSON.stringify(rows));
+                            callback(null, users);
+                        }
+                    }); 
+                }
+            }
+        );
+    }
+
+    getUserDetail (usuario,callback){
+        this.#poolConnections.getConnection(
+            function (err, connection){
+                if (err){
+                    connection.release();
+                    callback(err.message);
+                }
+                else{
+                    connection.query("SELECT * FROM usuario WHERE nombre = ?",[usuario],
+                    function(err, rows){
+                        if(err){
+                            connection.release();
+                            callback(err.message);
+                        }
+                        else if (rows.length == 1){
+                            connection.release();
+                            let users =JSON.parse(JSON.stringify(rows[0]));
+                            callback(null, users);
+                        }
+                    }); 
+                }
+            }
+        );
+
+    }
+
     
 }
 

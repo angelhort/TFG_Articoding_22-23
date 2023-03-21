@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <%- include("header", {titulo : "Cuentas"}) %>
+    <script src="js/plotGenerator.js"></script>
+</head>
+
+<body>
+    <%- include("adminBar") %>
+    <h1 class="col text-center mt-5">Usuarios </h1>
+
+    <div class="tab-content d-flex justify-content-center" id="nav-tabContent">
+        <ul class="list-group  list-group-sm ">
+            <% usuarios.forEach(usuario => { %>
+                <a href="/admin/cuentas/<%= usuario.nombre %>"class="--bs-primary-bg-subtle list-group-item list-group-item-action text-center mt-1"> <%= usuario.nombre %> </a>
+            <% }); %>
+        </ul>
+    </div>
+</body>
