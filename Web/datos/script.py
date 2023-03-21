@@ -102,9 +102,9 @@ def tiempoTotalJuego(inicioYFinJuego, ultNivelAlcanzado):
 
     for p in tiempoTotal:
         if p in ultNivelAlcanzado:
-            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p].replace("_", " ").capitalize(), "nombre" : p}
+            tiempoTotal[p] = {"id" : p, "tiempo" : str(tiempoTotal[p]), "ultNivel" : ultNivelAlcanzado[p].replace("_", " ").capitalize(), "nombre" : p}
         else:
-            tiempoTotal[p] = {"tiempo" : str(tiempoTotal[p]), "ultNivel" : "None", "nombre" : p}
+            tiempoTotal[p] = {"id" : p, "tiempo" : str(tiempoTotal[p]), "ultNivel" : "None", "nombre" : p}
 
 
     with open('./datos/'+ nombreInstituto +'/plots/jugadores.json', 'w') as json_file:

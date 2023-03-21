@@ -37,7 +37,13 @@ module.exports = function(dataPath){
             }
             else{
                 const infoAlumnos = JSON.parse(data);
-                response.render("alumnos", {"infoAlumnos" : infoAlumnos})
+                var page = parseInt(request.query.page) || 1;
+                var start = (page-1) * 10;
+                var end = start + 10;
+                var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
+                    return entry[1];
+                });
+                response.render("alumnos", {"infoAlumnos" : infoAlumnosArray.slice(start, end), "nAlumnos" : infoAlumnosArray.length})
             }
         });  
     });
