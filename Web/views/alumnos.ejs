@@ -31,12 +31,16 @@
                             <% counter++; %>
                         <% }; %>
                     </tbody>
-                </table>
+                </table>                
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <% var numPages = Math.ceil(nAlumnos/10); %>
                         <% for(var i=1; i<=numPages; i++){ %>
-                            <li class="page-item <% if(i==1){ %>active<% } %>">
+                            <li class="page-item <% if(i==page){ %>active<% } %>">
                                 <a class="page-link" href="/profesor/alumnos?page=<%= i %>"><%= i %></a>
                             </li>
                         <% }; %>

@@ -257,6 +257,15 @@ def parseTiemposDictConNombresToInteger(tiemposDict):
             tiemposDict[l][j] = int(tiemposDict[l][j])
     return tiemposDict
 
+def getListaCategorias(listaNiveles):
+    categorias = defaultdict()
+    for n in listaNiveles:
+        categorias[n.split("_")[0]] = (" ".join(n.split("_")[:-1])).capitalize()
+   
+    with open("./datos/" + nombreInstituto + './info.json', 'w') as json_file:
+        json.dump({"categorias" : categorias}, json_file)
+    return categorias
+
 def create_boxplots(data_dict, titulo):
     categorias = defaultdict(defaultdict)
     for d in data_dict:
@@ -339,6 +348,64 @@ def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
             fig.update_layout(barmode='group')
             fig.write_json("./datos/" + nombreInstituto + "/plots/" + c.split(" ")[0].lower() + "_mediaTiemposComparativa.json")
 
+def getMediaCategorias(df_tiempo, df_intentos, df_estrellas):
+    # Asignar nombres a las columnas sin nombre
+    data = defaultdict(defaultdict)
+    tiempo = defaultdict()
+    intentos = defaultdict()
+    estrellas = defaultdict()
+
+    for l in df_tiempo:
+        tiempo[l[0]] = l[1].toString()
+
+    for l in df_intentos:
+        intentos[l[0]] = round(l[1], 2)
+    
+    for l in df_estrellas:
+        estrellas[l[0]] = round(l[1],2)
+
+    for l in tiempo:
+        c = l.split("_")[0]
+        data[c][l] = {"tiempo" : tiempo[l], "intentos" : intentos[l], "estrellas" : estrellas[l]}
+
+    with open("./datos/" + nombreInstituto + "/plots/datosMedios.json", 'w') as json_file:
+        json.dump(data, json_file)
+
+    return data
+
+def getDatosMediosPorCategoria(df_tiempo, df_intentos):
+    data = defaultdict()
+    tiempo = defaultdict()
+    intentos = defaultdict()
+
+    for l in df_tiempo:
+        tiempo[l[0]] = l[1]
+
+    for l in df_intentos:
+        intentos[l[0]] = round(l[1], 2)
+    
+    for l in tiempo:
+        c = (" ".join(l.split("_")[:-1])).capitalize()
+        if c in data:
+            data[c] = {"tiempo" : data[c]["tiempo"] + tiempo[l], "intentos" : round(data[c]["intentos"] + intentos[l], 2)}
+        else:
+            data[c] = {"tiempo" : tiempo[l], "intentos" : intentos[l]}
+    
+    for c in data:
+        data[c]["tiempo"] = data[c]["tiempo"].toString()
+
+
+    JSONFile = open("./datos/" + nombreInstituto + "/plots/datosMedios.json")
+    datosMedios = json.load(JSONFile)
+    JSONFile.close()
+
+    datosMedios["general"] = data
+    
+    with open("./datos/" + nombreInstituto + "/plots/datosMedios.json", 'w') as json_file:
+        json.dump(datosMedios, json_file)
+
+    return data
+
 #####################################################################################################################
 
 JSONFile = open('./datos/' + nombreInstituto + '/trazasOrdenadas.json')
@@ -353,6 +420,8 @@ tiemposIntentosJugadores = tiempoPorNiveles_Jugador(resultados_Tiempos_Nivel_Jug
 soloPrimerExito = True
 tiemposOrdenados = False
 tiemposMedios = getMediaTiempoPorNivel(tiemposIntentosJugadores, soloPrimerExito, tiemposOrdenados)
+
+categorias = getListaCategorias(tiemposMedios["listaNiveles"])
 
 ultNivelAlcanzado = getUltimoNivelAlcanzado(tiemposMedios["tiemposIndividuales"])
 tiempoTotalJuego(resultados_Tiempos_Nivel_Jugador["inicioYFinJuego"], ultNivelAlcanzado)
@@ -373,5 +442,9 @@ create_boxplots(intentosListNombres, 'Intentos')
 create_boxplots(parseTiemposDictConNombresToInteger(tiemposListNombres), "Tiempo(s)")
 
 getChartsComparativas(tiemposMedios["listaNiveles"], tiemposMedios["mediaTiempos"], ultNivelAlcanzado, len(ultNivelAlcanzado))
+
+getMediaCategorias(tiemposMedios["mediaTiempos"], tiemposMedios["mediaEstrellas"], intentosMedios_Individual["intentosMedios"])
+
+getDatosMediosPorCategoria(tiemposMedios["mediaTiempos"], intentosMedios_Individual["intentosMedios"])
 
 print("Datos analizados con exito")

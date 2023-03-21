@@ -18,11 +18,29 @@ module.exports = function(dataPath){
 
 
     profesor.get("/resumen", function(request, response){
-        response.render("resumen")
+        fs.readFile(dataPath + request.session.instituto + "/plots/datosMedios.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo");
+            }
+            else{
+                const datosMedios = JSON.parse(data);
+                response.render("resumen", {"medias" : datosMedios["general"]})
+            }
+        });
     });
     
     profesor.get("/categorias", function(request, response){
-        response.render("categorias")
+        fs.readFile(dataPath + request.session.instituto + "/info.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo");
+            }
+            else{
+                const info = JSON.parse(data);
+                response.render("categorias", {"info" : info})
+            }
+        });
     });
     
     profesor.get("/comparativa", function(request, response){
@@ -43,7 +61,7 @@ module.exports = function(dataPath){
                 var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
                     return entry[1];
                 });
-                response.render("alumnos", {"infoAlumnos" : infoAlumnosArray.slice(start, end), "nAlumnos" : infoAlumnosArray.length})
+                response.render("alumnos", {"infoAlumnos" : infoAlumnosArray.slice(start, end), "nAlumnos" : infoAlumnosArray.length, "page" : page})
             }
         });  
     });
@@ -70,6 +88,19 @@ module.exports = function(dataPath){
             else{
                 const jsonData = JSON.parse(data);
                 response.json(jsonData);
+            }
+        });      
+    });
+
+    profesor.get("/getMediasCategoria/:categoria", function(request, response){
+        fs.readFile(dataPath + request.session.instituto + "/plots/datosMedios.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo");
+            }
+            else{
+                const jsonData = JSON.parse(data);
+                response.json(jsonData[request.params.categoria]);
             }
         });      
     });
