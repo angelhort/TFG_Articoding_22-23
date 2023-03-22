@@ -81,6 +81,31 @@ class DAOUsuario {
 
     }
 
+    updateUser(nombreAnt,nombreAct,contrasenya,callback){
+        this.#poolConnections.getConnection(
+            function (err,connection){
+                if (err){
+                    connection.release();
+                    callback(err.message);
+                }
+                else{
+                    
+                    connection.query("UPDATE usuario SET nombre = ?, contrasenya = ? WHERE nombre = ?",[nombreAct,contrasenya,nombreAnt],
+                    function(err, rows){
+                        if(err){
+                            connection.release();
+                            callback(err.message);
+                        }
+                        else {
+                            connection.release();
+                            callback(null, rows);
+                        }
+                    }); 
+                }
+            }
+        );
+    }
+
     
 }
 

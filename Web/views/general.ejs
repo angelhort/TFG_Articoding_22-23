@@ -8,23 +8,30 @@
 
 <body>
     <%- include("adminBar") %>
-    <div class="container">
-        <div class="row">
-            <div class="col text-center mt-5">
-                <h2>Información General</h2>
-            </div>
-        </div>
-        <div class="row mt-5 pb-5">
-            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
-                <div class="row">
-                    <h4>Número de institutos</h4>
-                    <h5 class="mt-3">Número de institutos: 3</h5>
-                </div>
-                <div class="row">
-                    <div id="categoriasSuperadas" class="plot p-0" ruta="/admin/getContInstitutos"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">¡Bienvenido a la vista del administrador!</h5>
+          </div>
+          <p class="mb-1">El administrador es capaz de modificar información vital para el funcionamiento de la aplicación, como las cuentas de los usuarios y las rutas de acceso de los diferentes datasets</p>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Gestión de usuarios</h5>
+            <small class="text-muted"></small>
+          </div>
+          <p class="mb-1">La gestión de usuarios le permite crear nuevas cuentas y modificar las existentes</p>
+          <small class="text-muted"></small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Gestión de rutas de archivos</h5>
+            <small class="text-muted"></small>
+          </div>
+          <p class="mb-1">Cada dataset equivale a un experimento concreto, el administrador puede decicidir que datasets van a ser tenidos en cuenta durante el uso de la aplicación</p>
+          <small class="text-muted"></small>
+        </a>
+      </div>
 </body>
 </html>

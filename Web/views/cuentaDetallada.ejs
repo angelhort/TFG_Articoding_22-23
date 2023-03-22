@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
     
-<head>
-    <%- include("header", {titulo : "Cuenta detallada"}) %>
-    <script src="js/plotGenerator.js"></script>
-</head>
+    <head>
+        <%- include("header", {titulo : "Cuenta detallada"}) %>
+        <script src="js/plotGenerator.js"></script>
+    </head>
 
-<body>
-    <%- include("adminBar") %>
-    <h1 class="col text-center mt-5">Usuario </h1>
-
-    <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <body>
+        <%- include("adminBar") %>
+        
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+                <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
+                    <form id="form_login" method="POST" action="/admin/cuentas/<%= usuario.nombre %>" >
+                        <div class="row mb-5">
+                            <h1>Detalles Usuario</h1>
+                        </div>
+                        <div class="form-group">
+                            <h5 class="p-0">Rol</h5>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= usuario.rol%>"readonly>
+                            <small id="emailHelp" class="form-text text-muted">El rol no puede cambiarse</small>
+                        </div>
+                        <div class="form-group">
+                            <h5 class="p-0">Instituto</h5>
+                            <input type="text" class="form-control" id="formUsuario" placeholder="<%= usuario.instituto%>"readonly>
+                            <small id="emailHelp" class="form-text text-muted">El instituto no puede cambiarse</small>
+                        </div>
+                        <div class="form-group">
+                            <h5 class="p-0">Usuario</h5>
+                            <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="<%= usuario.nombre %>" aria-label="Username"/>
+                        </div>
+                        <div class="form-group">
+                            <h5 class="p-0">Contraseña</h5>
+                            <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" value="Modificar Cuenta">Aceptar</button>
+                        </div>
+                    </form>
+            
+                </div>
+                <div class="col-6 backgroundColor3 d-none d-md-block">
+            
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-
-</body>
+            
+    </body>
+</html>

@@ -58,6 +58,20 @@ module.exports = function(dataPath){
         }   
     })
 
+    admin.post("/cuentas/:nombre",function(request,response){
+        daoU.updateUser(request.params.nombre,request.body.usuario,request.body.contrasenia,mostrarUsuario);
+        function mostrarUsuario(error,usuario) {
+            if (error){
+                response.status(500);
+                response.render("cuentas");
+            }
+            else{
+                response.status(200);
+                response.render("general");
+            }
+        }   
+    })
+
     admin.get("/rutas", function(request,response){
         response.render("rutas")
     });
