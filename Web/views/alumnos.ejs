@@ -12,20 +12,40 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
                             <th scope="col">Tiempo Jugado</th>
                             <th scope="col">Último nivel alcanzado</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <% var counter = 0; %>
                         <% for(var alumno in infoAlumnos){ %>
+                            <% if(counter < 10){ %>
                             <tr>
-                                <th scope="row"> <%= alumno %></th>
+                                <th scope="row"> <%= infoAlumnos[alumno]["id"] %></th>
+                                <td><%= infoAlumnos[alumno]["nombre"] %> <i class="fa-solid fa-pencil"></i></td>
                                 <td><%= infoAlumnos[alumno]["tiempo"] %></td>
                                 <td><%= infoAlumnos[alumno]["ultNivel"] %></td>
                             </tr>
+                            <% } %>
+                            <% counter++; %>
                         <% }; %>
                     </tbody>
-                </table>
+                </table>                
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <% var numPages = Math.ceil(nAlumnos/10); %>
+                        <% for(var i=1; i<=numPages; i++){ %>
+                            <li class="page-item <% if(i==page){ %>active<% } %>">
+                                <a class="page-link" href="/profesor/alumnos?page=<%= i %>"><%= i %></a>
+                            </li>
+                        <% }; %>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

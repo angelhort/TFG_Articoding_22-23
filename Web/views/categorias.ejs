@@ -15,11 +15,9 @@
                         <div class="row align-items-center">
                             <div class="col-auto">
                                 <select class="form-select">
-                                    <option selected value="tutorials">Tutorials</option>
-                                    <option value="variables">Variables</option>
-                                    <option value="types">Types</option>
-                                    <option value="basic">Basic Operators</option>
-                                    <option value="loops">Loops</option>
+                                    <% for(var c in info["categorias"]){ %>
+                                        <option value="<%= c %>"> <%= info["categorias"][c] %></option>
+                                    <% }; %>
                                 </select>
                             </div>
                             <div class="col-auto">
@@ -44,61 +42,7 @@
                                     <th scope="col">Estrellas</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Variables 1</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 2</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 3</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 4</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 5</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 6</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 7</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 8</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Variables 9</th>
-                                    <td>2m/32s</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                </tr>
+                            <tbody ruta = "/profesor/getMediasCategoria/">
                             </tbody>
                         </table>
                     </div>
@@ -163,6 +107,26 @@
                 .then(data => {
                     // Create the Plotly graph using the JSON data
                     Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true});
+                })
+                .catch(error => console.error(error));
+            });
+
+            $('tbody').each(function() {
+                $(this).empty()
+                var ruta = $(this).attr('ruta');
+                console.log(ruta);  
+                fetch(ruta + categoria)
+                .then(response => response.json())
+                .then(data => {
+                    for(var n in data){
+                        $('tbody:last-child').append(
+                            '<tr> <th scope="row">' + (n.charAt(0).toUpperCase() + n.slice(1)).replaceAll("_", " ") + '</th>' +
+                                '<td>' + data[n]["tiempo"] + '</td>' +
+                                '<td>' + data[n]["intentos"] + '</td>' +
+                                '<td>' + data[n]["estrellas"] + '</td>' +
+                            '</tr>'
+                        );
+                    }
                 })
                 .catch(error => console.error(error));
             });

@@ -4,7 +4,7 @@ import datetime, time
 #Esta clase sirve para parsear timestamps, recibe 2 y hace la diferencia
 class Tiempo:
     def __init__ (self, inicio, final = -1, seconds = -1): #Necesario para tener 2 constructores
-        self.positivo = True;
+        self.positivo = True
         if final == -1: #Primer constructor (1 argumento)
 
             self.hours = 0

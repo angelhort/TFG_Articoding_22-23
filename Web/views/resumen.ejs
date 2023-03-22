@@ -40,31 +40,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">Tutorials</th>
-                                <td>2m/32s</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Variables</th>
-                                <td>2m/32s</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Types</th>
-                                <td>2m/32s</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Basic Operators</th>
-                                <td>2m/32s</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Loops</th>
-                                <td>2m/32s</td>
-                                <td>3</td>
-                            </tr>
+                            <% for(var c in medias){ %>
+                                <tr>
+                                    <th scope="row"><%= c %></th>
+                                    <td><%= medias[c]["tiempo"] %></td>
+                                    <td><%= medias[c]["intentos"] %></td>
+                                </tr>
+                            <% } %>
                         </tbody>
                         </table>
                     </div>
