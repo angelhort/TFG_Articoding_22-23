@@ -8,13 +8,30 @@
 
 <body>
     <%- include("adminBar") %>
-    <h1 class="col text-center mt-5">Usuarios </h1>
-
-    <div class="tab-content d-flex justify-content-center" id="nav-tabContent">
-        <ul class="list-group  list-group-sm ">
-            <% usuarios.forEach(usuario => { %>
-                <a href="/admin/cuentas/<%= usuario.nombre %>"class="--bs-primary-bg-subtle list-group-item list-group-item-action text-center mt-1"> <%= usuario.nombre %> </a>
-            <% }); %>
-        </ul>
-    </div>
+    <h1 class="col text-center mt-5">Rutas de archivos</h1>
+    <form>
+        <div class=" mt-5 form-group">
+            <div class="row justify-content-center">
+                <label for="AnalysisPath"  class="col-form-label text-center col-sm-1">Ánalisis</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control rounded border border-primary-subtle" id="AnalysisPath" placeholder="./analisis/">
+                    <small id="analysisHelp" class="form-text text-muted">Ruta de la carpeta que contiene todos los ficheros con los análisis de la aplicación</small>
+                </div>
+                <button type="submit" class=" h-50 col-sm-1 col-form-label rounded border text-light bg-secondary text-center">Aceptar</button>
+            </div>
+        </div>
+    </form>
+    <form>
+        <div class=" mt-5 form-group">
+            <div class="row justify-content-center">
+                <label for="DataPath"  class="col-form-label text-center col-sm-1 ">Datos</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control rounded border border-primary-subtle"aria-describedby="analysisHelp" id="DataPath" placeholder="./datos/">
+                    <small id="analysisHelp" class="form-text text-muted">Ruta de la carpeta que contiene todos los ficheros con los datos de la aplicación</small>
+                </div>
+                <button type="submit" class="col-sm-1 col-form-label rounded border text-light bg-secondary text-center h-50">Aceptar</button>
+            </div>
+        </div>
+    </form>
+    
 </body>

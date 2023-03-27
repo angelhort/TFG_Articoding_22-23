@@ -4,10 +4,12 @@ const fs = require('fs');
 const config = require("./config");
 const mysql = require("mysql");
 const DAOUsuario = require("./DAO/DAOUsuario");
+const DAOInstituto = require("./DAO/DAOInstituto");
 
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 const daoU = new DAOUsuario(pool);
+const daoI = new DAOInstituto(pool);
 const admin = express.Router();
 
 module.exports = function(dataPath){
@@ -24,11 +26,11 @@ module.exports = function(dataPath){
     admin.use(comprobarUsuario);
     //PR(15/03) La ruta inicial es /, profesor envía a resumen
     admin.get("/",function(request,response) {
-        response.render("general")
+        response.render("general");
     });
 
     admin.get("/general", function(request,response){
-        response.render("general")
+        response.render("general");
     });
 
     admin.get("/cuentas", function(request,response){
@@ -72,9 +74,27 @@ module.exports = function(dataPath){
         }   
     })
 
+    admin.get("/cuentas/nuevo_usuario",function(request,response){
+        daoI.getAllInstitutos(insertarUsuario);
+        function insertarUsuario(error, institutos){
+            if (error){
+                response.status(500);
+                response.render("cuentas");
+            }
+            else{
+                response.status(200);
+                response.render("crearUsuario",{"institutos": institutos});
+            }
+        }
+    })
+
+
+
     admin.get("/rutas", function(request,response){
         response.render("rutas")
     });
+
+
     
     return admin;
 };

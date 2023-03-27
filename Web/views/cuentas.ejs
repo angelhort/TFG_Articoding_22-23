@@ -3,7 +3,6 @@
     
     <head>
         <%- include("header", {titulo : "Cuentas"}) %>
-        <script src="js/plotGenerator.js"></script>
     </head>
 
     <body>
@@ -13,8 +12,9 @@
         <div class="tab-content d-flex justify-content-center" id="nav-tabContent">
             <ul class="list-group  list-group-sm ">
                 <% usuarios.forEach(usuario => { %>
-                    <a href="/admin/cuentas/<%= usuario.nombre %>"class="--bs-primary-bg-subtle list-group-item list-group-item-action text-center mt-1"> <%= usuario.nombre %> </a>
+                    <a href="/admin/cuentas/<%= usuario.nombre %>"class="--bs-primary-bg-subtle list-group-item list-group-item-action text-center mt-3 rounded border border-primary "> <%= usuario.nombre %> </a>
                 <% }); %>
+                <a href="/admin/cuentas/nuevo_usuario" class="bg-primary list-group-item list-group-item-action text-center text-white mt-3 rounded border border-primary "> Crear nuevo usuario </a>
             </ul>
         </div>
     </body>

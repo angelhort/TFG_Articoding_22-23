@@ -3,7 +3,6 @@
     
     <head>
         <%- include("header", {titulo : "Cuenta detallada"}) %>
-        <script src="js/plotGenerator.js"></script>
     </head>
 
     <body>
@@ -13,35 +12,35 @@
             <div class="row h-100">
                 <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
                     <form id="form_login" method="POST" action="/admin/cuentas/<%= usuario.nombre %>" >
-                        <div class="row mb-5">
-                            <h1>Detalles Usuario</h1>
+                        <div class="row mb-3 mt-5">
+                            <h1>Detalles Usuario Actual</h1>
                         </div>
                         <div class="form-group">
                             <h5 class="p-0">Rol</h5>
                             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= usuario.rol%>"readonly>
                             <small id="emailHelp" class="form-text text-muted">El rol no puede cambiarse</small>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <h5 class="p-0">Instituto</h5>
                             <input type="text" class="form-control" id="formUsuario" placeholder="<%= usuario.instituto%>"readonly>
                             <small id="emailHelp" class="form-text text-muted">El instituto no puede cambiarse</small>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <h5 class="p-0">Usuario</h5>
                             <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="<%= usuario.nombre %>" aria-label="Username"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <h5 class="p-0">Contraseña</h5>
                             <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <button type="submit" class="btn btn-primary" value="Modificar Cuenta">Aceptar</button>
                         </div>
                     </form>
             
                 </div>
                 <div class="col-6 backgroundColor3 d-none d-md-block">
-            
+                    
                 </div>
             </div>
         </div>

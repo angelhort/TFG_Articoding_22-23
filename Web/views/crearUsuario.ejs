@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <%- include("header", {titulo : "Cuenta detallada"}) %>
+    </head>
+
+    <body>
+        <%- include("adminBar") %>
+        
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+                <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
+                    <form id="form_login" method="POST" action="/admin/cuentas/nuevo_usuario" >
+                        <div class="row mb-3 mt-5">
+                            <h1>Nuevo Usuario</h1>
+                        </div>
+                        <div class="form-group">
+                            <h5 class="p-0">Rol</h5>
+                            <select class="form-select" data-toggle='select' id="formInstituto" placeholder="<%= usuario.instituto%>">
+                                <option selected>Seleccione un rol</option>
+                                <option value="profesor">Profesor</option>
+                                <option value="alumno">Almuno</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <small id="rolHelp" class="form-text text-muted">Seleccione el instituto del usuario</small>
+                        </div>
+                        <div class="form-group mt-3">
+                            <h5 class="p-0">Instituto</h5>
+                            <select class="form-select" data-toggle='select' id="formInstituto" placeholder="<%= usuario.instituto%>">
+                                <option selected>Seleccione un instituto</option>
+                                <option value="escolapias">Escolapias</option>
+                                <option value="alumno">Almuno</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <small id="instiHelp" class="form-text text-muted">Seleccione el instituto del usuario</small>
+                        </div>
+                        <div class="form-group mt-3">
+                            <h5 class="p-0">Usuario</h5>
+                            <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="Nuevo usuario" aria-label="Username"/>
+                        </div>
+                        <div class="form-group mt-3">
+                            <h5 class="p-0">Contraseña</h5>
+                            <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary" value="Crear Cuenta">Aceptar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-6 backgroundColor3 d-none d-md-block">
+                    
+                </div>
+            </div>
+        </div>
+            
+    </body>
+</html>
+
+    
