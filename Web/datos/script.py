@@ -107,7 +107,7 @@ def tiempoTotalJuego(inicioYFinJuego, ultNivelAlcanzado):
             tiempoTotal[p] = {"id" : p, "tiempo" : str(tiempoTotal[p]), "ultNivel" : "None", "nombre" : p}
 
 
-    with open('./datos/'+ nombreInstituto +'/plots/jugadores.json', 'w') as json_file:
+    with open('./datos/'+ nombreInstituto +'/jugadores.json', 'w') as json_file:
         json.dump(tiempoTotal, json_file)
 
 def getMediaTiempoPorNivel(tiempos, soloPrimerExito = True, tiemposOrdenados = False):
@@ -262,7 +262,7 @@ def getListaCategorias(listaNiveles):
     for n in listaNiveles:
         categorias[n.split("_")[0]] = (" ".join(n.split("_")[:-1])).capitalize()
    
-    with open("./datos/" + nombreInstituto + './info.json', 'w') as json_file:
+    with open("./datos/" + nombreInstituto + '/info.json', 'w') as json_file:
         json.dump({"categorias" : categorias}, json_file)
     return categorias
 
@@ -368,7 +368,7 @@ def getMediaCategorias(df_tiempo, df_intentos, df_estrellas):
         c = l.split("_")[0]
         data[c][l] = {"tiempo" : tiempo[l], "intentos" : intentos[l], "estrellas" : estrellas[l]}
 
-    with open("./datos/" + nombreInstituto + "/plots/datosMedios.json", 'w') as json_file:
+    with open("./datos/" + nombreInstituto + "/datosMedios.json", 'w') as json_file:
         json.dump(data, json_file)
 
     return data
@@ -395,13 +395,13 @@ def getDatosMediosPorCategoria(df_tiempo, df_intentos):
         data[c]["tiempo"] = data[c]["tiempo"].toString()
 
 
-    JSONFile = open("./datos/" + nombreInstituto + "/plots/datosMedios.json")
+    JSONFile = open("./datos/" + nombreInstituto + "/datosMedios.json")
     datosMedios = json.load(JSONFile)
     JSONFile.close()
 
     datosMedios["general"] = data
     
-    with open("./datos/" + nombreInstituto + "/plots/datosMedios.json", 'w') as json_file:
+    with open("./datos/" + nombreInstituto + "/datosMedios.json", 'w') as json_file:
         json.dump(datosMedios, json_file)
 
     return data

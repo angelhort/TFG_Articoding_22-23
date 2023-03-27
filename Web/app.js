@@ -73,7 +73,7 @@ app.post("/login", function(request, response){
                     var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
                     process.stdout.on('data', function (data) {
                         console.log(data.toString());
-                        fs.readFile(dataPath + request.session.instituto + "/plots/jugadores.json", function(err, data){
+                        fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
                             if(err){
                                 //TODO pagina error 500
                                 console.log("No se puede leer archivo");
