@@ -8,6 +8,8 @@
 
 "use strict";
 
+var oldName;
+
 /** @class BSTable class that represents an editable bootstrap table. */
 class BSTable {
 
@@ -150,14 +152,15 @@ class BSTable {
   _rowEdit(button) {                  
   // Indicate user is editing the row
     let $currentRow = $(button).parents('tr');       // access the row
-    console.log($currentRow);
+    //console.log($currentRow);
     let $cols = $currentRow.find('td');              // read rows
-    console.log($cols);
+    //console.log($cols);
     if (this.currentlyEditingRow($currentRow)) return;    // not currently editing, return
     //Pone en modo de edición
     this._modifyEachColumn(this.options.editableColumns, $cols, function($td) {  // modify each column
       let content = $td.html();             // read content
-      console.log(content);
+      //console.log(content);
+      oldName = content;
       let div = '<div style="display: none;">' + content + '</div>';  // hide content (save for later use)
       let input = '<input class="form-control input-sm"  data-original-value="' + content + '" value="' + content + '">';
       $td.html(div + input);                // set content
@@ -174,7 +177,7 @@ class BSTable {
   _rowAccept(button) {
   // Accept the changes to the row
     let $currentRow = $(button).parents('tr');    // access the row
-    console.log($currentRow);
+    //console.log($currentRow);
     let $cols = $currentRow.find('td');              // read fields
     if (!this.currentlyEditingRow($currentRow)) return;   // not currently editing, return
     
@@ -182,6 +185,7 @@ class BSTable {
     this._modifyEachColumn(this.options.editableColumns, $cols, function($td) {  // modify each column
       let cont = $td.find('input').val();     // read through each input
       $td.html(cont);                         // set the content and remove the input fields
+      editarInfoAlumno(cont, oldName);
     });
     this._actionsModeNormal(button);
     this.options.onEdit($currentRow[0]);
@@ -308,3 +312,34 @@ class BSTable {
 
 }
 
+function editarInfoAlumno(nombre, oldN){
+  if(nombre != oldN){
+    var data = new URLSearchParams();
+    data.append("nombre", nombre);
+    data.append("nombreAntiguo", oldN);
+
+    // Realizar la petición POST utilizando fetch
+    fetch('/profesor/cambiarNombreAlumno', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: data
+    })
+    .then(function(response) {
+      if (response.ok) {
+        // La petición se ha completado correctamente
+        return response.text();
+      } else {
+        // La petición ha fallado
+        throw new Error('Error en la petición: ' + response.status);
+      }
+    })
+    .then(function(responseText) {
+      console.log(responseText);
+    })
+    .catch(function(error) {
+      console.error(error);
+    });
+  }
+}

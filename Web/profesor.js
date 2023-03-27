@@ -23,10 +23,10 @@ module.exports = function(dataPath){
 
 
     profesor.get("/resumen", function(request, response){
-        fs.readFile(dataPath + request.session.instituto + "/plots/datosMedios.json", function(err, data){
+        fs.readFile(dataPath + request.session.instituto + "/datosMedios.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo RESUMEN");
             }
             else{
                 const datosMedios = JSON.parse(data);
@@ -39,11 +39,20 @@ module.exports = function(dataPath){
         fs.readFile(dataPath + request.session.instituto + "/info.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo CATEGORIAS");
             }
             else{
                 const info = JSON.parse(data);
-                response.render("categorias", {"info" : info})
+                fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, dataJ){
+                    if(err){
+                        //TODO pagina error 500
+                        console.log("No se puede leer archivo CATEGORIAS");
+                    }
+                    else{
+                        const infoJ = JSON.parse(dataJ);
+                        response.render("categorias", {"info" : info, "jugadores" : infoJ});
+                    }
+                });
             }
         });
     });
@@ -53,10 +62,10 @@ module.exports = function(dataPath){
     });
 
     profesor.get("/alumnos", function(request, response){
-        fs.readFile(dataPath + request.session.instituto + "/plots/jugadores.json", function(err, data){
+        fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo ALUMNOS");
             }
             else{
                 const infoAlumnos = JSON.parse(data);
@@ -75,7 +84,7 @@ module.exports = function(dataPath){
         fs.readFile(dataPath + request.session.instituto + "/plots/categoriasSuperadas.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo DATOS_RESUMEN");
             }
             else{
                 const jsonData = JSON.parse(data);
@@ -88,7 +97,7 @@ module.exports = function(dataPath){
         fs.readFile(dataPath + request.session.instituto + "/plots/" + request.params.categoria + "_Tiempo(s).json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo TIEMPO_CATEGORIA");
             }
             else{
                 const jsonData = JSON.parse(data);
@@ -98,10 +107,10 @@ module.exports = function(dataPath){
     });
 
     profesor.get("/getMediasCategoria/:categoria", function(request, response){
-        fs.readFile(dataPath + request.session.instituto + "/plots/datosMedios.json", function(err, data){
+        fs.readFile(dataPath + request.session.instituto + "/datosMedios.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo MEDIAS_CATEGORIA");
             }
             else{
                 const jsonData = JSON.parse(data);
@@ -114,7 +123,7 @@ module.exports = function(dataPath){
         fs.readFile(dataPath + request.session.instituto + "/plots/" + request.params.categoria + "_Intentos.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo INTENTOS_CATEGORIA");
             }
             else{
                 const jsonData = JSON.parse(data);
@@ -127,7 +136,7 @@ module.exports = function(dataPath){
         fs.readFile(dataPath + request.session.instituto + "/plots/porcentajeCategorias.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo COMPARATIVA_CATEGORIAS");
             }
             else{
                 const jsonData = JSON.parse(data);
@@ -140,13 +149,50 @@ module.exports = function(dataPath){
         fs.readFile(dataPath + request.session.instituto + "/plots/" + request.params.categoria + "_mediaTiemposComparativa.json", function(err, data){
             if(err){
                 //TODO pagina error 500
-                console.log("No se puede leer archivo");
+                console.log("No se puede leer archivo TIEMPO_CATEGORIA_COMPARATIVA");
             }
             else{
                 const jsonData = JSON.parse(data);
                 response.json(jsonData);
             }
         });      
+    });
+
+    profesor.post("/cambiarNombreAlumno", function(request, response){
+        pathFichero = dataPath + request.session.instituto + "/jugadores.json";
+        fs.readFile(pathFichero, function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo CAMBIAR_NOMBRE_ALUMNO");
+            }
+            else{
+                const infoAlumnos = JSON.parse(data);
+                
+                var alumno;
+                var repetido = false;
+                for(var a in infoAlumnos){
+                    if(infoAlumnos[a]["nombre"] === request.body.nombreAntiguo){
+                        alumno = a
+                    }
+                    if(infoAlumnos[a]["nombre"] === request.body.nombre){
+                        repetido = true;
+                        break;
+                    }
+                }
+
+                if(!repetido){
+                    infoAlumnos[alumno]["nombre"] = request.body.nombre;
+                    fs.writeFile(pathFichero, JSON.stringify(infoAlumnos), function(err){
+                        if(err){
+                            //TODO pagina error 500
+                            console.log("No se puede escribir el archivo");
+                        }else{
+                            
+                        }
+                    });
+                }
+            }
+        });
     });
 
     return profesor;
