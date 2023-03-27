@@ -58,7 +58,17 @@ module.exports = function(dataPath){
     });
     
     profesor.get("/comparativa", function(request, response){
-        response.render("comparativa")
+
+        fs.readFile(dataPath + request.session.instituto + "/info.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo COMPARATIVA");
+            }
+            else{
+                const info = JSON.parse(data);
+                response.render("comparativa", {"info" : info})
+            }
+        });
     });
 
     profesor.get("/alumnos", function(request, response){

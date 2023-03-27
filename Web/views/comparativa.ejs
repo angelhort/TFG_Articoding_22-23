@@ -18,11 +18,9 @@
                 <div class="row align-items-center">
                     <div class="col-auto">
                         <select class="form-select">
-                            <option selected value="tutorials">Tutorials</option>
-                            <option value="variables">Variables</option>
-                            <option value="types">Types</option>
-                            <option value="basic">Basic Operators</option>
-                            <option value="loops">Loops</option>
+                            <% for(var c in info["categorias"]){ %>
+                                <option value="<%= c %>"> <%= info["categorias"][c] %></option>
+                            <% }; %>
                         </select>
                     </div>
                     <div class="col-auto">
