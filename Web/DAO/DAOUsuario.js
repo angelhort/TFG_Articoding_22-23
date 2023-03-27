@@ -81,6 +81,31 @@ class DAOUsuario {
 
     }
 
+    insertarUsuario(nombre,contrasenya,rol,instituto,callback){
+        this.#poolConnections.getConnection(
+            function (err,connection){
+                if (err){
+                    connection.release();
+                    callback(err.message);
+                }
+                else{
+                    
+                    connection.query("INSERT INTO usuario (nombre,contrasenya,rol,instituto) VALUES(?,?,?,?)",[nombre,contrasenya,rol,instituto],
+                    function(err, rows){
+                        if(err){
+                            connection.release();
+                            callback(err.message);
+                        }
+                        else {
+                            connection.release();
+                            callback(null, rows);
+                        }
+                    }); 
+                }
+            }
+        );
+    }
+
     updateUser(nombreAnt,nombreAct,contrasenya,callback){
         this.#poolConnections.getConnection(
             function (err,connection){

@@ -75,8 +75,8 @@ module.exports = function(dataPath){
     })
 
     admin.get("/cuentas/nuevo_usuario",function(request,response){
-        daoI.getAllInstitutos(insertarUsuario);
-        function insertarUsuario(error, institutos){
+        daoI.getAllInstitutos(actualizarUsuario);
+        function actualizarUsuario(error, institutos){
             if (error){
                 response.status(500);
                 response.render("cuentas");
@@ -88,7 +88,19 @@ module.exports = function(dataPath){
         }
     })
 
-
+    admin.post("/cuentas/nuevo_usuario",function(request,response){
+        daoU.insertarUsuario(request.body,insertarUsuario);
+        function insertarUsuario(error,usuario){
+            if (error){
+                response.status(500);
+                response.render("cuentas");
+            }
+            else{
+                response.status(200);
+                response.render("cuentas");
+            }
+        }
+    })
 
     admin.get("/rutas", function(request,response){
         response.render("rutas")
