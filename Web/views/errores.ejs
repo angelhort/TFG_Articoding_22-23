@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("header", {titulo : "Errores"}) %>
+</head>
+<body>
+    <%- include("navBar") %>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mt-5">
+                <h2>Errores</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
+                <div class="row">
+                    <div class="col-auto">
+                        <h6>Concepto:</h6>
+                        <select class="form-select">
+                            <option value="variables">Variables</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-auto">
+                        <h6>Jugadores con mas dificultades:</h6>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Jugador</th>
+                                    <th scope="col">Tiempo</th>
+                                    <th scope="col">Ult. Nivel</th>
+                                    <th scope="col">% errores por nivel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% jugMasErr.forEach(j => { %>
+                                    <tr>
+                                        <th scope="row"><%= j.nombre %></th>
+                                        <td><%= j.tiempo %></td>
+                                        <td><%= j.ultNivel %></td>
+                                        <td class="text-center"><%= j.mediaErroresVar %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-auto">
+                        <h6>Niveles con más errores:</h6>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nivel</th>
+                                    <th scope="col">Errores</th>
+                                    <th scope="col">Jugadores</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <% nivelesErrVar.forEach(n => { %>
+                                    <% const values = Object.values(n)[0]; %>
+                                    <tr>
+                                        <th scope="row"><%= Object.keys(n)[0] %></th>
+                                        <td class="text-center"><%= values.erroresVar %></td>
+                                        <td class="text-center"><%= values.jugadores %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import sys
 import os
+import xml.etree.ElementTree as ET
 
 sys.stdout.flush()
 print("Analizando datos...")
@@ -23,6 +24,16 @@ def extraerTiemposPorNivelJugador(rawData):
     tiempos = defaultdict(defaultdict)
     intentosNecesarios = defaultdict(defaultdict)
     inicioYFinJuego = defaultdict()
+    errores = defaultdict(list)
+    codJugadores = defaultdict()
+    codUltNivel = defaultdict()
+
+    error1 = "No necesario crear variable"
+    error2 = "Asignacion mismo valor en variable"
+    error3 = "Entero o texto utilizado 2 veces"
+
+    nivelesError1Excepcion = ['variables_2', 'variables_3', 'variables_4', 'variables_6', 'variables_8', 'variables_10', 'types_2', 'basic_operators_1', 'basic_operators_3', 'basic_operators_6']
+    nivelesError3Excepcion = ['tutorials_1', 'tutorials_2', 'tutorials_3', 'tutorials_4', 'tutorials_5', 'tutorials_6', 'tutorials_7', 'tutorials_8', 'tutorials_9']
 
     erLevel = re.compile(r'\blevel$\b')
     erIdLevel = re.compile(r'/')
@@ -30,6 +41,7 @@ def extraerTiemposPorNivelJugador(rawData):
     erInitialized = re.compile(r'\binitialized$\b')
     erCompleted = re.compile(r'\bcompleted$\b')
     erAccessed = re.compile(r'\baccessed$\b')
+    erProgressed = re.compile(r'\bprogressed$\b')
 
     erSeriousGame = re.compile(r'\bserious-game$\b')  
     erCategoryMain = re.compile(r'\bcategories_main$\b')  
@@ -54,12 +66,68 @@ def extraerTiemposPorNivelJugador(rawData):
                             tiempos[name][levelCode] = [{"ini" : timestamp, "fin" : None, "stars" : ""}]
                     else:
                         intentosNecesarios[name][levelCode][-1]["intentos"] += 1
+
+                elif erProgressed.search(verb):
+                    cod = ET.fromstring(evento['result']['extensions']['code'])
+                    codJugadores[name] = cod
+                    codUltNivel[name] = levelCode
+
                 elif erCompleted.search(verb):
                     if evento["result"]["score"]["raw"] > 0 :
                         if levelCode in tiempos[name]:
                             intentosNecesarios[name][levelCode][-1]["success"] = True
                             tiempos[name][levelCode][-1]["fin"] = timestamp
                             tiempos[name][levelCode][-1]["stars"] = evento["result"]["score"]["raw"]
+
+                        if codUltNivel[name] == levelCode: 
+                            try:
+                                cod = codJugadores[name]
+                            except:
+                                print(evento)
+                                print(timestamp)
+                                return
+                            vars = defaultdict()
+                            values = []
+
+                            for v in cod.find('variables'):
+                                vars[v.text] = {"valores" : [], "usado" : 0}
+
+                            for b in cod.find("block[@type='start_start']").iter('block'):
+                                tarjeta = b.attrib['type']
+
+                                if tarjeta == "text" or tarjeta == "math_number":
+                                    valor = b.find('field').text
+                                    if valor in values and levelCode not in nivelesError3Excepcion:
+                                        errores[name].append({'error' : error3, 'level' : levelCode})
+                                    else:
+                                        values.append(valor)
+
+                                elif tarjeta == "variables_set":
+                                    varName = b.find('field').text
+                                    try:
+                                        varValue = b.find('value').find('block').find('field').text
+                                    except:
+                                        #print(ET.tostring(cod, encoding='utf8', method='xml'))
+                                        #print(ET.tostring(b, encoding='utf8', method='xml'))
+                                        None                                
+
+                                    if vars[varName]['valores'] and vars[varName]['usado'] < 2 and levelCode not in nivelesError1Excepcion:
+                                        errores[name].append({'error' : error1 + " " + varName, 'level' : levelCode})
+
+                                    if varValue in vars[varName]['valores']:
+                                        errores[name].append({'error' : error2 + " " + varName, 'level' : levelCode})
+                                    else:
+                                        vars[varName]['valores'].append(varValue)
+
+                                    vars[varName]['usado'] = 0
+
+                                elif tarjeta == "variables_get":
+                                    varName = b.find('field').text
+                                    vars[varName]["usado"] += 1
+
+                            for v in vars:
+                                if vars[v]['usado'] < 2 and levelCode not in nivelesError1Excepcion:
+                                    errores[name].append({'error' : error1 + " " + v, 'level' : levelCode})
 
                     elif evento["result"]["score"]["raw"] == -1:
                         if levelCode in tiempos[name]:
@@ -75,7 +143,7 @@ def extraerTiemposPorNivelJugador(rawData):
         if not(erAccessed.search(verb) and erCategoryMain.search(objectId)):
             inicioYFinJuego[name][-1]["fin"] = timestamp
     
-    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego}
+    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresCodigo" : errores}
 
 def tiempoPorNiveles_Jugador(data):
     tiemposJugados = defaultdict(defaultdict)
@@ -259,11 +327,30 @@ def parseTiemposDictConNombresToInteger(tiemposDict):
 
 def getListaCategorias(listaNiveles):
     categorias = defaultdict()
+    erroresVar = defaultdict()
+
     for n in listaNiveles:
         categorias[n.split("_")[0]] = (" ".join(n.split("_")[:-1])).capitalize()
+
+    for j in resultados_Tiempos_Nivel_Jugador["erroresCodigo"]:
+        for e in resultados_Tiempos_Nivel_Jugador["erroresCodigo"][j]:
+            if e["level"] in erroresVar:
+                erroresVar[e["level"]] += 1
+            else:
+                erroresVar[e["level"]] = 1
+
+    nPersonasNivel = getCuantasPersonasHanAlcanzadoNivel(ultNivelAlcanzado, tiemposMedios["listaNiveles"])
+    lst = []
+    for n in nPersonasNivel:
+        if n in erroresVar:
+            lst.append({n : {"erroresVar" : erroresVar[n], "jugadores" : nPersonasNivel[n]}})
+        else:
+            lst.append({n : {"erroresVar" : 0, "jugadores" : nPersonasNivel[n]}})
+
+    lst = sorted(lst, key=lambda x: x[list(x.keys())[0]]['erroresVar'], reverse=True)
    
     with open("./datos/" + nombreInstituto + '/info.json', 'w') as json_file:
-        json.dump({"categorias" : categorias}, json_file)
+        json.dump({"categorias" : categorias, "niveles" : list(listaNiveles), "nErroresVar" : lst}, json_file)
     return categorias
 
 def create_boxplots(data_dict, titulo):
@@ -414,6 +501,8 @@ JSONFile.close()
 
 resultados_Tiempos_Nivel_Jugador = extraerTiemposPorNivelJugador(rawData)
 
+with open('./datos/'+ nombreInstituto +'/errores.json', 'w') as json_file:
+    json.dump(resultados_Tiempos_Nivel_Jugador["erroresCodigo"], json_file)
 
 tiemposIntentosJugadores = tiempoPorNiveles_Jugador(resultados_Tiempos_Nivel_Jugador["tiempos"])
 
@@ -421,10 +510,10 @@ soloPrimerExito = True
 tiemposOrdenados = False
 tiemposMedios = getMediaTiempoPorNivel(tiemposIntentosJugadores, soloPrimerExito, tiemposOrdenados)
 
-categorias = getListaCategorias(tiemposMedios["listaNiveles"])
-
 ultNivelAlcanzado = getUltimoNivelAlcanzado(tiemposMedios["tiemposIndividuales"])
 tiempoTotalJuego(resultados_Tiempos_Nivel_Jugador["inicioYFinJuego"], ultNivelAlcanzado)
+
+categorias = getListaCategorias(tiemposMedios["listaNiveles"])
 
 intentosOrdenados = False
 intentosMedios_Individual = getIntentosMedios_HastaCompletarNivel(resultados_Tiempos_Nivel_Jugador["intentosNecesarios"], intentosOrdenados)
