@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include("header", {titulo : "Errores"}) %>
+    <script src="js/changeTipoError.js"></script>
 </head>
 <body>
     <%- include("navBar") %>
@@ -17,7 +18,8 @@
                     <div class="col-auto">
                         <h6>Concepto:</h6>
                         <select class="form-select">
-                            <option value="variables">Variables</option>
+                            <option value="Var">Variables</option>
+                            <option value="Cod">Codigo</option>
                         </select>
                     </div>
                     <div class="col-auto me-4">
@@ -28,7 +30,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <a href="/profesor/erroresAlumnos" ><img src="img/ojo.png" alt="Errores Alumnos"></a>
+                                <a href="" id="linkErroresDetallados"><img src="img/ojo.png" alt="Errores Alumnos"></a>
                             </div>
                         </div>
                     </div>
@@ -42,19 +44,10 @@
                                     <th scope="col">Jugador</th>
                                     <th scope="col">Tiempo</th>
                                     <th scope="col">Ult. Nivel</th>
-                                    <th scope="col">% errores por nivel</th>
+                                    <th scope="col" class="text-center">Nº errores por nivel</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% jugMasErr.forEach(j => { %>
-                                    <tr>
-                                        <th scope="row"><%= j.nombre %></th>
-                                        <td><%= j.tiempo %></td>
-                                        <td><%= j.ultNivel %></td>
-                                        <td class="text-center"><%= j.mediaErroresVar %></td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
+                            <tbody id ="tablaJugadores"></tbody>
                         </table>
                     </div>
                 </div>
@@ -71,16 +64,7 @@
                                     <th scope="col" class="text-center">Jugadores</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% nivelesErrVar.forEach(n => { %>
-                                    <% const values = Object.values(n)[0]; %>
-                                    <tr>
-                                        <th scope="row"><%= (Object.keys(n)[0].charAt(0).toUpperCase() + Object.keys(n)[0].slice(1)).replaceAll("_", " ") %></th>
-                                        <td class="text-center"><%= values.erroresVar %></td>
-                                        <td class="text-center"><%= values.jugadores %></td>
-                                    </tr>
-                                <% }); %>
-                            </tbody>
+                            <tbody id="tablaNiveles"></tbody>
                         </table>
                     </div>
                 </div>

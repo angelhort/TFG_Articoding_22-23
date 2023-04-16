@@ -362,10 +362,11 @@ def parseTiemposDictConNombresToInteger(tiemposDict):
 def getListaCategorias(listaNiveles):
     categorias = defaultdict()
     erroresVar = defaultdict()
+    erroresCod = defaultdict()
 
     for n in listaNiveles:
         categorias[n.split("_")[0]] = (" ".join(n.split("_")[:-1])).capitalize()
-
+    
     for j in resultados_Tiempos_Nivel_Jugador["erroresVar"]:
         for e in resultados_Tiempos_Nivel_Jugador["erroresVar"][j]:
             if e["level"] in erroresVar:
@@ -373,18 +374,33 @@ def getListaCategorias(listaNiveles):
             else:
                 erroresVar[e["level"]] = 1
 
+    for j in resultados_Tiempos_Nivel_Jugador["erroresCod"]:
+        for e in resultados_Tiempos_Nivel_Jugador["erroresCod"][j]:
+            if e["level"] in erroresCod:
+                erroresCod[e["level"]] += 1
+            else:
+                erroresCod[e["level"]] = 1
+    
     nPersonasNivel = getCuantasPersonasHanAlcanzadoNivel(ultNivelAlcanzado, tiemposMedios["listaNiveles"])
-    lst = []
+    listVar = []
+    listCod = []
     for n in nPersonasNivel:
         if n in erroresVar:
-            lst.append({n : {"erroresVar" : erroresVar[n], "jugadores" : nPersonasNivel[n]}})
+            listVar.append({n : {"errores" : erroresVar[n], "jugadores" : nPersonasNivel[n]}})
         else:
-            lst.append({n : {"erroresVar" : 0, "jugadores" : nPersonasNivel[n]}})
+            listVar.append({n : {"errores" : 0, "jugadores" : nPersonasNivel[n]}})
 
-    lst = sorted(lst, key=lambda x: x[list(x.keys())[0]]['erroresVar'], reverse=True)
-   
-    with open("./datos/" + nombreInstituto + '/info.json', 'w') as json_file:
-        json.dump({"categorias" : categorias, "niveles" : list(listaNiveles), "nErroresVar" : lst}, json_file)
+        if n in erroresCod:
+            listCod.append({n : {"errores" : erroresCod[n], "jugadores" : nPersonasNivel[n]}})
+        else:
+            listCod.append({n : {"errores" : 0, "jugadores" : nPersonasNivel[n]}})
+
+
+    listVar = sorted(listVar, key=lambda x: x[list(x.keys())[0]]['errores'], reverse=True)
+    listCod = sorted(listCod, key=lambda x: x[list(x.keys())[0]]['errores'], reverse=True)
+
+    with open("./datos/" + nombreInstituto + "/info.json", 'w') as json_file:
+        json.dump({"categorias" : categorias, "niveles" : list(listaNiveles), "nErroresVar" : listVar, "nErroresCod" : listCod}, json_file)
     return categorias
 
 def create_boxplots(data_dict, titulo):
