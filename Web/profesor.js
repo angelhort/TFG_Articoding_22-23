@@ -36,7 +36,7 @@ module.exports = function(dataPath){
     });
 
     profesor.get("/errores", function(request, response){
-        fs.readFile(dataPath + request.session.instituto + "/errores.json", function(err, data){
+        fs.readFile(dataPath + request.session.instituto + "/erroresVar.json", function(err, data){
             if(err){
                 //TODO pagina error 500
                 console.log("No se puede leer archivo ERRORES");
@@ -68,6 +68,47 @@ module.exports = function(dataPath){
                                 }
                                 var jugadoresData = Object.values(jugadores).sort((a, b) => b.mediaErroresVar - a.mediaErroresVar);
                                 response.render("errores" , {"jugMasErr" : jugadoresData.slice(0, 7), "nivelesErrVar" : info.nErroresVar.slice(0,7)});
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    profesor.get("/erroresAlumnos", function(request, response){
+        fs.readFile(dataPath + request.session.instituto + "/erroresVar.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo ERRORES");
+            }
+            else{
+                const errores = JSON.parse(data);
+                fs.readFile(dataPath + request.session.instituto + "/info.json", function(err, data){
+                    if(err){
+                        //TODO pagina error 500
+                        console.log("No se puede leer archivo ERRORES");
+                    }
+                    else{
+                        const info = JSON.parse(data);
+                        fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
+                            if(err){
+                                //TODO pagina error 500
+                                console.log("No se puede leer archivo ERRORES");
+                            }
+                            else{
+                                const jugadores = JSON.parse(data);
+                                for(var j in jugadores){
+                                    var i = info.niveles.findIndex(e => (e.charAt(0).toUpperCase() + e.slice(1)).replaceAll("_", " ") == jugadores[j].ultNivel);
+                                    if(j in errores){
+                                        jugadores[j].mediaErroresVar = parseFloat((errores[j].length / (i - 9)).toFixed(2));
+                                    }
+                                    else{
+                                        jugadores[j].mediaErroresVar = 0;
+                                    }
+                                }
+                                var jugadoresData = Object.values(jugadores).sort((a, b) => b.mediaErroresVar - a.mediaErroresVar);
+                                response.render("erroresAlumnos" , {"jugMasErr" : jugadoresData, "erroresJugadores" : errores});
                             }
                         });
                     }

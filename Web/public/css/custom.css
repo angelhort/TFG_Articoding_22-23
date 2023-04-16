@@ -66,6 +66,10 @@ h6{
     background-color: var(--light-blue-hover);
     color: white;
 }
+.btn-link {
+    background-color: transparent;
+    color: white;
+}
 
 .table{
     --bs-table-accent-bg: var(--light-blue);

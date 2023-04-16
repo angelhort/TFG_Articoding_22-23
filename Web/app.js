@@ -54,6 +54,11 @@ app.get("/login", function(request, response){
     response.render("login")
 });
 
+app.get("/logout", function(request, response){
+    request.session.destroy();
+    response.redirect("/login");
+});
+
 app.post("/login", function(request, response){
     daoU.isUserCorrect(request.body.usuario, request.body.contrasenia, usuarioCorrecto);
     function usuarioCorrecto(error, ok, usuario){

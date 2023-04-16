@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("header", {titulo : "Errores Alumnos"}) %>
+</head>
+<body>
+    <%- include("navBar") %>
+    <div class = "container">
+        <div class="row mt-5">
+            <div class="col">
+                <table class="table table-striped" id="example">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Nombre</th>
+                            <th scope="col" class="text-center">Tiempo Jugado</th>
+                            <th scope="col" class="text-center">Último nivel alcanzado</th>
+                            <th scope="col" class="text-center">% errores por nivel</th>
+                            <th scope="col" class="text-center">Errores</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var alumno in jugMasErr){ %>            
+                            <tr>
+                                <th scope="row" class="text-center"><%= jugMasErr[alumno]["nombre"] %></th>
+                                <td class="text-center"><%= jugMasErr[alumno]["tiempo"] %></td>
+                                <td class="text-center"><%= jugMasErr[alumno]["ultNivel"] %></td>
+                                <td class="text-center"><%= jugMasErr[alumno]["mediaErroresVar"] %></td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#modal<%= jugMasErr[alumno]['id'] %>">
+                                        <img src="img/ojo.png" alt="" style="width: 30px; height: 30px;">
+                                      </button>
+                                </td>
+                            </tr>
+
+                            <div class="modal modal-lg fade" id="modal<%= jugMasErr[alumno]['id'] %>">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Errores <%= jugMasErr[alumno]["nombre"] %></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <% if(jugMasErr[alumno]["id"] in erroresJugadores) { %>
+                                            <% erroresJugadores[jugMasErr[alumno]["id"]].forEach(e => { %>
+                                                <h6 class="mb-0">Error:</h6>
+                                                <%= e.error %>
+                                                <br><br>
+                                                <h6 class="mb-0">Nivel:</h6>
+                                                <%= (e.level.charAt(0).toUpperCase() + e.level.slice(1)).replaceAll("_", " ")%>
+                                                <hr>
+                                            <% }); %>
+                                        <% } else{ %>
+                                            <h6>Sin errores</h6>
+                                        <% } %>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        <% }; %>
+                    </tbody>
+                </table>  
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -11,14 +11,26 @@
                 <h2>Errores</h2>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-5 pb-5">
             <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
-                <div class="row">
+                <div class="row justify-content-between">
                     <div class="col-auto">
                         <h6>Concepto:</h6>
                         <select class="form-select">
                             <option value="variables">Variables</option>
                         </select>
+                    </div>
+                    <div class="col-auto me-4">
+                        <div class="row">
+                            <div class="col">
+                                <h6>Ver todos los alumnos:</h6>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <a href="/profesor/erroresAlumnos" ><img src="img/ojo.png" alt="Errores Alumnos"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -46,23 +58,24 @@
                         </table>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-auto">
+            </div>
+            <div class="col-12 col-lg-6 ps-5">
+                <div class="row">
+                    <div class="col">
                         <h6>Niveles con más errores:</h6>
-                        <table class="table table-striped">
+                        <table class="table table-striped mt-3">
                             <thead>
                                 <tr>
                                     <th scope="col">Nivel</th>
-                                    <th scope="col">Errores</th>
-                                    <th scope="col">Jugadores</th>
+                                    <th scope="col" class="text-center">Errores</th>
+                                    <th scope="col" class="text-center">Jugadores</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
                                 <% nivelesErrVar.forEach(n => { %>
                                     <% const values = Object.values(n)[0]; %>
                                     <tr>
-                                        <th scope="row"><%= Object.keys(n)[0] %></th>
+                                        <th scope="row"><%= (Object.keys(n)[0].charAt(0).toUpperCase() + Object.keys(n)[0].slice(1)).replaceAll("_", " ") %></th>
                                         <td class="text-center"><%= values.erroresVar %></td>
                                         <td class="text-center"><%= values.jugadores %></td>
                                     </tr>
@@ -71,9 +84,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-lg-6">
-
             </div>
         </div>
     </div>

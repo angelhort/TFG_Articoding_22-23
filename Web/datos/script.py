@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import sys
 import os
 import xml.etree.ElementTree as ET
+import keyword
 
 sys.stdout.flush()
 print("Analizando datos...")
@@ -24,13 +25,15 @@ def extraerTiemposPorNivelJugador(rawData):
     tiempos = defaultdict(defaultdict)
     intentosNecesarios = defaultdict(defaultdict)
     inicioYFinJuego = defaultdict()
-    errores = defaultdict(list)
+    erroresVar = defaultdict(list)
+    erroresCod = defaultdict(list)
     codJugadores = defaultdict()
     codUltNivel = defaultdict()
 
     error1 = "No necesario crear variable"
     error2 = "Asignacion mismo valor en variable"
     error3 = "Entero o texto utilizado 2 veces"
+    errorCodSucio = "Codigo muerto"
 
     nivelesError1Excepcion = ['variables_2', 'variables_3', 'variables_4', 'variables_6', 'variables_8', 'variables_10', 'types_2', 'basic_operators_1', 'basic_operators_3', 'basic_operators_6']
     nivelesError3Excepcion = ['tutorials_1', 'tutorials_2', 'tutorials_3', 'tutorials_4', 'tutorials_5', 'tutorials_6', 'tutorials_7', 'tutorials_8', 'tutorials_9']
@@ -44,7 +47,10 @@ def extraerTiemposPorNivelJugador(rawData):
     erProgressed = re.compile(r'\bprogressed$\b')
 
     erSeriousGame = re.compile(r'\bserious-game$\b')  
-    erCategoryMain = re.compile(r'\bcategories_main$\b')  
+    erCategoryMain = re.compile(r'\bcategories_main$\b') 
+
+    estandarNombreVar = re.compile(r'^_*[a-zA-Z][a-zA-Z0-9_]*$')
+ 
     
     for evento in rawData:
         verb = evento["verb"]["id"]
@@ -79,13 +85,41 @@ def extraerTiemposPorNivelJugador(rawData):
                             tiempos[name][levelCode][-1]["fin"] = timestamp
                             tiempos[name][levelCode][-1]["stars"] = evento["result"]["score"]["raw"]
 
-                        if codUltNivel[name] == levelCode: 
+                        if codUltNivel[name] == levelCode:
+                            
                             try:
                                 cod = codJugadores[name]
                             except:
                                 print(evento)
                                 print(timestamp)
                                 return
+                            #Analisis codigo limpio
+                            antBloque = False
+                            for child in cod:
+                                if child.tag == "block":
+                                    if antBloque:
+                                        erroresCod[name].append({'error' : errorCodSucio, 'level' : levelCode})
+                                        None
+                                    else:
+                                        antBloque = True
+                                else:
+                                    antBloque = False 
+                            
+                            #Analisis nombre variables
+
+                            def nombreVarValido(nombresVar):
+                                for nombre in nombresVar:
+                                    if keyword.iskeyword(nombre):
+                                        erroresCod[name].append({'error' : "Variable: '" + nombre + "' es una palabra reservada", 'level' : levelCode})
+                                    elif not bool(estandarNombreVar.match(nombre)):
+                                        erroresCod[name].append({'error' : "Variable: '" + nombre + "' no tiene un nombre que siga el estandar de programacion", 'level' : levelCode})
+
+                            variablesDeclaradas = []
+                            for child in cod.find("variables"):
+                                variablesDeclaradas.append(child.text)
+                            nombreVarValido(variablesDeclaradas)
+
+                            #Analisis uso variables
                             vars = defaultdict()
                             values = []
 
@@ -98,7 +132,7 @@ def extraerTiemposPorNivelJugador(rawData):
                                 if tarjeta == "text" or tarjeta == "math_number":
                                     valor = b.find('field').text
                                     if valor in values and levelCode not in nivelesError3Excepcion:
-                                        errores[name].append({'error' : error3, 'level' : levelCode})
+                                        erroresVar[name].append({'error' : error3, 'level' : levelCode})
                                     else:
                                         values.append(valor)
 
@@ -112,10 +146,10 @@ def extraerTiemposPorNivelJugador(rawData):
                                         None                                
 
                                     if vars[varName]['valores'] and vars[varName]['usado'] < 2 and levelCode not in nivelesError1Excepcion:
-                                        errores[name].append({'error' : error1 + " " + varName, 'level' : levelCode})
+                                        erroresVar[name].append({'error' : error1 + " " + varName, 'level' : levelCode})
 
                                     if varValue in vars[varName]['valores']:
-                                        errores[name].append({'error' : error2 + " " + varName, 'level' : levelCode})
+                                        erroresVar[name].append({'error' : error2 + " " + varName, 'level' : levelCode})
                                     else:
                                         vars[varName]['valores'].append(varValue)
 
@@ -127,7 +161,7 @@ def extraerTiemposPorNivelJugador(rawData):
 
                             for v in vars:
                                 if vars[v]['usado'] < 2 and levelCode not in nivelesError1Excepcion:
-                                    errores[name].append({'error' : error1 + " " + v, 'level' : levelCode})
+                                    erroresVar[name].append({'error' : error1 + " " + v, 'level' : levelCode})
 
                     elif evento["result"]["score"]["raw"] == -1:
                         if levelCode in tiempos[name]:
@@ -143,7 +177,7 @@ def extraerTiemposPorNivelJugador(rawData):
         if not(erAccessed.search(verb) and erCategoryMain.search(objectId)):
             inicioYFinJuego[name][-1]["fin"] = timestamp
     
-    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresCodigo" : errores}
+    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresVar" : erroresVar, "erroresCod" : erroresCod}
 
 def tiempoPorNiveles_Jugador(data):
     tiemposJugados = defaultdict(defaultdict)
@@ -332,8 +366,8 @@ def getListaCategorias(listaNiveles):
     for n in listaNiveles:
         categorias[n.split("_")[0]] = (" ".join(n.split("_")[:-1])).capitalize()
 
-    for j in resultados_Tiempos_Nivel_Jugador["erroresCodigo"]:
-        for e in resultados_Tiempos_Nivel_Jugador["erroresCodigo"][j]:
+    for j in resultados_Tiempos_Nivel_Jugador["erroresVar"]:
+        for e in resultados_Tiempos_Nivel_Jugador["erroresVar"][j]:
             if e["level"] in erroresVar:
                 erroresVar[e["level"]] += 1
             else:
@@ -501,8 +535,11 @@ JSONFile.close()
 
 resultados_Tiempos_Nivel_Jugador = extraerTiemposPorNivelJugador(rawData)
 
-with open('./datos/'+ nombreInstituto +'/errores.json', 'w') as json_file:
-    json.dump(resultados_Tiempos_Nivel_Jugador["erroresCodigo"], json_file)
+with open('./datos/'+ nombreInstituto +'/erroresVar.json', 'w') as json_file:
+    json.dump(resultados_Tiempos_Nivel_Jugador["erroresVar"], json_file)
+
+with open('./datos/'+ nombreInstituto +'/erroresCod.json', "w") as f:
+    json.dump(resultados_Tiempos_Nivel_Jugador["erroresCod"], f)
 
 tiemposIntentosJugadores = tiempoPorNiveles_Jugador(resultados_Tiempos_Nivel_Jugador["tiempos"])
 
