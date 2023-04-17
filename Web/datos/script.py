@@ -99,7 +99,7 @@ def extraerTiemposPorNivelJugador(rawData):
                                 if child.tag == "block":
                                     if antBloque:
                                         erroresCod[name].append({'error' : errorCodSucio, 'level' : levelCode})
-                                        None
+                                        break
                                     else:
                                         antBloque = True
                                 else:
