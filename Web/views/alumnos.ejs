@@ -3,57 +3,50 @@
 <head>
     <%- include("header", {titulo : "Alumnos"}) %>
     <script src="js/bstable.js"></script>
+    <script src="js/filtrosTabla.js"></script>
 </head>
 <body>
     <%- include("navBar") %>
     <div class="container">
-        <div class="row mt-5">
+        <div class="row">
+            <div class="col-auto mt-5">
+                <h6>Buscar participante</h6>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" id="searchP" placeholder="Nombre o ID">                        
+                </form>
+            </div>
+        </div>
+        <div class="row mt-3">
             <div class="col">
                 <table class="table table-striped" id="example">
                     <thead>
                         <tr>
+                            <th scope="col">Nº</th>
                             <th scope="col">ID</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Tiempo Jugado</th>
                             <th scope="col">Último nivel alcanzado</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <% var counter = 0; %>
-                        <% for(var alumno in infoAlumnos){ %>
-                            <% if(counter < 10){ %>
-                            <tr>
-                                <th scope="row"> <%= infoAlumnos[alumno]["id"] %></th>
-                                <td><%= infoAlumnos[alumno]["nombre"] %></td>
-                                <td><%= infoAlumnos[alumno]["tiempo"] %></td>
-                                <td><%= infoAlumnos[alumno]["ultNivel"] %></td>
+                    <tbody id="cuerpoTabla">
+                        <% infoAlumnos.forEach(function(a,i){ %>
+                            <tr class="alumno" idAlumno = "<%= a.id %>" nombre = "<%= a.nombre %>" tiempo="<%= a.tiempo %>" ultNivel="<%= a.ultNivel %>" numAlumno="<%= i %>">
+                                <th scope="row"> <%= i %> </th>
+                                <td><%= a.id %></td>
+                                <td><%= a.nombre %></td>
+                                <td><%= a.tiempo %></td>
+                                <td><%= a.ultNivel %></td>
                             </tr>
-                            <% } %>
-                            <% counter++; %>
-                        <% }; %>
+                        <% }); %>
                     </tbody>
                 </table>                
-            </div>
-        </div>
-        <div class="row justify-content-end">
-            <div class="col-auto">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <% var numPages = Math.ceil(nAlumnos/10); %>
-                        <% for(var i=1; i<=numPages; i++){ %>
-                            <li class="page-item <% if(i==page){ %>active<% } %>">
-                                <a class="page-link" href="/profesor/alumnos?page=<%= i %>"><%= i %></a>
-                            </li>
-                        <% }; %>
-                    </ul>
-                </nav>
             </div>
         </div>
     </div>
 </body>
 <script>
     var editableTable = new BSTable("example",{
-        editableColumns:"0",
+        editableColumns:"1",
     });
     editableTable.init();
     editableTable.refresh();
