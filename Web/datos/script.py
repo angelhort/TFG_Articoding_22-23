@@ -175,7 +175,10 @@ def extraerTiemposPorNivelJugador(rawData):
                 inicioYFinJuego[name] = [{"inicio" : timestamp, "fin" : None}]
         
         if not(erAccessed.search(verb) and erCategoryMain.search(objectId)):
-            inicioYFinJuego[name][-1]["fin"] = timestamp
+            try:
+                inicioYFinJuego[name][-1]["fin"] = timestamp
+            except:
+                None
     
     return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresVar" : erroresVar, "erroresCod" : erroresCod}
 
