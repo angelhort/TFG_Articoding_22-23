@@ -10,7 +10,7 @@
     <%- include("navBar") %>
     <div class="container">
         <div class="row">
-            <div class="col text-center mt-5">
+            <div class="col text-center mt-3">
                 <h2>Resultados generales</h2>
             </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
                 <div class="row">
                     <h4>Categorías superadas</h4>
-                    <h5 class="mt-3">Número de alumnos: 145</h5>
+                    <h5 class="mt-3">Número de alumnos: <%= nJugadores %></h5>
                 </div>
                 <div class="row">
                     <div id="categoriasSuperadas" class="plot p-0" ruta="/profesor/getDatosResumen"></div>

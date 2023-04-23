@@ -9,7 +9,7 @@ const pool = mysql.createPool(config.mysqlConfig);
 
 const profesor = express.Router();
 
-module.exports = function(dataPath){
+module.exports = function(dataPath, daoU){
     profesor.use(express.static(path.join(__dirname, "public")));
     
     function comprobarUsuario(request, response, next){
@@ -21,7 +21,73 @@ module.exports = function(dataPath){
     
     profesor.use(comprobarUsuario);
 
+    profesor.get("/", function(request, response){
+        daoU.getInstitutosProf(request.session.idProf, selectInstituto);
+        function selectInstituto(err, institutos){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se encuentran institutos");
+            }
+            else{
+                var idsInstitutos = []
+                institutos.forEach(i =>{
+                    idsInstitutos.push(i.id);
+                });
+                request.session.institutos = idsInstitutos;
+                response.render("clases", {"institutos" : institutos});
+            }
+        }
+    });
 
+    profesor.get("/generarDatos/:instituto", function(request, response){
+                
+        if(request.session.institutos.includes(Number(request.params.instituto))){
+            request.session.instituto = request.params.instituto;
+            if(!fs.existsSync(dataPath + "/" + request.session.instituto + "/plots")){
+                var spawn = require('child_process').spawn;
+                var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
+                process.stdout.on('data', function (data) {
+                    fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
+                        if(err){
+                            //TODO pagina error 500
+                            console.log("No se puede leer archivo");
+                        }
+                        else{
+                            const infoAlumnos = JSON.parse(data);
+                            var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
+                                return entry[1];
+                            });
+                            /*daoA.aniadirAlumnosBD(infoAlumnosArray, request.session.instituto, usuariosIntroducidos); 
+                            function usuariosIntroducidos(err){
+                                if(err){
+                                    console.log(err)
+                                }
+                                else{
+                                    response.redirect('/profesor/resumen');
+                                }
+                            }*/
+                            response.redirect('/profesor/resumen');
+                        }
+                    });                    
+                });
+                process.stderr.on('data', function (data) {
+                    console.error(data.toString());
+                    response.redirect('/profesor/resumen');
+                });
+                process.on('error', function (error) {
+                    console.error(error.toString());
+                    response.redirect('/profesor/resumen');
+                });
+            }
+            else{
+                response.redirect('/profesor/resumen');
+            }
+        }
+        else{
+            response.redirect("/login");
+        }
+    });
+    
     profesor.get("/resumen", function(request, response){
         fs.readFile(dataPath + request.session.instituto + "/datosMedios.json", function(err, data){
             if(err){
@@ -29,14 +95,23 @@ module.exports = function(dataPath){
                 console.log("No se puede leer archivo RESUMEN");
             }
             else{
-                const datosMedios = JSON.parse(data);
-                response.render("resumen", {"medias" : datosMedios["general"]})
+                fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, jugadores){
+                    if(err){
+                        //TODO pagina error 500
+                        console.log("No se puede leer archivo RESUMEN");
+                    }
+                    else{
+                        const datosMedios = JSON.parse(data);
+                        const nJugadores = Object.keys(JSON.parse(jugadores)).length;
+                        response.render("resumen", {"medias" : datosMedios["general"], "nJugadores" : nJugadores})
+                    }
+                });
             }
         });
     });
 
     profesor.get("/errores", function(request, response){
-        response.render("errores")
+        response.render("errores");
     });
 
     profesor.get("/erroresAlumnos", function(request, response){

@@ -47,7 +47,7 @@ app.set("views", path.join(__dirname, "views"));
 
 const admin = require('./admin')(dataPath);
 app.use("/admin",admin);
-const profesor = require("./profesor")(dataPath);
+const profesor = require("./profesor")(dataPath, daoU);
 app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
@@ -69,49 +69,11 @@ app.post("/login", function(request, response){
         }
         else if(ok){
             request.session.usuario = usuario.nombre;
-            request.session.instituto = usuario.instituto;
             request.session.rol = usuario.rol;
+            request.session.idProf = usuario.id;
 
             if (usuario.rol == "profesor"){
-                if(!fs.existsSync(dataPath + "/" +usuario.instituto + "/plots")){
-                    var spawn = require('child_process').spawn;
-                    var process = spawn('python', [dataPath + "script.py", request.session.instituto]);
-                    process.stdout.on('data', function (data) {
-                        console.log(data.toString());
-                        fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
-                            if(err){
-                                //TODO pagina error 500
-                                console.log("No se puede leer archivo");
-                            }
-                            else{
-                                const infoAlumnos = JSON.parse(data);
-                                var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
-                                    return entry[1];
-                                });
-                                daoA.aniadirAlumnosBD(infoAlumnosArray, usuario.instituto, usuariosIntroducidos); 
-                                function usuariosIntroducidos(err){
-                                    if(err){
-                                        console.log(err)
-                                    }
-                                    else{
-                                        response.redirect('/profesor/resumen');
-                                    }
-                                }
-                            }
-                        });                    
-                    });
-                    process.stderr.on('data', function (data) {
-                        console.error(data.toString());
-                        response.redirect('/profesor/resumen');
-                    });
-                    process.on('error', function (error) {
-                        console.error(error.toString());
-                        response.redirect('/profesor/resumen');
-                    });
-                }
-                else{
-                    response.redirect('/profesor/resumen');
-                }
+                response.redirect('/profesor/')
             }
             else if (usuario.rol == "admin"){
                 response.redirect('/admin/general');

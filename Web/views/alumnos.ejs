@@ -3,13 +3,12 @@
 <head>
     <%- include("header", {titulo : "Alumnos"}) %>
     <script src="js/bstable.js"></script>
-    <script src="js/filtrosTabla.js"></script>
 </head>
 <body>
     <%- include("navBar") %>
     <div class="container">
         <div class="row">
-            <div class="col-auto mt-5">
+            <div class="col-auto mt-3">
                 <h6>Buscar participante</h6>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" id="searchP" placeholder="Nombre o ID">                        
@@ -30,8 +29,8 @@
                     </thead>
                     <tbody id="cuerpoTabla">
                         <% infoAlumnos.forEach(function(a,i){ %>
-                            <tr class="alumno" idAlumno = "<%= a.id %>" nombre = "<%= a.nombre %>" tiempo="<%= a.tiempo %>" ultNivel="<%= a.ultNivel %>" numAlumno="<%= i %>">
-                                <th scope="row"> <%= i %> </th>
+                            <tr class="alumno" idAlumno = "<%= a.id %>" nombre = "<%= a.nombre %>" tiempo="<%= a.tiempo %>" ultNivel="<%= a.ultNivel %>" numAlumno="<%= i + 1%>">
+                                <th scope="row"> <%= i + 1%> </th>
                                 <td><%= a.id %></td>
                                 <td><%= a.nombre %></td>
                                 <td><%= a.tiempo %></td>
