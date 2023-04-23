@@ -29,3 +29,29 @@
         </div>
     </div>
 </nav>
+
+<nav aria-label="breadcrumb" class="mt-3 ms-5 fw-bold fs-6">
+    <ol class="breadcrumb" id="migaDePan"> 
+    </ol>
+</nav>
+
+<script>
+    $(document).ready(function(){
+        var url = window.location.href;
+        var matches = url.match(/(?<!\/\/)\/\w+/g);
+        var words = matches.map(function(match) {
+            return match.substring(1);
+        });
+
+        var acum = "";
+        for(var i = 1; i < words.length; i++){
+            if(i == (words.length - 1)){
+                $("#migaDePan").append('<li class="breadcrumb-item active" aria-current="page">' + words[i].charAt(0).toUpperCase() + words[i].substring(1) + '</li>');
+            }
+            else{
+                acum += "/" + words[i];
+                $("#migaDePan").append('<li class="breadcrumb-item"><a href="'+ acum +'">' + words[i].charAt(0).toUpperCase() + words[i].substring(1) + '</a></li>');
+            }
+        }
+    });
+</script>

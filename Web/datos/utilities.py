@@ -51,6 +51,7 @@ class Tiempo:
             if hoursRaw != 0:
                 self.hours = hoursRaw
                 minutesRaw = int(((fin - ini)%3600)/60)
+                secondsRaw = int(((fin - ini)%3600)%60)
             if minutesRaw != 0:
                 self.minutes = minutesRaw
                 secondsRaw = int((fin - ini)%60)

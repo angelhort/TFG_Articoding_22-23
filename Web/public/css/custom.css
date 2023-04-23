@@ -94,3 +94,6 @@ a{
     color: white;
 }
 
+nav{
+    --bs-breadcrumb-divider: '>';
+}

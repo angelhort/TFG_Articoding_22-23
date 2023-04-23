@@ -280,7 +280,7 @@ module.exports = function(dataPath){
                             //TODO pagina error 500
                             console.log("No se puede escribir el archivo");
                         }else{
-                            
+                            response.end();
                         }
                     });
                 }

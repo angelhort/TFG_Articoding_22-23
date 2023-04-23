@@ -317,7 +317,7 @@ function editarInfoAlumno(nombre, oldN){
     var data = new URLSearchParams();
     data.append("nombre", nombre);
     data.append("nombreAntiguo", oldN);
-
+    
     // Realizar la petición POST utilizando fetch
     fetch('/profesor/cambiarNombreAlumno', {
       method: 'POST',
@@ -328,15 +328,12 @@ function editarInfoAlumno(nombre, oldN){
     })
     .then(function(response) {
       if (response.ok) {
-        // La petición se ha completado correctamente
+        location.replace(location.href);
         return response.text();
       } else {
         // La petición ha fallado
         throw new Error('Error en la petición: ' + response.status);
       }
-    })
-    .then(function(responseText) {
-      console.log(responseText);
     })
     .catch(function(error) {
       console.error(error);
