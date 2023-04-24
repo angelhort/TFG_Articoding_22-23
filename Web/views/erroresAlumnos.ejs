@@ -56,8 +56,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <% if(jugMasErr[alumno]["id"] in erroresJugadores) { %>
-                                        <% erroresJugadores[jugMasErr[alumno]["id"]].forEach(e => { %>
-                                            <h6 class="mb-0">Error:</h6>
+                                        <% erroresJugadores[jugMasErr[alumno]["id"]].forEach((e, i) => { %>
+                                            <h6 class="mb-0"><%= i + 1 %>º Error:</h6>
                                             <%= e.error %>
                                             <br><br>
                                             <h6 class="mb-0">Nivel:</h6>

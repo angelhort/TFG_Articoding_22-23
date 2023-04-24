@@ -22,8 +22,25 @@
                                 </select>
                             </div>
                             <div class="col-auto">
-                                <a href="">¿Qué conocimientos se adquieren en cada categoría?</a>
+                                <a href="" data-bs-toggle="modal" data-bs-target="#conocimientosCategoria">¿Qué conocimientos se adquieren en cada categoría?</a>
                             </div>
+                            <div class="modal fade" id="conocimientosCategoria" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h2 class="modal-title fs-5">Conocimientos adquiridos en cada categoría</h2>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <h5>Tutorials</h5>
+                                      <p>En esta categoría los participantes aprenden como funciona Articoding</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">¡Entendido!</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -38,9 +55,10 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Nivel</th>
-                                    <th scope="col">Tiempo</th>
-                                    <th scope="col">Intentos</th>
-                                    <th scope="col">Estrellas</th>
+                                    <th scope="col" class="text-center">Tiempo</th>
+                                    <th scope="col" class="text-center">Estrellas</th>
+                                    <th scope="col" class="text-center">Intentos</th>
+                                    <th scope="col" class="text-center">Participantes</th>
                                 </tr>
                             </thead>
                             <tbody ruta = "/profesor/getMediasCategoria/">

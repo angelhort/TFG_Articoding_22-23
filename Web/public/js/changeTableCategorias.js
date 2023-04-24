@@ -53,9 +53,10 @@ function cambiarPlot(){
             for(var n in data){
                 $('tbody:last-child').append(
                     '<tr> <th scope="row">' + (n.charAt(0).toUpperCase() + n.slice(1)).replaceAll("_", " ") + '</th>' +
-                        '<td>' + data[n]["tiempo"] + '</td>' +
-                        '<td>' + data[n]["estrellas"] + '</td>' +
-                        '<td>' + data[n]["intentos"] + '</td>' +
+                        '<td class="text-center">' + data[n]["tiempo"] + '</td>' +
+                        '<td class="text-center">' + data[n]["estrellas"] + '</td>' +
+                        '<td class="text-center">' + data[n]["intentos"] + '</td>' +
+                        '<td class="text-center">' + data[n]["participantes"] + '</td>' +
                     '</tr>'
                 );
             }

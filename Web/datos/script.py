@@ -489,11 +489,12 @@ def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
             fig.write_json("./datos/" + nombreInstituto + "/plots/" + c.split(" ")[0].lower() + "_mediaTiemposComparativa.json")
 
 def getMediaCategorias(df_tiempo, df_intentos, df_estrellas):
-    # Asignar nombres a las columnas sin nombre
     data = defaultdict(defaultdict)
     tiempo = defaultdict()
     intentos = defaultdict()
     estrellas = defaultdict()
+
+    nPersonasNivel = getCuantasPersonasHanAlcanzadoNivel(ultNivelAlcanzado, tiemposMedios["listaNiveles"])
 
     for l in df_tiempo:
         tiempo[l[0]] = l[1].toString()
@@ -506,7 +507,7 @@ def getMediaCategorias(df_tiempo, df_intentos, df_estrellas):
 
     for l in tiempo:
         c = l.split("_")[0]
-        data[c][l] = {"tiempo" : tiempo[l], "intentos" : intentos[l], "estrellas" : estrellas[l]}
+        data[c][l] = {"tiempo" : tiempo[l], "intentos" : intentos[l], "estrellas" : estrellas[l], "participantes" : nPersonasNivel[l]}
 
     with open("./datos/" + nombreInstituto + "/datosMedios.json", 'w') as json_file:
         json.dump(data, json_file)
@@ -588,7 +589,7 @@ create_boxplots(parseTiemposDictConNombresToInteger(tiemposListNombres), "Tiempo
 
 getChartsComparativas(tiemposMedios["listaNiveles"], tiemposMedios["mediaTiempos"], ultNivelAlcanzado, len(ultNivelAlcanzado))
 
-getMediaCategorias(tiemposMedios["mediaTiempos"], tiemposMedios["mediaEstrellas"], intentosMedios_Individual["intentosMedios"])
+getMediaCategorias(tiemposMedios["mediaTiempos"], intentosMedios_Individual["intentosMedios"], tiemposMedios["mediaEstrellas"])
 
 getDatosMediosPorCategoria(tiemposMedios["mediaTiempos"], intentosMedios_Individual["intentosMedios"])
 
