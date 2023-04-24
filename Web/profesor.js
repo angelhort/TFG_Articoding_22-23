@@ -1,11 +1,6 @@
 const express = require("express");
 const path = require("path");
 const fs = require('fs');
-const config = require("./config");
-const mysql = require("mysql");
-
-// Crear un pool de conexiones a la base de datos de MySQL
-const pool = mysql.createPool(config.mysqlConfig);
 
 const profesor = express.Router();
 
@@ -15,8 +10,10 @@ module.exports = function(dataPath, daoU){
     function comprobarUsuario(request, response, next){
         if(request.session.usuario && request.session.rol == "profesor")
             next();
-        else
+        else{
+            request.session.destroy();
             response.redirect("/login");
+        }
     }
     
     profesor.use(comprobarUsuario);
@@ -84,6 +81,7 @@ module.exports = function(dataPath, daoU){
             }
         }
         else{
+            request.session.destroy();
             response.redirect("/login");
         }
     });
