@@ -2,7 +2,7 @@
 <html lang="en">
     
     <head>
-        <%- include("header", {titulo : "Cuenta detallada"}) %>
+        <%- include("./header", {titulo : "Cuenta detallada"}) %>
     </head>
 
     <body>
@@ -17,7 +17,7 @@
                         </div>
                         <div class="form-group">
                             <h5 class="p-0">Rol</h5>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= usuario.rol%>"readonly>
+                            <input type="email" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= usuario.rol%>"readonly>
                             <small id="emailHelp" class="form-text text-muted">El rol no puede cambiarse</small>
                         </div>
                         <div class="form-group mt-3">
@@ -33,6 +33,9 @@
                             <h5 class="p-0">Contraseña</h5>
                             <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
                         </div>
+                        <input type="hidden" value="<%=usuario%>">
+
+                        </input>
                         <div class="form-group mt-3">
                             <button type="submit" class="btn btn-primary" value="Modificar Cuenta">Aceptar</button>
                         </div>

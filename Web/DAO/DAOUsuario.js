@@ -114,8 +114,17 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    
-                    connection.query("UPDATE usuario SET nombre = ?, contrasenya = ? WHERE nombre = ?",[nombreAct,contrasenya,nombreAnt],
+                    var query = `UPDATE usuario SET 
+                    nombre = (case when `+ connection.escape(nombreAct) + `<> '' then `+ connection.escape(nombreAct)+` else nombre end) ,
+                    contrasenya = (case when `+ connection.escape(contrasenya) + ` <> '' then `+ connection.escape(contrasenya) + ` else contrasenya) 
+                    WHERE nombre = `+ connection.escape(nombreAnt);
+
+                    connection.query(
+                        `UPDATE usuario SET 
+                        nombre = (case when `+ connection.escape(nombreAct) + `<> '' then `+ connection.escape(nombreAct)+` else nombre end) ,
+                        contrasenya = (case when `+ connection.escape(contrasenya) + ` <> '' then `+ connection.escape(contrasenya) + ` else contrasenya end) 
+                        WHERE nombre = `+ connection.escape(nombreAnt),
+                        [nombreAct,contrasenya,nombreAnt],
                     function(err, rows){
                         if(err){
                             connection.release();

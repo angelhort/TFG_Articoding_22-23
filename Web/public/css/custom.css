@@ -118,3 +118,6 @@ nav{
 .cursorOnHover{
     cursor: pointer;
 }
+input::placeholder{
+    font-weight: bold;
+}
