@@ -114,7 +114,7 @@ module.exports = function(dataPath, daoU){
         response.render("errores");
     });
 
-    profesor.get("/erroresAlumnos", function(request, response){
+    profesor.get("/erroresParticipantes", function(request, response){
         fs.readFile(dataPath + request.session.instituto + "/errores" + request.query.concepto + ".json", function(err, data){
             if(err){
                 //TODO pagina error 500
@@ -191,7 +191,7 @@ module.exports = function(dataPath, daoU){
         });
     });
 
-    profesor.get("/alumnos", function(request, response){
+    profesor.get("/participantes", function(request, response){
         fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
             if(err){
                 //TODO pagina error 500

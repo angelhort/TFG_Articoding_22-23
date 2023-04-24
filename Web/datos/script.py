@@ -351,7 +351,7 @@ def generateChartNivelesAlcanzados(niveles, ultNivelCompletado):
         ultNivelCat[(" ".join(level.split("_")[:-1])).capitalize()] = cuantosHanLlegadoAlNivel[level]
     
     df = pd.DataFrame({"levels" : list(ultNivelCat.keys()), "nJugadores" : list(ultNivelCat.values())})
-    fig = px.bar(df, x="levels", y='nJugadores', labels={'levels':'Categorías', 'nJugadores':'Numero Jugadores'}, title = "Categorías superadas")
+    fig = px.bar(df, x="levels", y='nJugadores', labels={'levels':'Categorías', 'nJugadores':'Número Jugadores'}, title = "Categorías superadas")
     fig.update_layout(plot_bgcolor='#C3CEDA')
     fig.update_traces(marker_color='#738FA7', hovertemplate='<b>Numero Jugadores: %{y}</b>')
     fig.write_json("./datos/" + nombreInstituto + "/plots/categoriasSuperadas.json")
