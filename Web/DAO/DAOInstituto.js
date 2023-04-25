@@ -14,19 +14,22 @@ class DAOInstituto {
                     callback(err.message);
                 }
                 else{
-                    connection.query("SELECT nombre FROM instituto", [id], 
+                    connection.query("SELECT DISTINCT * FROM instituto", 
                     function(err, institutos){
                         if(err){
                             connection.release();
                             callback(err.message);
                         }
-                        else if(insti.length === 0){
+                        else if(institutos.length === 0){
                             connection.release();
                             callback("Institutos no existentes");
                         }
                         else{
                             connection.release();
-                            let instis =JSON.parse(JSON.stringify(rows));
+                            var instis = [];
+                            for (let i = 0; i < institutos.length; i++) {
+                                instis.push(institutos[i].nombre);
+                            }
                             callback(null, instis);
                         }
                     });

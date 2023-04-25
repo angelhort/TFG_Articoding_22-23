@@ -11,7 +11,7 @@
         <div class="container-fluid h-100">
             <div class="row h-100">
                 <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
-                    <form id="form_login" method="POST" action="/admin/cuentas/nuevo_usuario" >
+                    <form id="form_login" method="POST" action="/admin/cuentas/nuevoUsuario" >
                         <div class="row mb-3 mt-5">
                             <h1>Nuevo Usuario</h1>
                         </div>
@@ -20,7 +20,7 @@
                             <select class="form-select" name="rol" id="formInstituto" aria-label="Profesor">
                                 <option selected>Seleccione un rol</option>
                                 <option value="profesor">Profesor</option>
-                                <option value="alumno">Almuno</option>
+                                <option value="alumno">Alumnno</option>
                                 <option value="admin">Administrador</option>
                             </select>
                             <small id="rolHelp" class="form-text text-muted">Seleccione el rol del usuario</small>
@@ -30,7 +30,7 @@
                             <select class="form-select"  name="instituto" id="formInstituto">
                                 <option selected>Seleccione un instituto</option>
                                 <% institutos.forEach(instituto => { %>
-                                <option value="<%= instituto %>"><%= instituto %></option>
+                                <option value="<%= instituto %>"><%= instituto%></option>
                                 <% }); %>
                             </select>
                             <small id="instiHelp" class="form-text text-muted">Seleccione el instituto del usuario</small>

@@ -114,10 +114,7 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    var query = `UPDATE usuario SET 
-                    nombre = (case when `+ connection.escape(nombreAct) + `<> '' then `+ connection.escape(nombreAct)+` else nombre end) ,
-                    contrasenya = (case when `+ connection.escape(contrasenya) + ` <> '' then `+ connection.escape(contrasenya) + ` else contrasenya) 
-                    WHERE nombre = `+ connection.escape(nombreAnt);
+                    
 
                     connection.query(
                         `UPDATE usuario SET 
