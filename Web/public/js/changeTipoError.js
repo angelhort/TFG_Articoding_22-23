@@ -38,7 +38,7 @@ function cambiarTabla(){
                 );
             });
         });
-        $("#linkErroresDetallados").attr("href","/profesor/erroresParticipantes?concepto=" + concepto);
+        $("#linkErroresDetallados").attr("href","/profesor/avisos/participantes?concepto=" + concepto);
     })
     .catch(error => console.error(error));
     

@@ -24,8 +24,8 @@
                             <th scope="col" class="text-center">Nombre</th>
                             <th scope="col" class="text-center">Tiempo Jugado</th>
                             <th scope="col" class="text-center">Último nivel alcanzado</th>
-                            <th scope="col" class="text-center">Nº errores por nivel</th>
-                            <th scope="col" class="text-center">Errores</th>
+                            <th scope="col" class="text-center">Nº avisos por nivel</th>
+                            <th scope="col" class="text-center">Avisos</th>
                         </tr>
                     </thead>
                     <tbody id="cuerpoTabla">
@@ -57,7 +57,7 @@
                                 <div class="modal-body">
                                     <% if(jugMasErr[alumno]["id"] in erroresJugadores) { %>
                                         <% erroresJugadores[jugMasErr[alumno]["id"]].forEach((e, i) => { %>
-                                            <h6 class="mb-0"><%= i + 1 %>º Error:</h6>
+                                            <h6 class="mb-0"><%= i + 1 %>º Aviso:</h6>
                                             <%= e.error %>
                                             <br><br>
                                             <h6 class="mb-0">Nivel:</h6>

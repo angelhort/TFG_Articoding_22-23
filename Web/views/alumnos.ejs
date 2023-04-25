@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include("header", {titulo : "Alumnos"}) %>
+    <%- include("header", {titulo : "Participantes"}) %>
     <script src="js/bstable.js"></script>
 </head>
 <body>
@@ -13,6 +13,14 @@
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" id="searchP" placeholder="Nombre o ID">                        
                 </form>
+            </div>
+            <div class="col-auto mt-3">
+                <h6>Ordenar por:</h6>
+                <select class="form-select" id="orden">
+                    <option value="num">Número</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="nivel">Ult. Nivel Alcanzado</option>
+                </select>
             </div>
         </div>
         <div class="row mt-3">

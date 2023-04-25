@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include("header", {titulo : "Errores"}) %>
+    <%- include("header", {titulo : "Avisos"}) %>
     <script src="js/changeTipoError.js"></script>
 </head>
 <body>
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center mt-3">
-                <h2>Errores</h2>
+                <h2>Avisos</h2>
             </div>
         </div>
         <div class="row mt-5 pb-5">
@@ -35,16 +35,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-4">
+                <div class="row mt-4 pe-3">
                     <div class="col-auto">
                         <h6>Participantes con más dificultades:</h6>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Jugador</th>
-                                    <th scope="col">Tiempo</th>
-                                    <th scope="col">Ult. Nivel</th>
-                                    <th scope="col" class="text-center">Nº errores por nivel</th>
+                                    <th scope="col" class="align-middle">Jugador</th>
+                                    <th scope="col" class="align-middle">Tiempo Jugador</th>
+                                    <th scope="col" class="align-middle">Ult. Nivel Alcanzado</th>
+                                    <th scope="col" class="text-center align-middle">Nº avisos por nivel</th>
                                 </tr>
                             </thead>
                             <tbody id ="tablaJugadores"></tbody>
@@ -60,7 +60,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Nivel</th>
-                                    <th scope="col" class="text-center">Errores</th>
+                                    <th scope="col" class="text-center">Avisos</th>
                                     <th scope="col" class="text-center">Jugadores</th>
                                 </tr>
                             </thead>

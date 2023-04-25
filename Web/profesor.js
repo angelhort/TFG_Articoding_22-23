@@ -108,11 +108,11 @@ module.exports = function(dataPath, daoU){
         });
     });
 
-    profesor.get("/errores", function(request, response){
+    profesor.get("/avisos", function(request, response){
         response.render("errores");
     });
 
-    profesor.get("/erroresParticipantes", function(request, response){
+    profesor.get("/avisos/participantes", function(request, response){
         fs.readFile(dataPath + request.session.instituto + "/errores" + request.query.concepto + ".json", function(err, data){
             if(err){
                 //TODO pagina error 500
@@ -359,6 +359,19 @@ module.exports = function(dataPath, daoU){
                 }
             }
         });
+    });
+
+    profesor.get("/getNiveles", function(request, response){
+        fs.readFile(dataPath + request.session.instituto + "/info.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo INFO");
+            }
+            else{
+                const info = JSON.parse(data);
+                response.json({"niveles" : info.niveles});
+            }
+        });      
     });
 
     return profesor;

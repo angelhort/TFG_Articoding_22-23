@@ -360,24 +360,62 @@ $(document).ready(function(){
   $("#searchP").keyup(function(){
       aplicarFiltros(editableTable);
   });
+
+  $("#orden").on("change", function(){
+    aplicarFiltros(editableTable);
+  });
 });
 
 function aplicarFiltros(table){
+  const orden = $("#orden").val();
+
+  if(orden == "num"){
+    listaAlumnos.sort((a,b) => {return a.numAlumno - b.numAlumno});
+    construirTabla(table);
+  }
+  else if(orden == "nivel"){
+    fetch("/profesor/getNiveles")
+        .then(response => response.json())
+        .then(data => {
+          listaAlumnos.sort((a,b) => {
+            return data.niveles.indexOf(b.ultNivel.toLowerCase().replaceAll(" ","_")) - data.niveles.indexOf(a.ultNivel.toLowerCase().replaceAll(" ","_"));
+          });
+          construirTabla(table)
+        });
+  }
+  else if(orden == "nombre"){
+    listaAlumnos.sort((a,b) => {
+      const nombreA = a.nombre.toUpperCase();
+      const nombreB = b.nombre.toUpperCase();
+      if (nombreA < nombreB) {
+        return -1;
+      }
+      if (nombreA > nombreB) {
+        return 1;
+      }
+      return 0;
+    });
+    construirTabla(table);
+  }
+}
+
+function construirTabla(table){
   var alumnos = []
   $("#cuerpoTabla").empty();
+
   listaAlumnos.forEach(function(a){
-      const filtro = new RegExp($("#searchP").val().toLowerCase());
-      if(filtro.test(a.id.toLowerCase()) || filtro.test(a.nombre.toLowerCase())){
-          alumnos.push(
-              '<tr class="alumno" idAlumno ="' + a.id + '" nombre ="' + a.nombre + '" tiempo="'+a.tiempo + '" ultNivel="'+a.ultNivel+'" numAlumno"' + a.numAlumnos +'">' +
-                  '<th scope="row">' + a.numAlumno + '</th>' +
-                  '<td>' + a.id + '</td>' +
-                  '<td>' + a.nombre + '</td>' +
-                  '<td>' + a.tiempo + '</td>' +
-                  '<td>' + a.ultNivel + '</td>' +
-              '</tr>'
-          );   
-      }
+    const filtro = new RegExp($("#searchP").val().toLowerCase());
+    if(filtro.test(a.id.toLowerCase()) || filtro.test(a.nombre.toLowerCase())){
+        alumnos.push(
+            '<tr class="alumno" idAlumno ="' + a.id + '" nombre ="' + a.nombre + '" tiempo="'+a.tiempo + '" ultNivel="'+a.ultNivel+'" numAlumno"' + a.numAlumnos +'">' +
+                '<th scope="row">' + a.numAlumno + '</th>' +
+                '<td>' + a.id + '</td>' +
+                '<td>' + a.nombre + '</td>' +
+                '<td>' + a.tiempo + '</td>' +
+                '<td>' + a.ultNivel + '</td>' +
+            '</tr>'
+        );   
+    }
   });
   $("#cuerpoTabla").append(alumnos);
   table.refresh();
