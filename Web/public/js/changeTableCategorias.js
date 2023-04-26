@@ -21,7 +21,7 @@ function cambiarPlot(){
                     result = result.replaceAll(j, jugadores[j]["nombre"]);
                 }
             }
-            Plotly.newPlot($(this).attr('id'), JSON.parse(result).data, JSON.parse(result).layout, {responsive: true});
+            Plotly.newPlot($(this).attr('id'), JSON.parse(result).data, JSON.parse(result).layout, {responsive: true, 'displaylogo': false});
         })
         .catch(error => console.error(error));
     });
@@ -39,7 +39,7 @@ function cambiarPlot(){
                     result = result.replaceAll(j, jugadores[j]["nombre"]);
                 }
             }
-            Plotly.newPlot($(this).attr('id'), JSON.parse(result).data, JSON.parse(result).layout, {responsive: true});
+            Plotly.newPlot($(this).attr('id'), JSON.parse(result).data, JSON.parse(result).layout, {responsive: true, 'displaylogo': false});
         })
         .catch(error => console.error(error));
     });

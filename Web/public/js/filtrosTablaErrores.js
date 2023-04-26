@@ -7,9 +7,46 @@ $(document).ready(function(){
     $("#searchP").keyup(function(){
         aplicarFiltros(listaAlumnos);
     });
+
+    $("#orden").on("change", function(){
+        aplicarFiltros(listaAlumnos);
+    });
 });
 
 function aplicarFiltros(listaAlumnos){
+    const orden = $("#orden").val();
+
+    if(orden == "num"){
+        listaAlumnos.sort((a,b) => {return b.mediaErrores - a.mediaErrores});
+        construirTabla(listaAlumnos);
+    }
+    else if(orden == "nivel"){
+        fetch("/profesor/getNiveles")
+            .then(response => response.json())
+            .then(data => {
+            listaAlumnos.sort((a,b) => {
+                return data.niveles.indexOf(b.ultNivel.toLowerCase().replaceAll(" ","_")) - data.niveles.indexOf(a.ultNivel.toLowerCase().replaceAll(" ","_"));
+            });
+            construirTabla(listaAlumnos)
+            });
+    }
+    else if(orden == "nombre"){
+        listaAlumnos.sort((a,b) => {
+        const nombreA = a.nombre.toUpperCase();
+        const nombreB = b.nombre.toUpperCase();
+        if (nombreA < nombreB) {
+            return -1;
+        }
+        if (nombreA > nombreB) {
+            return 1;
+        }
+        return 0;
+        });
+        construirTabla(listaAlumnos);
+    }
+}
+
+function construirTabla(listaAlumnos){
     var alumnos = []
     $("#cuerpoTabla").empty();
     listaAlumnos.forEach(function(a){

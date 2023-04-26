@@ -2,17 +2,64 @@
 <html lang="en">
 <head>
     <%- include("header", {titulo : "Errores Alumnos"}) %>
-    <script src="js/filtrosTablaErrores.js"></script>
+    <script src="../js/filtrosTablaErrores.js"></script>
 </head>
 <body>
     <%- include("navBar") %>
     <div class = "container">
-        <div class="row">
-            <div class="col-auto mt-5">
-                <h6>Buscar participante:</h6>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" id="searchP" placeholder="Nombre">                        
-                </form>
+        <div class="row justify-content-between mt-5">
+            <div class="col-auto">
+                <div class="row">
+                    <div class="col">
+                        <h6>Buscar participante:</h6>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" id="searchP" placeholder="Nombre">                        
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <h6>Ordenar por:</h6>
+                        <select class="form-select" id="orden">
+                            <option value="num">Nº Avisos por Nivel</option>
+                            <option value="nombre">Nombre</option>
+                            <option value="nivel">Ult. Nivel Alcanzado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <a href="" data-bs-toggle="modal" data-bs-target="#significadoAviso">¿Qué significa cada aviso?</a>
+            </div>
+            <div class="modal fade" id="significadoAviso" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title fs-5">Significado avisos</h2>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                      <h5>No necesario crear variable</h5>
+                      <p>Significa que el participante ha creado una variable que solo utiliza una vez, por lo tanto, no es necesario crearla.</p>
+                      <hr>
+                      <h5>Asignacion mismo valor en variable</h5>
+                      <p>Indica que el participante ha asignado el mismo valor 2 o más veces en una variable, usando asi valores enteros o de texto de más.</p>
+                      <hr>
+                      <h5>Entero o texto utilizado 2 veces</h5>
+                      <p>Cuando un jugador utiliza un valor entero o de texto 2 o más veces obtiene este error. Tendría que haber creado una variable para almacenar el valor y utilizarlo 1 única vez.</p>
+                      <hr>
+                      <h5>Código muerto</h5>
+                      <p>Significa que el participante ha colocado tarjetas en el tablero por las cuales nunca pasa la ejecución del nivel.</p>
+                      <hr>
+                      <h5>Variable: 'x' no tiene un nombre que siga el estandar de programacion</h5>
+                      <p>El jugador ha nombrado a una variable con un nombre que no sigue la convención de programación. Las variables deben empezar por una letra o _ y contener letras, números y _.</p>
+                      <hr>
+                      <h5>Variable: 'for' es una palabra reservada</h5>
+                      <p>Significa que el participante ha utilizado una palabra reservada para nombrar una variable, en programación esto puede desembocar en que el programa no funcione.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">¡Entendido!</button>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="row mt-3">
@@ -69,7 +116,16 @@
                                     <% } %>
                                 </div>
                                 <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <div class="container">
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <a href="" data-bs-toggle="modal" data-bs-target="#significadoAviso">¿Qué significa cada aviso?</a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             </div>
