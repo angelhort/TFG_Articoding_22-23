@@ -27,7 +27,6 @@ function cambiarTabla(){
 
         $('#tablaNiveles').each(function() {
             $(this).empty()
-            console.log(data["niveles"])
             data["niveles"].forEach(n => {
                 const values = Object.values(n)[0];
                 $('#tablaNiveles:last-child').append(
@@ -39,7 +38,19 @@ function cambiarTabla(){
             });
         });
         $("#linkErroresDetallados").attr("href","/profesor/avisos/participantes?concepto=" + concepto);
+        var plotData = [
+            {
+              x: data.fallosTodosNiveles.map(n => Object.keys(n)[0]),
+              y: data.fallosTodosNiveles.map(n => Math.round((parseInt(n[Object.keys(n)[0]].errores) / parseInt(n[Object.keys(n)[0]].jugadores))*100)/100),
+              name: "Errores por Jugador",
+              type: 'bar'
+            }
+          ];
+        var plotLayout = {
+            title: "Número de errores por cada jugador"
+        };
+          
+        Plotly.newPlot('erroresNivelesPlot', plotData, plotLayout, {responsive: true, 'displaylogo': false});
     })
     .catch(error => console.error(error));
-    
 }

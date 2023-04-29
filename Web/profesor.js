@@ -298,6 +298,13 @@ module.exports = function(dataPath, daoU){
                     }
                     else{
                         const info = JSON.parse(data);
+                        var fallosTodosNiveles = info["nErrores" + request.params.concepto].slice();
+                        fallosTodosNiveles.sort((a,b) =>{
+                            var levelNameA = Object.keys(a)[0];
+                            var levelNameB = Object.keys(b)[0];
+                            return info.niveles.indexOf(levelNameA) - info.niveles.indexOf(levelNameB);
+                        });
+
                         fs.readFile(dataPath + request.session.instituto + "/jugadores.json", function(err, data){
                             if(err){
                                 //TODO pagina error 500
@@ -315,7 +322,7 @@ module.exports = function(dataPath, daoU){
                                     }
                                 }
                                 var jugadoresData = Object.values(jugadores).sort((a, b) => b.mediaErroresVar - a.mediaErroresVar);
-                                response.json({"jugadores" : jugadoresData.slice(0,7), "niveles" : info["nErrores" + request.params.concepto].slice(0,7)});
+                                response.json({"jugadores" : jugadoresData.slice(0,7), "niveles" : info["nErrores" + request.params.concepto].slice(0,7), "fallosTodosNiveles" : fallosTodosNiveles});
                             }
                         });
                     }

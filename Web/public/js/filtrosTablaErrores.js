@@ -44,6 +44,17 @@ function aplicarFiltros(listaAlumnos){
         });
         construirTabla(listaAlumnos);
     }
+    else if(orden == "tiempo"){
+        listaAlumnos.sort((a,b) =>{
+          const [secondsA, minutesA, hoursA] = a.tiempo.split("/").reverse();
+          const secA = (hoursA ? parseInt(hoursA, 10) * 3600 : 0) + (minutesA ? parseInt(minutesA, 10) * 60 : 0) + (secondsA ? parseInt(secondsA, 10) : 0);
+          
+          const [secondsB, minutesB, hoursB] = b.tiempo.split("/").reverse();
+          const secB =  (hoursB ? parseInt(hoursB, 10) * 3600 : 0) + (minutesB ? parseInt(minutesB, 10) * 60 : 0) + (secondsB ? parseInt(secondsB, 10) : 0);
+            return secB - secA;
+        });
+        construirTabla(listaAlumnos);
+    }
 }
 
 function construirTabla(listaAlumnos){
