@@ -26,12 +26,46 @@ module.exports = function(dataPath, daoU){
                 console.log("No se encuentran institutos");
             }
             else{
-                var idsInstitutos = []
-                institutos.forEach(i =>{
-                    idsInstitutos.push(i.id);
-                });
-                request.session.institutos = idsInstitutos;
-                response.render("clases", {"institutos" : institutos});
+                const institutosKeys = Object.keys(institutos);
+                const dataToSend = [];
+
+                for (const key of institutosKeys) {
+                    const instituto = institutos[key];
+                    fs.readFile(dataPath + instituto.id + "/info.json", function (err, data) {
+                        if (err) {
+                            dataToSend.push({
+                                "nombre": instituto.nombre,
+                            });
+                        } else {
+                            const info = JSON.parse(data);
+                            dataToSend.push({
+                                "id" : instituto.id,
+                                "nombre": instituto.nombre,
+                                "fecha": info.fechaSesion,
+                                "jugadores": info.nJugadores
+                            });
+                            if (dataToSend.length === institutosKeys.length) {
+                                var idsInstitutos = [];
+                                institutos.forEach((inst, i) => {
+                                    idsInstitutos.push(inst.id);
+                                });
+                                request.session.institutos = idsInstitutos;
+                                dataToSend.sort((a,b) => {
+                                    const nombreA = a.nombre.toUpperCase();
+                                    const nombreB = b.nombre.toUpperCase();
+                                    if (nombreA < nombreB) {
+                                        return -1;
+                                    }
+                                    if (nombreA > nombreB) {
+                                        return 1;
+                                    }
+                                    return 0;
+                                });
+                                response.render("clases", { "institutos": dataToSend });
+                            }
+                        }
+                    });
+                }
             }
         }
     });

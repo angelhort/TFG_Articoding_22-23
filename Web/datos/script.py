@@ -50,7 +50,10 @@ def extraerTiemposPorNivelJugador(rawData):
     erCategoryMain = re.compile(r'\bcategories_main$\b') 
 
     estandarNombreVar = re.compile(r'^_*[a-zA-Z][a-zA-Z0-9_]*$')
- 
+    
+    fechaSesion = {"inicio" : None, "fin" : None}
+    fechaSesion["inicio"] = rawData[0]["timestamp"]
+    fechaSesion["fin"] = rawData[-1]["timestamp"]
     
     for evento in rawData:
         verb = evento["verb"]["id"]
@@ -180,7 +183,7 @@ def extraerTiemposPorNivelJugador(rawData):
             except:
                 None
     
-    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresVar" : erroresVar, "erroresCod" : erroresCod}
+    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresVar" : erroresVar, "erroresCod" : erroresCod, "fechaSesion" : fechaSesion}
 
 def tiempoPorNiveles_Jugador(data):
     tiemposJugados = defaultdict(defaultdict)
@@ -403,7 +406,7 @@ def getListaCategorias(listaNiveles):
     listCod = sorted(listCod, key=lambda x: x[list(x.keys())[0]]['errores'], reverse=True)
 
     with open("./datos/" + nombreInstituto + "/info.json", 'w') as json_file:
-        json.dump({"categorias" : categorias, "niveles" : list(listaNiveles), "nErroresVar" : listVar, "nErroresCod" : listCod}, json_file)
+        json.dump({"categorias" : categorias, "niveles" : list(listaNiveles), "nErroresVar" : listVar, "nErroresCod" : listCod, "fechaSesion" : resultados_Tiempos_Nivel_Jugador["fechaSesion"], "nJugadores" : len(ultNivelAlcanzado)}, json_file)
     return categorias
 
 def create_boxplots(data_dict, titulo):
