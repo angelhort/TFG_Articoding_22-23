@@ -30,7 +30,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <a href="/profesor/generarDatos/<%= i.id %>" class="btn btn-primary">Ver resultados sesión</a>
+                                        <a href="/profesor/generarDatos/<%= i.id %>" class="btn btn-primary">
+                                            <% if(i.jugadores){ %>
+                                                Ver resultados sesión
+                                            <% } else {%>
+                                                Analizar Sesión
+                                            <% } %>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

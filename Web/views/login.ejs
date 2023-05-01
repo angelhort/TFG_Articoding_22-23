@@ -21,6 +21,11 @@
                         <h5 class="p-0">Contraseña</h5>
                         <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
                     </div>
+                    <% if (errorMsg) { %>
+                        <div class="alert alert-danger mt-3" role="alert">
+                            <%= errorMsg %>
+                        </div>    
+                    <% } %>
                     <div class="row mt-5">
                         <div class="col text-center">
                             <input type="submit" class="btn btn-primary" value="Iniciar Sesión" />

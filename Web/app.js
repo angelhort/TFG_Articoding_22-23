@@ -22,6 +22,7 @@ const sessionStore = new MySQLStore({
     database: "Articoding"
 });
 
+const bcrypt = require("bcrypt");
 
 const app = express();
 
@@ -51,7 +52,7 @@ const profesor = require("./profesor")(dataPath, daoU);
 app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
-    response.render("login")
+    response.render("login", {"errorMsg" : null});
 });
 
 app.get("/logout", function(request, response){
@@ -59,8 +60,18 @@ app.get("/logout", function(request, response){
     response.redirect("/login");
 });
 
+/*
+    CIFRAR CONTRASENIAS 
+    const saltRounds = 10;
+    const plaintextPassword = 'password123';
+
+    bcrypt.hash(plaintextPassword, saltRounds, function(err, hash) {
+    console.log(hash);
+    });
+*/
+
 app.post("/login", function(request, response){
-    daoU.isUserCorrect(request.body.usuario, request.body.contrasenia, usuarioCorrecto);
+    daoU.getUser(request.body.usuario, usuarioCorrecto);
     function usuarioCorrecto(error, ok, usuario){
         if(error){
             response.status(500);
@@ -68,24 +79,30 @@ app.post("/login", function(request, response){
             //TODO añadir pagina error 500
         }
         else if(ok){
-            request.session.usuario = usuario.nombre;
-            request.session.rol = usuario.rol;
-            request.session.idProf = usuario.id;
-
-            if (usuario.rol == "profesor"){
-                response.redirect('/profesor/')
-            }
-            else if (usuario.rol == "admin"){
-                response.redirect('/admin/general');
-            }
-                
-           
-        } else{
-            response.status(200);
-            response.render("login",
-                {errorMsg:"Email y/0 contraseña no válidos"});
+            bcrypt.compare(request.body.contrasenia, usuario.contrasenya, function(err, result) {
+                if (result === true) {
+                    request.session.usuario = usuario.nombre;
+                    request.session.rol = usuario.rol;
+                    request.session.idProf = usuario.id;
+                    
+                    if (usuario.rol == "profesor"){
+                        response.redirect('/profesor/')
+                    }
+                    else if (usuario.rol == "admin"){
+                        response.redirect('/admin/general');
+                    }
+                } else {
+                    response.status(200);
+                    response.render("login",
+                        {"errorMsg":"Email y/0 contraseña no válidos"});
+                }
+            });         
         }
     }
+});
+
+app.get("/getUserName", function(request, response){
+    response.json({"nombre" : request.session.usuario ? request.session.usuario : null});
 });
 
 app.listen(config.port, function(err) {

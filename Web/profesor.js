@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require('fs');
 
 const profesor = express.Router();
+const bcrypt = require("bcrypt");
 
 module.exports = function(dataPath, daoU){
     profesor.use(express.static(path.join(__dirname, "public")));
@@ -34,8 +35,28 @@ module.exports = function(dataPath, daoU){
                     fs.readFile(dataPath + instituto.id + "/info.json", function (err, data) {
                         if (err) {
                             dataToSend.push({
-                                "nombre": instituto.nombre,
+                                "id" : instituto.id,
+                                "nombre": instituto.nombre
                             });
+                            if (dataToSend.length === institutosKeys.length){
+                                var idsInstitutos = [];
+                                institutos.forEach((inst, i) => {
+                                    idsInstitutos.push(inst.id);
+                                });
+                                request.session.institutos = idsInstitutos;
+                                dataToSend.sort((a,b) => {
+                                    const nombreA = a.nombre.toUpperCase();
+                                    const nombreB = b.nombre.toUpperCase();
+                                    if (nombreA < nombreB) {
+                                        return -1;
+                                    }
+                                    if (nombreA > nombreB) {
+                                        return 1;
+                                    }
+                                    return 0;
+                                });
+                                response.render("clases", { "institutos": dataToSend });
+                            }
                         } else {
                             const info = JSON.parse(data);
                             dataToSend.push({
@@ -413,6 +434,25 @@ module.exports = function(dataPath, daoU){
                 response.json({"niveles" : info.niveles});
             }
         });      
+    });
+
+    profesor.post("/editarDatos", function(request, response){
+        bcrypt.hash(request.body.contrasenia, 10, function(err, hash) {
+            daoU.updateUser(request.session.usuario, request.body.usuario, hash, userUpdated);
+            function userUpdated(err, result){
+                if(err){
+                    //TODO pagina error 500
+                    console.log("Fallo al actualizar profe");
+                    response.status(500);
+                    response.end();
+                }
+                else{
+                    request.session.usuario = request.body.usuario;
+                    response.status(200);
+                    response.end();
+                }
+            }
+        });
     });
 
     return profesor;

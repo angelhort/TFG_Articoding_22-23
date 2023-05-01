@@ -6,7 +6,7 @@ class DAOUsuario {
         this.#poolConnections = poolConnections;
     }
 
-    isUserCorrect(usuario, contrasenia, callback){
+    getUser(usuario, callback){
         this.#poolConnections.getConnection(
             function (err, connection) {
                 if (err){
@@ -14,7 +14,7 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    connection.query("SELECT nombre, contrasenya, id, rol FROM usuario WHERE nombre = ? AND contrasenya = ?", [usuario, contrasenia], 
+                    connection.query("SELECT nombre, contrasenya, id, rol FROM usuario WHERE nombre = ?", [usuario], 
                     function(err, user){
                         if(err){
                             connection.release();
@@ -114,8 +114,6 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    
-
                     connection.query(
                         `UPDATE usuario SET 
                         nombre = (case when `+ connection.escape(nombreAct) + `<> '' then `+ connection.escape(nombreAct)+` else nombre end) ,

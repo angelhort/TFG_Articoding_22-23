@@ -22,10 +22,48 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/profesor/avisos">Avisos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout"><i class="fa-solid fa-gear fa-xl"></i></a>
+                <li class="btn-group" role="group">
+                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-gear fa-xl"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                      <li><a class="dropdown-item" href="" id = "buttonEditarDatos" data-bs-toggle="modal" data-bs-target="#editarDatos">Editar datos</a></li>
+                    </ul>
                 </li>
             </ul>
+        </div>
+        <div class="modal fade" id="editarDatos">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5">Editar Datos</h2>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row px-3">
+                                <h6 class="p-0">Usuario</h6>
+                                <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="Usuario" aria-label="Username"/>
+                            </div>
+                            <hr>
+                            <div class="row mt-4 px-3">
+                                <h6 class="p-0">Nueva Contraseña</h6>
+                                <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
+                            </div>
+                            <hr>
+                            <div class="row mt-4 px-3">
+                                <h6 class="p-0">Repetir contraseña</h6>
+                                <input type="password" class="form-control" name="contrasenia2" id="formContrasenia2" placeholder="**********"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" id = "buttonGuardar">Guardar</button>
+                    </div>
+              </div>
+            </div>
         </div>
     </div>
 </nav>
@@ -53,5 +91,35 @@
                 $("#migaDePan").append('<li class="breadcrumb-item"><a href="'+ acum +'">' + words[i].charAt(0).toUpperCase() + words[i].substring(1) + '</a></li>');
             }
         }
+
+        $("#buttonEditarDatos").on("click", function(){
+            fetch("/getUserName")
+            .then(response => response.json())
+            .then(data => {
+                $("#formUsuario").val(data.nombre);
+            });
+        });
+
+        $("#buttonGuardar").on("click", function(){
+            var formData ={
+                usuario : $("#formUsuario").val(),
+                contrasenia : $("#formContrasenia").val()
+            };
+
+            $("#formContrasenia").val("");
+            $("#formContrasenia2").val("");
+            
+            $.ajax({
+                type: 'POST',
+                url: '/profesor/editarDatos',
+                data: formData,
+                success: function(response) {
+                    $('#editarDatos').modal('hide');
+                },
+                error: function() {
+                    
+                }
+            });
+        });
     });
 </script>
