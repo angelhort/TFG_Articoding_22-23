@@ -31,7 +31,7 @@ class BSTable {
       onDelete: function() {},        // Called after deletion
       onAdd: function() {},           // Called when added a new row
       advanced: {                     // Do not override advanced unless you know what youre doing
-          columnLabel: 'Acciones',
+          columnLabel: 'Editar Nombre',
           buttonHTML: `<div class="btn-group pull-right">
                 <button id="bEdit" type="button" class="btn btn-sm btn-default" style="background-color: transparent; color: black">
                     <span class="fa fa-edit" > </span>
@@ -49,7 +49,7 @@ class BSTable {
     this.table = $('#' + tableId);
     this.options = $.extend(true, defaults, options);
 
-    /** @private */ this.actionsColumnHTML = '<td name="bstable-actions">' + this.options.advanced.buttonHTML + '</td>'; 
+    /** @private */ this.actionsColumnHTML = '<td class="text-center" name="bstable-actions">' + this.options.advanced.buttonHTML + '</td>'; 
 
     //Process "editableColumns" parameter. Sets the columns that will be editable
     if (this.options.editableColumns != null) {
@@ -69,7 +69,7 @@ class BSTable {
    * @since 1.0.0
    */
   init() {
-    this.table.find('thead tr').append('<th name="bstable-actions">' + this.options.advanced.columnLabel + '</th>');  // Append column to header
+    this.table.find('thead tr').append('<th class="text-center" name="bstable-actions">' + this.options.advanced.columnLabel + '</th>');  // Append column to header
     this.table.find('tbody tr').append(this.actionsColumnHTML);
 
     this._addOnClickEventsToActions(); // Add onclick events to each action button in all rows
@@ -424,6 +424,8 @@ function construirTabla(table){
                 '<td>' + a.nombre + '</td>' +
                 '<td>' + a.tiempo + '</td>' +
                 '<td>' + a.ultNivel + '</td>' +
+                '<td class="text-center"><a class="cursorOnHover" data-bs-toggle="modal" data-bs-target="#modalIntentosJugaor' + a.id + '">'+
+                '<i class="fa-solid fa-eye mt-2" style="color:black"></i></a></td>'+
             '</tr>'
         );   
     }

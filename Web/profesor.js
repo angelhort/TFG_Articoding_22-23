@@ -252,10 +252,19 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const infoAlumnos = JSON.parse(data);
-                var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
-                    return entry[1];
+                fs.readFile(dataPath + request.session.instituto + "/tiemposIntentosJugador.json", function(err, data){
+                    if(err){
+                        //TODO pagina error 500
+                        console.log("No se puede leer archivo TIEMPO ALUMNOS");
+                    }
+                    else{
+                        const tiempoAlumnos = JSON.parse(data);
+                        var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
+                            return entry[1];
+                        });
+                        response.render("alumnos", {"infoAlumnos" : infoAlumnosArray, "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : tiempoAlumnos})
+                    }
                 });
-                response.render("alumnos", {"infoAlumnos" : infoAlumnosArray, "nAlumnos" : infoAlumnosArray.length})
             }
         });
     });

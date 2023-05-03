@@ -71,6 +71,9 @@ app.get("/logout", function(request, response){
 */
 
 app.post("/login", function(request, response){
+    if(request.session.usuario){
+        //request.session.destroy();
+    }
     daoU.getUser(request.body.usuario, usuarioCorrecto);
     function usuarioCorrecto(error, ok, usuario){
         if(error){
