@@ -40,7 +40,7 @@
                   <h1 class="modal-title fs-5">Editar Datos</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="bodyModalEditarDatos">
                         <div class="container">
                             <div class="row px-3">
                                 <h6 class="p-0">Usuario</h6>
@@ -117,7 +117,9 @@
                     $('#editarDatos').modal('hide');
                 },
                 error: function() {
-                    
+                    $('#bodyModalEditarDatos').append('<div class="alert alert-danger mt-3" role="alert">'+
+                        'No se han podido actualizar los datos'+
+                    '</div>');
                 }
             });
         });

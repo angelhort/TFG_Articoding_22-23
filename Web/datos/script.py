@@ -187,6 +187,7 @@ def extraerTiemposPorNivelJugador(rawData):
 
 def tiempoPorNiveles_Jugador(data):
     tiemposJugados = defaultdict(defaultdict)
+    tiemposJugadosSerializable = defaultdict(defaultdict)
     for player in data:
         for level in data[player]:
             for times in data[player][level]:
@@ -194,9 +195,11 @@ def tiempoPorNiveles_Jugador(data):
                     timeDifference = Tiempo(times["ini"], times["fin"])
                     if level in tiemposJugados[player]:
                         tiemposJugados[player][level].append({"time" : timeDifference, "stars" : times["stars"]})
+                        tiemposJugadosSerializable[player][level].append({"time" : timeDifference.toString(), "stars" : times["stars"]})
                     else:
                         tiemposJugados[player][level] = [{"time" : timeDifference, "stars" : times["stars"]}]
-    return tiemposJugados
+                        tiemposJugadosSerializable[player][level] = [{"time" : timeDifference.toString(), "stars" : times["stars"]}]
+    return tiemposJugados, tiemposJugadosSerializable
 
 def tiempoTotalJuego(inicioYFinJuego, ultNivelAlcanzado):
     tiempoTotal = defaultdict()
@@ -564,7 +567,9 @@ with open('./datos/'+ nombreInstituto +'/erroresVar.json', 'w') as json_file:
 with open('./datos/'+ nombreInstituto +'/erroresCod.json', "w") as f:
     json.dump(resultados_Tiempos_Nivel_Jugador["erroresCod"], f)
 
-tiemposIntentosJugadores = tiempoPorNiveles_Jugador(resultados_Tiempos_Nivel_Jugador["tiempos"])
+tiemposIntentosJugadores, tiemposIntentosJugadoresSerializable = tiempoPorNiveles_Jugador(resultados_Tiempos_Nivel_Jugador["tiempos"])
+with open('./datos/'+ nombreInstituto +'/tiemposIntentosJugador.json', "w") as f:
+    json.dump({"tiempo" : tiemposIntentosJugadoresSerializable, "intentos" : resultados_Tiempos_Nivel_Jugador["intentosNecesarios"]}, f)
 
 soloPrimerExito = True
 tiemposOrdenados = False
