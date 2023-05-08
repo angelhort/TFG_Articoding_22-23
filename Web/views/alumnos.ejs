@@ -9,18 +9,18 @@
     <div class="container">
         <div class="row">
             <div class="col-auto mt-3">
-                <h6>Buscar participante:</h6>
+                <h6><%= texto.alumnos.buscar %></h6>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" id="searchP" placeholder="Nombre o ID">                        
+                    <input class="form-control me-2" type="search" id="searchP" placeholder="<%= texto.alumnos.nombreOID %>">                        
                 </form>
             </div>
             <div class="col-auto mt-3">
-                <h6>Ordenar por:</h6>
+                <h6><%= texto.alumnos.ordenar %></h6>
                 <select class="form-select" id="orden">
-                    <option value="num">Número</option>
-                    <option value="nombre">Nombre</option>
-                    <option value="nivel">Ult. Nivel Alcanzado</option>
-                    <option value="tiempo">Tiempo Jugado</option>
+                    <option value="num"><%= texto.alumnos.numero %></option>
+                    <option value="nombre"><%= texto.alumnos.nombre %></option>
+                    <option value="nivel"><%= texto.alumnos.ultNivel %></option>
+                    <option value="tiempo"><%= texto.alumnos.tiempo %></option>
                 </select>
             </div>
         </div>
@@ -29,12 +29,12 @@
                 <table class="table table-striped" id="example">
                     <thead>
                         <tr>
-                            <th scope="col">Nº</th>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Tiempo Jugado</th>
-                            <th scope="col">Último nivel alcanzado</th>
-                            <th scope="col" class="text-center">Ver intentos</th>
+                            <th scope="col"><%= texto.comun.tablas.numero %></th>
+                            <th scope="col"><%= texto.comun.tablas.id %></th>
+                            <th scope="col"><%= texto.comun.tablas.nombre %></th>
+                            <th scope="col"><%= texto.comun.tablas.tiempoJugado %></th>
+                            <th scope="col"><%= texto.comun.tablas.ultNivel %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.verIntentos %></th>
                         </tr>
                     </thead>
                     <tbody id="cuerpoTabla">
@@ -54,7 +54,7 @@
                                 <div class="modal-dialog modal-dialog-scrollable">
                                   <div class="modal-content">
                                     <div class="modal-header">
-                                      <h1 class="modal-title fs-5">Información detallada niveles de <%= a.nombre %></h1>
+                                      <h1 class="modal-title fs-5"><%= texto.alumnos.modal.titulo %> <%= a.nombre %></h1>
                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -62,14 +62,14 @@
                                             <h5 class="text-capitalize"><%= l.replaceAll("_", " ")%></h5>
                                                 <% tiempoAlumnos.tiempo[a.id][l].forEach((p, j) => { %>
                                                     <% if(p.stars > 0){ %>
-                                                        <h6 class="text-success">Completado</h6>
+                                                        <h6 class="text-success"><%= texto.alumnos.modal.completado %></h6>
                                                     <% } else {%>
-                                                        <h6 class="text-danger">NO Completado</h6>
+                                                        <h6 class="text-danger"><%= texto.alumnos.modal.noCompletado %></h6>
                                                     <% } %>
-                                                    <p><n class="fw-bold">Tiempo</n> empleado: <%= p.time %></p>
-                                                    <p><n class="fw-bold">Intentos</n> empleados: <%= tiempoAlumnos.intentos[a.id][l][j].intentos %></p>
+                                                    <p><n class="fw-bold"><%= texto.alumnos.modal.tiempo %></n> <%= texto.alumnos.empleado %> <%= p.time %></p>
+                                                    <p><n class="fw-bold"><%= texto.alumnos.modal.intentos %></n> <%= texto.alumnos.modal.empleados %> <%= tiempoAlumnos.intentos[a.id][l][j].intentos %></p>
                                                     <% if(p.stars > 0){ %>
-                                                        <p><n class="fw-bold">Estrellas</n> obtenidas: <%= p.stars %></p>
+                                                        <p><n class="fw-bold"><%= texto.alumnos.modal.estrellas %></n> <%= texto.alumnos.modal.obtenidas %> <%= p.stars %></p>
                                                     <% } %>
                                                     <br>
                                                 <% }) %>
@@ -77,7 +77,7 @@
                                         <% } %>
                                     </div>
                                     <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.alumnos.modal.cerrar %></button>
                                     </div>
                                   </div>
                                 </div>

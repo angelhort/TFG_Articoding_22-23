@@ -11,24 +11,24 @@
             <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
                 <form method="POST" action="/login">
                     <div class="row mb-5">
-                        <h1>Articoding Análisis</h1>
+                        <h1><%= texto.titulo %></h1>
                     </div>
                     <div class="row">
-                        <h5 class="p-0">Usuario</h5>
-                        <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="Usuario" aria-label="Username"/>
+                        <h5 class="p-0"><%= texto.usuario %></h5>
+                        <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="<%= texto.usuario %>" aria-label="Username"/>
                     </div>
                     <div class="row mt-4">
-                        <h5 class="p-0">Contraseña</h5>
+                        <h5 class="p-0"><%= texto.contrasenia %></h5>
                         <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
                     </div>
                     <% if (errorMsg) { %>
                         <div class="alert alert-danger mt-3" role="alert">
-                            <%= errorMsg %>
+                            <%= texto.mensaje %>
                         </div>    
                     <% } %>
                     <div class="row mt-5">
                         <div class="col text-center">
-                            <input type="submit" class="btn btn-primary" value="Iniciar Sesión" />
+                            <input type="submit" class="btn btn-primary" value="<%= texto.iniSesion %>" />
                         </div>
                     </div>
                 </form>

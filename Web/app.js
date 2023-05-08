@@ -12,8 +12,8 @@ const mysql = require("mysql");
 const path = require("path");
 const session = require("express-session")
 const bodyParser = require("body-parser");
-const mysqlSession = require("express-mysql-session");
 const fs = require('fs');
+const mysqlSession = require("express-mysql-session");
 const MySQLStore = mysqlSession(session);
 const sessionStore = new MySQLStore({
     host: "localhost",
@@ -22,6 +22,8 @@ const sessionStore = new MySQLStore({
     database: "Articoding"
 });
 
+const acceptLanguage = require('accept-language-parser');
+const defaultLanguage = "es";
 const bcrypt = require("bcrypt");
 
 const app = express();
@@ -52,7 +54,20 @@ const profesor = require("./profesor")(dataPath, daoU);
 app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
-    response.render("login", {"errorMsg" : null});
+    var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+    if(!fs.existsSync("./" + language + ".json")){
+        language = defaultLanguage;
+    }
+    fs.readFile("./" + language + ".json", function(err, idioma){
+        if(err){
+            //TODO pagina error 500
+            console.log("No se puede leer archivo IDIOMA");
+        }
+        else{
+            const idiomaJSON = JSON.parse(idioma);
+            response.render("login", {"errorMsg" : false, "texto" : idiomaJSON.login});
+        }
+    });
 });
 
 app.get("/logout", function(request, response){
@@ -71,9 +86,6 @@ app.get("/logout", function(request, response){
 */
 
 app.post("/login", function(request, response){
-    if(request.session.usuario){
-        //request.session.destroy();
-    }
     daoU.getUser(request.body.usuario, usuarioCorrecto);
     function usuarioCorrecto(error, ok, usuario){
         if(error){
@@ -97,7 +109,7 @@ app.post("/login", function(request, response){
                 } else {
                     response.status(200);
                     response.render("login",
-                        {"errorMsg":"Email y/0 contraseña no válidos"});
+                        {"errorMsg": true});
                 }
             });         
         }

@@ -4,6 +4,8 @@ const fs = require('fs');
 
 const profesor = express.Router();
 const bcrypt = require("bcrypt");
+const acceptLanguage = require('accept-language-parser');
+const defaultLanguage = "es";
 
 module.exports = function(dataPath, daoU){
     profesor.use(express.static(path.join(__dirname, "public")));
@@ -82,7 +84,20 @@ module.exports = function(dataPath, daoU){
                                     }
                                     return 0;
                                 });
-                                response.render("clases", { "institutos": dataToSend });
+                                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                                if(!fs.existsSync("./" + language + ".json")){
+                                    language = defaultLanguage;
+                                }
+                                fs.readFile("./" + language + ".json", function(err, idioma){
+                                    if(err){
+                                        //TODO pagina error 500
+                                        console.log("No se puede leer archivo IDIOMA");
+                                    }
+                                    else{
+                                        const idiomaJSON = JSON.parse(idioma);
+                                        response.render("clases", { "institutos": dataToSend, "texto" : idiomaJSON.sesiones });
+                                    }
+                                });
                             }
                         }
                     });
@@ -156,7 +171,20 @@ module.exports = function(dataPath, daoU){
                     else{
                         const datosMedios = JSON.parse(data);
                         const nJugadores = Object.keys(JSON.parse(jugadores)).length;
-                        response.render("resumen", {"medias" : datosMedios["general"], "nJugadores" : nJugadores})
+                        var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                        if(!fs.existsSync("./" + language + ".json")){
+                            language = "en";
+                        }
+                        fs.readFile("./" + language + ".json", function(err, idioma){
+                            if(err){
+                                //TODO pagina error 500
+                                console.log("No se puede leer archivo IDIOMA");
+                            }
+                            else{
+                                const idiomaJSON = JSON.parse(idioma);
+                                response.render("resumen", {"medias" : datosMedios["general"], "nJugadores" : nJugadores, "texto" : {"resumen" : idiomaJSON.resumen, "comun" : idiomaJSON.comun}})
+                            }
+                        });
                     }
                 });
             }
@@ -262,7 +290,20 @@ module.exports = function(dataPath, daoU){
                         var infoAlumnosArray = Object.entries(infoAlumnos).map(function(entry) {
                             return entry[1];
                         });
-                        response.render("alumnos", {"infoAlumnos" : infoAlumnosArray, "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : tiempoAlumnos})
+                        var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                        if(!fs.existsSync("./" + language + ".json")){
+                            language = defaultLanguage;
+                        }
+                        fs.readFile("./" + language + ".json", function(err, idioma){
+                            if(err){
+                                //TODO pagina error 500
+                                console.log("No se puede leer archivo IDIOMA");
+                            }
+                            else{
+                                const idiomaJSON = JSON.parse(idioma);
+                                response.render("alumnos" , {"infoAlumnos" : infoAlumnosArray, "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : tiempoAlumnos, "texto" : {"alumnos" : idiomaJSON.alumnos, "comun" : idiomaJSON.comun}});
+                            }
+                        });
                     }
                 });
             }
