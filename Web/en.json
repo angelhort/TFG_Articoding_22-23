@@ -1,0 +1,62 @@
+{
+    "comun" : {
+        "tablas" : {
+            "categorias" : "Categories",
+            "tiempo" : "Time", 
+            "intentos" : "Tries",
+            "numero" : "Nº",
+            "id" : "ID",
+            "nombre" : "Name",
+            "tiempoJugado" : "Time played",
+            "ultNivel" : "Last level passed",
+            "verIntentos" : "View tries",
+            "editar" : "Edit name"
+        }
+    },
+
+    "login" : {
+        "titulo" : "Articoding Analysis",
+        "usuario" : "User",
+        "contrasenia" : "Password",
+        "iniSesion" : "Log In",
+        "mensaje" : "Email or password not valid"
+    },
+
+    "sesiones" : {
+        "titulo" : "Sessions",
+        "participantes" : "Players",
+        "entrar" : "Enter for results",
+        "resultados" : "See session results",
+        "analizar" : "Analyze session"
+    }, 
+
+    "resumen":{
+        "titulo" : "General results",
+        "subT1" : "Passed categories",
+        "subT2" : "Results",
+        "subT3" : "Number of players: ",
+        "subT4" : "Average values of the class"
+    },
+
+    "alumnos" :{
+        "buscar" : "Search player:",
+        "nombreOID" : "Name or ID",
+        "ordenar" : "Order by:",
+        "numero" : "Number",
+        "nombre" : "Name",
+        "ultNivel" : "Last level passed",
+        "tiempo" : "Time played",
+        "modal" : {
+            "titulo" : "Detailed level info of ",
+            "completado" : "Passed",
+            "noCompletado" : "NOT Passed",
+            "tiempo" : "Time",
+            "empleado" : "used:",
+            "intentos" : "Tries",
+            "empleados" : "used:",
+            "estrellas" : "Stars",
+            "obtenidas" : "obtained:",
+            "cerrar" : "Close"
+        }
+    }
+}

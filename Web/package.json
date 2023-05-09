@@ -1,0 +1,22 @@
+{
+  "name": "analisis_articoding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --ignore *.json app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "accept-language-parser": "^1.5.0",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.0-alpha1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-mysql-session": "^2.1.8",
+    "express-session": "^1.17.3",
+    "mysql": "^2.18.1"
+  }
+}

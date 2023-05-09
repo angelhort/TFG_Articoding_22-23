@@ -1,0 +1,253 @@
+{
+    "porcentaje": {
+        "Tutorials": 0,
+        "Variables": 0,
+        "Types": 0,
+        "Basic operators": 0,
+        "Loops": 0,
+        "Conditionals": 0,
+        "Procedures": 0
+    },
+    "tiempoMedio": {
+        "Tutorials": {
+            "tutorials_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Variables": {
+            "variables_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_10": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Types": {
+            "types_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Basic operators": {
+            "basic_operators_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Loops": {
+            "loops_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Conditionals": {
+            "conditionals_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Procedures": {
+            "procedures_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "procedures_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "procedures_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        }
+    },
+    "numeroAlumnos": 0,
+    "institutos": []
+}

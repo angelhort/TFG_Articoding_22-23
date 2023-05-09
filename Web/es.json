@@ -1,0 +1,76 @@
+{
+    "comun" : {
+        "tablas" : {
+            "categorias" : "Categorías",
+            "tiempo" : "Tiempo", 
+            "intentos" : "Intentos",
+            "numero" : "Nº",
+            "id" : "ID",
+            "nombre" : "Nombre",
+            "tiempoJugado" : "Tiempo Jugado",
+            "ultNivel" : "Último Nivel Alcanzado",
+            "verIntentos" : "Ver intentos",
+            "editar" : "Editar Nombre",
+            "nivel" : "Nivel",
+            "estrellas" : "Estrellas",
+            "participantes" : "Participantes"
+        },
+        "modalConocimientos":{
+            
+        }
+    },
+
+    "login" : {
+        "titulo" : "Articoding Análisis",
+        "usuario" : "Usuario",
+        "contrasenia" : "Contraseña",
+        "iniSesion" : "Iniciar Sesión",
+        "mensaje" : "Email y/0 contraseña no válidos"
+    },
+
+    "sesiones" : {
+        "titulo" : "Sesiones",
+        "participantes" : "Participantes",
+        "entrar" : "Entrar para ver resultados",
+        "resultados" : "Ver resultados Sesión",
+        "analizar" : "Analizar Sesión"
+    }, 
+
+    "resumen":{
+        "titulo" : "Resultados Generales",
+        "subT1" : "Categorías Superadas",
+        "subT2" : "Resultados",
+        "subT3" : "Número de participantes:",
+        "subT4" : "Valores medios de la clase"
+    },
+
+    "alumnos" :{
+        "buscar" : "Buscar participante:",
+        "nombreOID" : "Nombre o ID",
+        "ordenar" : "Ordenar por:",
+        "numero" : "Número",
+        "nombre" : "Nombre",
+        "ultNivel" : "Ult. Nivel Alcanzado",
+        "tiempo" : "Tiempo Jugado",
+        "modal" : {
+            "titulo" : "Información detallada niveles de",
+            "completado" : "Completado",
+            "noCompletado" : "NO Completado",
+            "tiempo" : "Tiempo",
+            "empleado" : "empleado:",
+            "intentos" : "Intentos:",
+            "empleados" : "empleados:",
+            "estrellas" : "Estrellas",
+            "obtenidas" : "obtenidas",
+            "cerrar" : "Cerrar"
+        }
+    },
+
+    "categorias":{
+        "conocimientosTitulo" : "¿Qué conocimientos se adquieren en cada categoría?",
+        "subT1" : "Valores medios de la clase",
+        "subT2" : "Distribución tiempo empleado",
+        "representacionBoxplots" : "¿Qué representan los boxplots?",
+        "subT3" : "Distribución intentos"
+    } 
+}

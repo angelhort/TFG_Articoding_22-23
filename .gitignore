@@ -1,4 +1,5 @@
 *.json
 *.ipynb_checkpoints
 *.pyc
-!Web/node_modules/**/*.json
+!Web/**/*.json
+trazasOrdenadas.json
