@@ -96,7 +96,12 @@
                 fetch(ruta)
                 .then(response => response.json())
                 .then(data => {
-                    // Create the Plotly graph using the JSON data
+                    data.data = data.data.map(e => {
+                        e.y = e.y.map(p => {
+                            return Math.round(p * 100) / 100;
+                        });
+                        return e
+                    });
                     Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true, 'displaylogo': false});
                 })
                 .catch(error => console.error(error));
@@ -107,11 +112,35 @@
                 fetch(ruta + categoria)
                 .then(response => response.json())
                 .then(data => {
-                    // Create the Plotly graph using the JSON data
+                    data.data = data.data.map(e =>{
+                        e.customdata = e.y.map(formatTime);
+                        e.hovertemplate = '<b>%{customdata}</b>'
+                        return e;
+                    });
                     Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true, 'displaylogo': false});
                 })
                 .catch(error => console.error(error));
             });
+        }
+
+        function formatTime(seconds) {
+            seconds = Math.round(seconds);
+            var hours = Math.floor(seconds / 3600);
+            var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+            var remainingSeconds = seconds - (hours * 3600) - (minutes * 60);
+        
+            var timeArray = [];
+            if (hours > 0) {
+            timeArray.push(hours + 'h');
+            }
+            if (minutes > 0) {
+            timeArray.push(minutes + 'm');
+            }
+            if (remainingSeconds > 0 || timeArray.length === 0) {
+            timeArray.push(remainingSeconds + 's');
+            }
+        
+            return timeArray.join('/');
         }
     </script>
 </body>

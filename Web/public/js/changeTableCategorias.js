@@ -21,7 +21,10 @@ function cambiarPlot(){
                     result = result.replaceAll(j, jugadores[j]["nombre"]);
                 }
             }
-            Plotly.newPlot($(this).attr('id'), JSON.parse(result).data, JSON.parse(result).layout, {responsive: true, 'displaylogo': false});
+            modifiedResult = JSON.parse(result);
+            modifiedResult.data[0].customdata = modifiedResult.data[0].y.map(formatTime);
+            modifiedResult.data[0].hovertemplate = "<b>%{hovertext}</b><br>Tiempo(s): %{customdata}";
+            Plotly.newPlot($(this).attr('id'), modifiedResult.data, modifiedResult.layout, {responsive: true, 'displaylogo': false});
         })
         .catch(error => console.error(error));
     });
@@ -64,3 +67,22 @@ function cambiarPlot(){
         .catch(error => console.error(error));
     });
 }
+
+function formatTime(seconds) {
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+    var remainingSeconds = seconds - (hours * 3600) - (minutes * 60);
+  
+    var timeArray = [];
+    if (hours > 0) {
+      timeArray.push(hours + 'h');
+    }
+    if (minutes > 0) {
+      timeArray.push(minutes + 'm');
+    }
+    if (remainingSeconds > 0 || timeArray.length === 0) {
+      timeArray.push(remainingSeconds + 's');
+    }
+  
+    return timeArray.join('/');
+  }
