@@ -16,7 +16,24 @@
             "participantes" : "Participantes"
         },
         "modalConocimientos":{
-            
+            "titulo" : "Conocimientos adquiridos en cada categoría",
+            "categorias": [
+                {"titulo" : "Introducción:",
+                "contenido" : "En esta categoría se aprenden los conceptos básicos sobre el juego, las diferentes acciones que se pueden realizar sobre los objetos y su funcionamiento."},
+                {"titulo" : "Variables:",
+                "contenido" : "Dentro de esta sección de niveles se aprende cómo es el funcionamiento de una variable, la cual puede ser usada en diferentes lugares del mismo código."},
+                {"titulo" : "Tipos de datos:",
+                "contenido" : "En estos niveles se enseñan los distintos tipos de variables que hay en el juego, por ejemplo: letras, palabras, números, etc."},
+                {"titulo" : "Operadores básicos:",
+                "contenido" : "Aquí se muestran las diversas operaciones que se pueden llevar a cabo con los distintos tipos de datos, como comparaciones, sumas, restas..."},
+                {"titulo" : "Bucles:",
+                "contenido" : "Al completar estos niveles se aprenderá a programar código que se repetirá un número de veces concreta o mientras se cumpla una condición usando bucles while o for."},
+                {"titulo" : "Condiciones:",
+                "contenido" : "Empleando el tipo de dato 'bool' visto anteriormente, se aprenderá a desarrollar codigo condicional empleando sentencias if, if-else, etc."},
+                {"titulo" : "Funciones:",
+                "contenido" : "Por último, en esta categoría de niveles se mostrará como se puede organizar y limpiar el código usando funciones."}
+            ],
+            "cerrar" : "¡Entendido!"
         }
     },
 
@@ -71,6 +88,16 @@
         "subT1" : "Valores medios de la clase",
         "subT2" : "Distribución tiempo empleado",
         "representacionBoxplots" : "¿Qué representan los boxplots?",
-        "subT3" : "Distribución intentos"
-    } 
+        "subT3" : "Distribución intentos",
+        "modalBoxplots" : {
+            "titulo" : "¿Qué es un boxplot?",
+            "contenido" : "En las gráficas de vela, también llamados boxplots, se muestran distintos valores estadísticos, como los cuartiles, la mediana, los valores mínimos, máximos y atípicos del conjunto, para así poder analizar gráficamente la dispersión del conjunto de datos.",
+            "cerrar" : "¡Entendido!"
+        }
+    },
+
+    "comparativa":{
+        "titulo" : "Comparativa General",
+        "conocimientosTitulo" : "¿Qué conocimientos se adquieren en cada categoría?"
+    }
 }

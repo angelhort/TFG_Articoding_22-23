@@ -251,7 +251,20 @@ module.exports = function(dataPath, daoU){
                     }
                     else{
                         const infoJ = JSON.parse(dataJ);
-                        response.render("categorias", {"info" : info, "jugadores" : infoJ});
+                        var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                        if(!fs.existsSync("./" + language + ".json")){
+                            language = "en";
+                        }
+                        fs.readFile("./" + language + ".json", function(err, idioma){
+                            if(err){
+                                //TODO pagina error 500
+                                console.log("No se puede leer archivo IDIOMA");
+                            }
+                            else{
+                                const idiomaJSON = JSON.parse(idioma);
+                                response.render("categorias", {"info" : info, "jugadores" : infoJ, "texto" : {"categorias" : idiomaJSON.categorias, "comun" : idiomaJSON.comun}});
+                            }
+                        });
                     }
                 });
             }
@@ -267,7 +280,20 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const info = JSON.parse(data);
-                response.render("comparativa", {"info" : info})
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                    if(!fs.existsSync("./" + language + ".json")){
+                        language = "en";
+                    }
+                    fs.readFile("./" + language + ".json", function(err, idioma){
+                        if(err){
+                            //TODO pagina error 500
+                            console.log("No se puede leer archivo IDIOMA");
+                        }
+                        else{
+                            const idiomaJSON = JSON.parse(idioma);
+                            response.render("comparativa", {"info" : info, "texto" : {"comparativa" : idiomaJSON.comparativa, "comun" : idiomaJSON.comun}});
+                        }
+                    });
             }
         });
     });

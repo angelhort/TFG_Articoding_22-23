@@ -22,39 +22,24 @@
                                 </select>
                             </div>
                             <div class="col-auto">
-                                <a href="" data-bs-toggle="modal" data-bs-target="#conocimientosCategoria">¿Qué conocimientos se adquieren en cada categoría?</a>
+                                <a href="" data-bs-toggle="modal" data-bs-target="#conocimientosCategoria"><%= texto.categorias.conocimientosTitulo %></a>
                             </div>
                             <div class="modal fade" id="conocimientosCategoria" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
                                   <div class="modal-content">
                                     <div class="modal-header">
-                                      <h2 class="modal-title fs-5">Conocimientos adquiridos en cada categoría</h2>
+                                      <h2 class="modal-title fs-5"><%= texto.comun.modalConocimientos.titulo %></h2>
                                       <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h5>Introducción:</h5>
-                                        <p>En esta categoría se aprenden los conceptos básicos sobre el juego, las diferentes acciones que se pueden realizar sobre los objetos y su funcionamiento.</p>
-                                        <hr>
-                                        <h5>Variables:</h5>
-                                        <p>Dentro de esta sección de niveles se aprende cómo es el funcionamiento de una variable, la cual puede ser usada en diferentes lugares del mismo código.</p>
-                                        <hr>
-                                        <h5>Tipos de datos:</h5> 
-                                        <p>En estos niveles se enseñan los distintos tipos de variables que hay en el juego, por ejemplo: letras, palabras, números, etc.</p>
-                                        <hr>
-                                        <h5>Operadores básicos:</h5>
-                                        <p>Aquí se muestran las diversas operaciones que se pueden llevar a cabo con los distintos tipos de datos, como comparaciones, sumas, restas...</p>
-                                        <hr>
-                                        <h5>Bucles:</h5>
-                                        <p>Al completar estos niveles se aprenderá a programar código que se repetirá un número de veces concreta o mientras se cumpla una condición usando bucles while o for.</p>
-                                        <hr>
-                                        <h5>Condiciones:</h5>
-                                        <p>Empleando el tipo de dato 'bool' visto anteriormente, se aprenderá a desarrollar codigo condicional empleando sentencias if, if-else, etc.</p>
-                                        <hr>
-                                        <h5>Funciones:</h5>
-                                        <p>Por último, en esta categoría de niveles se mostrará como se puede organizar y limpiar el código usando funciones.</p>
+                                        <% texto.comun.modalConocimientos.categorias.forEach(e => { %>
+                                            <h5><%= e.titulo %></h5>
+                                            <p><%= e.contenido %></p>
+                                            <hr>
+                                        <% }); %>
                                     </div>
                                     <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">¡Entendido!</button>
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.comun.modalConocimientos.cerrar %></button>
                                     </div>
                                   </div>
                                 </div>
@@ -64,7 +49,7 @@
                 </div>
                 <div class="row">
                     <div class="col ms-5 mt-5">
-                        <h6>Valores medios de la clase</h6>
+                        <h6><%= texto.categorias.subT1 %></h6>
                     </div>
                 </div>
                 <div class="row ms-lg-5 me-5 mb-5">
@@ -72,11 +57,11 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Nivel</th>
-                                    <th scope="col" class="text-center">Tiempo</th>
-                                    <th scope="col" class="text-center">Estrellas</th>
-                                    <th scope="col" class="text-center">Intentos</th>
-                                    <th scope="col" class="text-center">Participantes</th>
+                                    <th scope="col"><%= texto.comun.tablas.nivel %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.tiempo %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.estrellas %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.intentos %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.participantes %></th>
                                 </tr>
                             </thead>
                             <tbody ruta = "/profesor/getMediasCategoria/">
@@ -88,23 +73,23 @@
             <div class="col-12 col-lg-6">
                 <div class="row ms-5">
                     <div class="col-auto">
-                        <h6>Distribución tiempo empleado</h6>
+                        <h6><%= texto.categorias.subT2 %></h6>
                     </div>
                     <div class="col-auto">                        
-                        <a href="" data-bs-toggle="modal" data-bs-target="#explicacionBoxplots">¿Qué representan los boxplots?</a>
+                        <a href="" data-bs-toggle="modal" data-bs-target="#explicacionBoxplots"><%= texto.categorias.representacionBoxplots %></a>
                     </div>
                     <div class="modal fade" id="explicacionBoxplots" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h2 class="modal-title fs-5">Que es un boxplot</h2>
+                              <h2 class="modal-title fs-5"><%= texto.categorias.modalBoxplots.titulo %></h2>
                               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
-                                <p>En las gráficas de vela, también llamados boxplots, se muestran distintos valores estadísticos, como los cuartiles, la mediana, los valores mínimos, máximos y atípicos del conjunto, para así poder analizar gráficamente la dispersión del conjunto de datos.</p>
+                                <p><%= texto.categorias.modalBoxplots.contenido %></p>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">¡Entendido!</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.categorias.modalBoxplots.cerrar %></button>
                             </div>
                           </div>
                         </div>
@@ -117,7 +102,7 @@
                 </div>
                 <div class="row ms-5 mt-4">
                     <div class="col">
-                        <h6>Distribución intentos</h6>
+                        <h6><%= texto.categorias.subT3 %></h6>
                     </div>
                 </div>
                 <div class="row">

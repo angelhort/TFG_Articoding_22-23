@@ -10,7 +10,30 @@
             "tiempoJugado" : "Time played",
             "ultNivel" : "Last level passed",
             "verIntentos" : "View tries",
-            "editar" : "Edit name"
+            "editar" : "Edit name",
+            "nivel" : "Level",
+            "estrellas" : "Stars",
+            "participantes" : "Players"
+        },
+        "modalConocimientos":{
+            "titulo" : "Knowledge acquired in each category",
+            "categorias": [
+                {"titulo" : "Introduction:",
+                "contenido" : "In this category you learn the basics of the game, the different actions that can be performed on objects and how they work."},
+                {"titulo" : "Variables:",
+                "contenido" : "Within this section of levels you learn how a variable works, which can be used in different places in the same code."},
+                {"titulo" : "Data Types:",
+                "contenido" : "In these levels the different types of variables that are in the game are taught, for example: letters, words, numbers, etc."},
+                {"titulo" : "Basic Operators:",
+                "contenido" : "Here are the various operations that can be carried out with the different types of data, such as comparisons, additions, subtractions..."},
+                {"titulo" : "Loops:",
+                "contenido" : "After completing these levels, you will learn to program code that will be repeated a specific number of times or while a condition is met using while or for loops."},
+                {"titulo" : "Conditions:",
+                "contenido" : "Using the 'bool' data type seen before, you will learn how to develop conditional code using if, if-else, etc. statements."},
+                {"titulo" : "Functions:",
+                "contenido" : "Finally, in this category of levels it will be shown how you can organize and clean up your code using functions."}
+            ],
+            "cerrar" : "Got it!"
         }
     },
 
@@ -58,5 +81,23 @@
             "obtenidas" : "obtained:",
             "cerrar" : "Close"
         }
+    },
+
+    "categorias":{
+        "conocimientosTitulo" : "What knowledge is acquired in each category?",
+        "subT1" : "Average values of the class",
+        "subT2" : "Distribution for time used",
+        "representacionBoxplots" : "What do boxplots represent?",
+        "subT3" : "Distribution for tries",
+        "modalBoxplots" : {
+            "titulo" : "What is a boxplot?",
+            "contenido" : "In the candlestick charts, also called boxplots, different statistical values ​​are shown, such as the quartiles, the median, the minimum, maximum and outlier values ​​of the set, in order to graphically analyze the dispersion of the data set.",
+            "cerrar" : "Got it!"
+        }
+    },
+
+    "comparativa":{
+        "titulo" : "General Comparison",
+        "conocimientosTitulo" : "What knowledge is acquired in each category?"
     }
 }
