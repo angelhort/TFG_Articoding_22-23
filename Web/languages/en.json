@@ -13,7 +13,10 @@
             "editar" : "Edit name",
             "nivel" : "Level",
             "estrellas" : "Stars",
-            "participantes" : "Players"
+            "participantes" : "Players",
+            "nAvisos" : "Nº of warnings per level",
+            "avisos" : "Nº of warnings",
+            "verAvisos" : "Warnings"
         },
         "modalConocimientos":{
             "titulo" : "Knowledge acquired in each category",
@@ -99,5 +102,56 @@
     "comparativa":{
         "titulo" : "General Comparison",
         "conocimientosTitulo" : "What knowledge is acquired in each category?"
+    },
+
+    "avisos" : {
+        "titulo": "Warnings",
+        "exp1" : "The warnings represent errors that the participants have had in their codes once they have passed the level.",
+        "exp2" : "These mistakes are not detected by the game and allow players to complete the levels.",
+        "exp3" : "With these mistakes it is possible to detect if the participants have understood the programming concepts.",
+        "concepto" : "Concept:",
+        "variables" : "Variables",
+        "codigo" : "Code",
+        "verParticipantes" : "View all participants: ",
+        "btnAvisos" : "See warnings",
+        "subT1" : "Participants with the most difficulties:",
+        "exp4" : "Here are the players who have the most warnings per level, the ones who have understood the programming concepts the worst.",
+        "subT2" : "Levels with the most warnings:",
+        "exp5" : "Here we find the levels with the greatest number of warnings. It is convenient to review which concepts are learned at these levels."
+    },
+
+    "avisosAlumnos" : {
+        "buscar" :"Search player:",
+        "nombre" : "Name",
+        "ordenar" : "Order by:",
+        "nAvisos" :"Nº of warnings per level",
+        "ultNivel" :"Last level passed",
+        "tiempo" :"Time played",
+        "significadoAvisos" : "What does each warning mean?",
+        "modalSignificadoAvisos" : {
+            "titulo" : "Meaning Warnings",
+            "avisos" : [
+                {"titulo" : "No necesario crear variable",
+                "texto" : "It means that the participant has created a variable that it only uses once, therefore it is not necessary to create it."},
+                {"titulo" : "Asignacion mismo valor en variable",
+                "texto" : "Indicates that the participant has assigned the same value 2 or more times to a variable, using extra integer or text values."},
+                {"titulo" : "Entero o texto utilizado 2 veces",
+                "texto" : "When a player uses an integer or text value 2 or more times they get this warning. The player should have created a variable to store the value and use it only 1 time."},
+                {"titulo" : "Código muerto",
+                "texto" : "It means that the participant has placed cards on the board through which the execution of the level never passes."},
+                {"titulo" : "Variable: 'x' no tiene un nombre que siga el estandar de programacion",
+                "texto" : "The player has named a variable with a name that does not follow the programming convention. Variables must start with a letter or _ and contain letters, numbers, and _."},
+                {"titulo" : "Variable: 'for' es una palabra reservada",
+                "texto" : "It means that the participant has used a reserved word to name a variable, in programming this can lead to the program not working."}                
+            ],
+            "cerrar" : "Got it!"
+        },
+        "modalAvisos" : {
+            "titulo" : "Warnings",
+            "aviso" : "º Warning:",
+            "nivel" : "Level:",
+            "sinErrores" : "Without Warnings",
+            "cerrar" : "Close"
+        }
     }
 }

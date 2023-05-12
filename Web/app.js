@@ -55,10 +55,10 @@ app.use("/profesor", profesor);
 
 app.get("/login", function(request, response){
     var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
-    if(!fs.existsSync("./" + language + ".json")){
+    if(!fs.existsSync("./languages/" + language + ".json")){
         language = defaultLanguage;
     }
-    fs.readFile("./" + language + ".json", function(err, idioma){
+    fs.readFile("./languages/" + language + ".json", function(err, idioma){
         if(err){
             //TODO pagina error 500
             console.log("No se puede leer archivo IDIOMA");

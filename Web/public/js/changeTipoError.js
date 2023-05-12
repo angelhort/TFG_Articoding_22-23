@@ -18,7 +18,7 @@ function cambiarTabla(){
                 $('#tablaJugadores:last-child').append(
                     '<tr> <th scope="row">' + data["jugadores"][n]["nombre"] + '</th>' +
                         '<td>' + data["jugadores"][n]["tiempo"] + '</td>' +
-                        '<td>' + data["jugadores"][n]["ultNivel"] + '</td>' +
+                        '<td class="text-center">' + data["jugadores"][n]["ultNivel"] + '</td>' +
                         '<td class="text-center">' + data["jugadores"][n]["mediaErroresVar"] + '</td>' +
                     '</tr>'
                 );

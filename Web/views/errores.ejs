@@ -9,50 +9,50 @@
     <div class="container">
         <div class="row">
             <div class="col text-center mt-3">
-                <h2>Avisos</h2>
+                <h2><%= texto.avisos.titulo %></h2>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col offset-lg-2">
-                <p>Los avisos representan fallos que han tenido los participantes en sus códigos una vez estos se han pasado el nivel.</p>
-                <p>Estos fallos no son detectados por el juego y permiten que los jugadores completen los niveles.</p>
-                <p>Con estos fallos se puede detectar si los participantes han entendido los conceptos de programación.</p>
+                <p><%= texto.avisos.exp1 %></p>
+                <p><%= texto.avisos.exp2 %></p>
+                <p><%= texto.avisos.exp3 %></p>
             </div>
         </div>
         <div class="row mt-5">
             <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
                 <div class="row justify-content-between">
                     <div class="col-auto">
-                        <h6>Concepto:</h6>
+                        <h6><%= texto.avisos.concepto %></h6>
                         <select class="form-select">
-                            <option value="Var">Variables</option>
-                            <option value="Cod">Codigo</option>
+                            <option value="Var"><%= texto.avisos.variables %></option>
+                            <option value="Cod"><%= texto.avisos.codigo %></option>
                         </select>
                     </div>
                     <div class="col-auto me-4">
                         <div class="row">
                             <div class="col">
-                                <h6>Ver todos los participantes:</h6>
+                                <h6><%= texto.avisos.verParticipantes %></h6>
                             </div>
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <a href="" class="btn btn-primary" id="linkErroresDetallados">Ver avisos</a>
+                                <a href="" class="btn btn-primary" id="linkErroresDetallados"><%= texto.avisos.btnAvisos %></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-auto">
-                        <h6>Participantes con más dificultades:</h6>
-                        <p>Aquí se encuentran los jugadores que mas avisos tienen por nivel, los que peor han entendido los conceptos de programación.</p>
+                        <h6><%= texto.avisos.subT1 %></h6>
+                        <p><%= texto.avisos.exp4 %></p>
                         <table class="table table-striped mt-3">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="align-middle">Jugador</th>
-                                    <th scope="col" class="align-middle">Tiempo Jugador</th>
-                                    <th scope="col" class="align-middle">Ult. Nivel Alcanzado</th>
-                                    <th scope="col" class="text-center align-middle">Nº avisos por nivel</th>
+                                    <th scope="col" class="align-middle"><%= texto.comun.tablas.nombre %></th>
+                                    <th scope="col" class="align-middle"><%= texto.comun.tablas.tiempoJugado %></th>
+                                    <th scope="col" class="text-center align-middle"><%= texto.comun.tablas.ultNivel %></th>
+                                    <th scope="col" class="text-center align-middle"><%= texto.comun.tablas.nAvisos %></th>
                                 </tr>
                             </thead>
                             <tbody id ="tablaJugadores"></tbody>
@@ -63,14 +63,14 @@
             <div class="col-12 col-lg-6 ps-lg-5">
                 <div class="row">
                     <div class="col">
-                        <h6>Niveles con más avisos:</h6>
-                        <p>Aquí encontramos los niveles en los cuales más número de avisos ha habido. Conviene revisar que se aprende en estos niveles.</p>
+                        <h6><%= texto.avisos.subT2 %></h6>
+                        <p><%= texto.avisos.exp5 %></p>
                         <table class="table table-striped mt-3">
                             <thead>
                                 <tr>
-                                    <th scope="col">Nivel</th>
-                                    <th scope="col" class="text-center">Avisos</th>
-                                    <th scope="col" class="text-center">Jugadores</th>
+                                    <th scope="col"><%= texto.comun.tablas.nivel %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.avisos %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.participantes %></th>
                                 </tr>
                             </thead>
                             <tbody id="tablaNiveles"></tbody>

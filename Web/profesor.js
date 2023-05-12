@@ -85,10 +85,10 @@ module.exports = function(dataPath, daoU){
                                     return 0;
                                 });
                                 var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
-                                if(!fs.existsSync("./" + language + ".json")){
+                                if(!fs.existsSync("./languages/" + language + ".json")){
                                     language = defaultLanguage;
                                 }
-                                fs.readFile("./" + language + ".json", function(err, idioma){
+                                fs.readFile("./languages/" + language + ".json", function(err, idioma){
                                     if(err){
                                         //TODO pagina error 500
                                         console.log("No se puede leer archivo IDIOMA");
@@ -172,10 +172,10 @@ module.exports = function(dataPath, daoU){
                         const datosMedios = JSON.parse(data);
                         const nJugadores = Object.keys(JSON.parse(jugadores)).length;
                         var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
-                        if(!fs.existsSync("./" + language + ".json")){
+                        if(!fs.existsSync("./languages/" + language + ".json")){
                             language = "en";
                         }
-                        fs.readFile("./" + language + ".json", function(err, idioma){
+                        fs.readFile("./languages/" + language + ".json", function(err, idioma){
                             if(err){
                                 //TODO pagina error 500
                                 console.log("No se puede leer archivo IDIOMA");
@@ -192,7 +192,20 @@ module.exports = function(dataPath, daoU){
     });
 
     profesor.get("/avisos", function(request, response){
-        response.render("errores");
+        var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+        if(!fs.existsSync("./languages/" + language + ".json")){
+            language = "en";
+        }
+        fs.readFile("./languages/" + language + ".json", function(err, idioma){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo IDIOMA");
+            }
+            else{
+                const idiomaJSON = JSON.parse(idioma);
+                response.render("errores", {"texto" : {"avisos" : idiomaJSON.avisos, "comun" : idiomaJSON.comun}})
+            }
+        });
     });
 
     profesor.get("/avisos/participantes", function(request, response){
@@ -227,7 +240,21 @@ module.exports = function(dataPath, daoU){
                                     }
                                 }
                                 var jugadoresData = Object.values(jugadores).sort((a, b) => b.mediaErroresVar - a.mediaErroresVar);
-                                response.render("erroresAlumnos" , {"jugMasErr" : jugadoresData, "erroresJugadores" : errores});
+                                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                                if(!fs.existsSync("./languages/" + language + ".json")){
+                                    language = "en";
+                                }
+                                fs.readFile("./languages/" + language + ".json", function(err, idioma){
+                                    if(err){
+                                        //TODO pagina error 500
+                                        console.log("No se puede leer archivo IDIOMA");
+                                    }
+                                    else{
+                                        const idiomaJSON = JSON.parse(idioma);
+                                        response.render("erroresAlumnos" , {"jugMasErr" : jugadoresData, "erroresJugadores" : errores, "texto" : {"avisosAlumnos" : idiomaJSON.avisosAlumnos, "comun" : idiomaJSON.comun}});
+                                    }
+                                });
+                                
                             }
                         });
                     }
@@ -252,10 +279,10 @@ module.exports = function(dataPath, daoU){
                     else{
                         const infoJ = JSON.parse(dataJ);
                         var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
-                        if(!fs.existsSync("./" + language + ".json")){
+                        if(!fs.existsSync("./languages/" + language + ".json")){
                             language = "en";
                         }
-                        fs.readFile("./" + language + ".json", function(err, idioma){
+                        fs.readFile("./languages/" + language + ".json", function(err, idioma){
                             if(err){
                                 //TODO pagina error 500
                                 console.log("No se puede leer archivo IDIOMA");
@@ -281,10 +308,10 @@ module.exports = function(dataPath, daoU){
             else{
                 const info = JSON.parse(data);
                 var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
-                    if(!fs.existsSync("./" + language + ".json")){
+                    if(!fs.existsSync("./languages/" + language + ".json")){
                         language = "en";
                     }
-                    fs.readFile("./" + language + ".json", function(err, idioma){
+                    fs.readFile("./languages/" + language + ".json", function(err, idioma){
                         if(err){
                             //TODO pagina error 500
                             console.log("No se puede leer archivo IDIOMA");
@@ -317,10 +344,10 @@ module.exports = function(dataPath, daoU){
                             return entry[1];
                         });
                         var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
-                        if(!fs.existsSync("./" + language + ".json")){
+                        if(!fs.existsSync("./languages/" + language + ".json")){
                             language = defaultLanguage;
                         }
-                        fs.readFile("./" + language + ".json", function(err, idioma){
+                        fs.readFile("./languages/" + language + ".json", function(err, idioma){
                             if(err){
                                 //TODO pagina error 500
                                 console.log("No se puede leer archivo IDIOMA");

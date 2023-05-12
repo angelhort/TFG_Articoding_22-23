@@ -13,7 +13,10 @@
             "editar" : "Editar Nombre",
             "nivel" : "Nivel",
             "estrellas" : "Estrellas",
-            "participantes" : "Participantes"
+            "participantes" : "Participantes",
+            "nAvisos" : "Nº avisos por nivel",
+            "avisos" : "Nº avisos",
+            "verAvisos" : "Avisos"
         },
         "modalConocimientos":{
             "titulo" : "Conocimientos adquiridos en cada categoría",
@@ -99,5 +102,56 @@
     "comparativa":{
         "titulo" : "Comparativa General",
         "conocimientosTitulo" : "¿Qué conocimientos se adquieren en cada categoría?"
+    },
+
+    "avisos" : {
+        "titulo": "Avisos",
+        "exp1" : "Los avisos representan fallos que han tenido los participantes en sus códigos una vez estos se han pasado el nivel.",
+        "exp2" : "Estos fallos no son detectados por el juego y permiten que los jugadores completen los niveles.",
+        "exp3" : "Con estos fallos se puede detectar si los participantes han entendido los conceptos de programación.",
+        "concepto" : "Concepto:",
+        "variables" : "Variables",
+        "codigo" : "Codigo",
+        "verParticipantes" : "Ver todos los participantes: ",
+        "btnAvisos" : "Ver avisos",
+        "subT1" : "Participantes con más dificultades:",
+        "exp4" : "Aquí se encuentran los jugadores que mas avisos tienen por nivel, los que peor han entendido los conceptos de programación.",
+        "subT2" : "Niveles con más avisos:",
+        "exp5" : "Aquí encontramos los niveles en los cuales más número de avisos ha habido. Conviene revisar que se aprende en estos niveles."
+    },
+
+    "avisosAlumnos" : {
+        "buscar" :"Buscar participante:",
+        "nombre" : "Nombre",
+        "ordenar" : "Ordenar por:",
+        "nAvisos" :"Nº avisos por nivel",
+        "ultNivel" :"Ult. Nivel Alcanzado",
+        "tiempo" :"Tiempo Jugado",
+        "significadoAvisos" : "¿Qué significa cada aviso?",
+        "modalSignificadoAvisos" : {
+            "titulo" : "Significado Avisos",
+            "avisos" : [
+                {"titulo" : "No necesario crear variable",
+                "texto" : "Significa que el participante ha creado una variable que solo utiliza una vez, por lo tanto, no es necesario crearla."},
+                {"titulo" : "Asignacion mismo valor en variable",
+                "texto" : "Indica que el participante ha asignado el mismo valor 2 o más veces en una variable, usando asi valores enteros o de texto de más."},
+                {"titulo" : "Entero o texto utilizado 2 veces",
+                "texto" : "Cuando un jugador utiliza un valor entero o de texto 2 o más veces obtiene este aviso. Tendría que haber creado una variable para almacenar el valor y utilizarlo 1 única vez."},
+                {"titulo" : "Código muerto",
+                "texto" : "Significa que el participante ha colocado tarjetas en el tablero por las cuales nunca pasa la ejecución del nivel."},
+                {"titulo" : "Variable: 'x' no tiene un nombre que siga el estandar de programacion",
+                "texto" : "El jugador ha nombrado a una variable con un nombre que no sigue la convención de programación. Las variables deben empezar por una letra o _ y contener letras, números y _."},
+                {"titulo" : "Variable: 'for' es una palabra reservada",
+                "texto" : "Significa que el participante ha utilizado una palabra reservada para nombrar una variable, en programación esto puede desembocar en que el programa no funcione."}                
+            ],
+            "cerrar" : "¡Entendido!"
+        },
+        "modalAvisos" : {
+            "titulo" : "Avisos",
+            "aviso" : "º Aviso:",
+            "nivel" : "Nivel:",
+            "sinErrores" : "Sin errores",
+            "cerrar" : "Cerrar"
+        }
     }
 }
