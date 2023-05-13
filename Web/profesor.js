@@ -376,6 +376,35 @@ module.exports = function(dataPath, daoU){
         });      
     });
 
+    profesor.get("/getDetallesNivelAlumno/:idAlumno", function(request, response){
+        fs.readFile(dataPath + request.session.instituto + "/tiemposIntentosJugador.json", function(err, data){
+            if(err){
+                //TODO pagina error 500
+                console.log("No se puede leer archivo DETALLES NIVEL ALUMNO");
+            }
+            else{
+                const info = JSON.parse(data);
+                const idA = request.params.idAlumno;
+                var niveles = []
+                var tiempos = []
+                var intentos = []
+                for(var n in info.tiempo[idA]){
+                    var passed = false;
+                    info.tiempo[idA][n].forEach((e, i) =>{
+                        if(e.stars > 0 && !passed){
+                            levelName = n.replaceAll("_", " ");
+                            niveles.push(levelName.charAt(0).toUpperCase() + levelName.slice(1));
+                            tiempos.push(e.time);
+                            intentos.push(info.intentos[idA][n][i].intentos);
+                            passed = true;
+                        }
+                    });
+                }
+                response.json({"niveles" : niveles, "tiempos" : tiempos, "intentos" : intentos});
+            }
+        });      
+    });
+
     profesor.get("/getTiempoCategoria/:categoria", function(request, response){
         fs.readFile(dataPath + request.session.instituto + "/plots/" + request.params.categoria + "_Tiempo(s).json", function(err, data){
             if(err){

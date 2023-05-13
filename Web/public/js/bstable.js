@@ -364,6 +364,10 @@ $(document).ready(function(){
   $("#orden").on("change", function(){
     aplicarFiltros(editableTable);
   });
+
+  $(".crearPlot").click(function(){
+    generarPlots($(this).attr("idAlumno"));
+  });
 });
 
 function aplicarFiltros(table){
@@ -381,7 +385,8 @@ function aplicarFiltros(table){
             return data.niveles.indexOf(b.ultNivel.toLowerCase().replaceAll(" ","_")) - data.niveles.indexOf(a.ultNivel.toLowerCase().replaceAll(" ","_"));
           });
           construirTabla(table)
-        });
+        })
+        .catch(error => console.error(error));
   }
   else if(orden == "nombre"){
     listaAlumnos.sort((a,b) => {
@@ -424,12 +429,69 @@ function construirTabla(table){
                 '<td>' + a.nombre + '</td>' +
                 '<td>' + a.tiempo + '</td>' +
                 '<td>' + a.ultNivel + '</td>' +
-                '<td class="text-center"><a class="cursorOnHover" data-bs-toggle="modal" data-bs-target="#modalIntentosJugaor' + a.id + '">'+
+                '<td class="text-center"><a class="cursorOnHover crearPlot" idAlumno="' + a.id + '" data-bs-toggle="modal" data-bs-target="#modalIntentosJugaor' + a.id + '">'+
                 '<i class="fa-solid fa-eye mt-2" style="color:black"></i></a></td>'+
             '</tr>'
         );   
     }
   });
   $("#cuerpoTabla").append(alumnos);
+  $(".crearPlot").click(function(){
+    generarPlots($(this).attr("idAlumno"));
+  });
   table.refresh();
+}
+
+function generarPlots(idAlumno){
+  fetch("/profesor/getDetallesNivelAlumno/" + idAlumno)
+    .then(response => response.json())
+    .then(data => {
+      var traceTiempo = {
+        x : data.niveles,
+        y : data.tiempos.map(pasarTiempoASegundos),
+        customdata : data.tiempos,
+        hovertemplate: "<b>%{x}<b><br>%{customdata}",
+        name : "",
+        mode: 'lines',
+        type: 'scatter'
+      }
+      var traceIntentos = {
+        x : data.niveles,
+        y : data.intentos,
+        hovertemplate: "<b>%{x}<b><br>Intentos: %{y}",
+        name : "",
+        yaxis: 'y2',
+        mode: 'lines',
+        type: 'scatter'
+      }
+      var plotLayoutTiempo = {
+        title: "Tiempo e intentos por nivel",
+        yaxis: {title: 'Tiempo completar Nivel'},
+        yaxis2: {
+          title: 'Intentos empleados',
+          overlaying: 'y',
+          side: 'right'
+        }
+      };
+      Plotly.newPlot('plot'+idAlumno, [traceTiempo, traceIntentos], plotLayoutTiempo, {responsive: true, 'displaylogo': false});
+    })
+    .catch(error => console.error(error));
+}
+
+function pasarTiempoASegundos(time){
+  var seconds = 0;
+  time.split("/").forEach(e =>{
+    var l = e.charAt(e.length - 1);
+    e = e.slice(0, -1);
+    if(l == "h"){
+      seconds += parseInt(e)*3600; 
+    }
+    else if(l == "m"){
+      seconds += parseInt(e)*60;
+    }
+    else{
+      seconds += parseInt(e);
+    }
+  });
+  return seconds;
 }
