@@ -40,14 +40,27 @@ function cambiarTabla(){
         $("#linkErroresDetallados").attr("href","/profesor/avisos/participantes?concepto=" + concepto);
         var plotData = [
             {
-              x: data.fallosTodosNiveles.map(n => Object.keys(n)[0]),
-              y: data.fallosTodosNiveles.map(n => Math.round((parseInt(n[Object.keys(n)[0]].errores) / parseInt(n[Object.keys(n)[0]].jugadores))*100)/100),
-              name: "Errores por Jugador",
+              x: data.fallosTodosNiveles.map(n => {
+                    level = Object.keys(n)[0];
+                    if(level.split("_")[0] != "tutorials"){
+                        return level.replaceAll("_", " ");
+                    }
+                }),
+              y: data.fallosTodosNiveles.map(n => {
+                level = Object.keys(n)[0];
+                if(level.split("_")[0] != "tutorials"){
+                    return Math.round((parseInt(n[level].errores) / parseInt(n[level].jugadores))*100)/100
+                }}),
+              name: "",
+              hovertemplate:'Nivel: <b>%{x}<b><br>Errores: <b>%{y}<b>',
+              marker: {
+                color: '#738FA7'
+              },
               type: 'bar'
             }
           ];
         var plotLayout = {
-            title: "Número de errores por cada jugador"
+            title: "Media de errores por nivel"
         };
           
         Plotly.newPlot('erroresNivelesPlot', plotData, plotLayout, {responsive: true, 'displaylogo': false});
