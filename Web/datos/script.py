@@ -170,6 +170,8 @@ def extraerTiemposPorNivelJugador(rawData):
                         if levelCode in tiempos[name]:
                             tiempos[name][levelCode][-1]["fin"] = timestamp
                             tiempos[name][levelCode][-1]["stars"] = evento["result"]["score"]["raw"]
+                    else:
+                        tiempos[name][levelCode][-1]["fin"] = timestamp
         
         elif erSeriousGame.search(obj) and erInitialized.search(verb):
             if name in inicioYFinJuego:
@@ -230,7 +232,7 @@ def getMediaTiempoPorNivel(tiempos, soloPrimerExito = True, tiemposOrdenados = F
         for level in tiempos[player]:
             tAux = Tiempo("0s")
             for t in tiempos[player][level]:
-                if t["stars"] != -1:
+                if t["stars"] != "" and int(t["stars"]) != -1:
                     if level in medias:
                         medias[level].append(int(tAux + t["time"]))
                         mediasEstrellas[level].append(int(t["stars"]))

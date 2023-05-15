@@ -72,6 +72,11 @@ app.get("/login", function(request, response){
 
 app.get("/logout", function(request, response){
     request.session.destroy();
+
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+    
     response.redirect("/login");
 });
 

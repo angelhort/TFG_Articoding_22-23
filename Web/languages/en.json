@@ -76,7 +76,7 @@
             "titulo" : "Detailed level info of ",
             "completado" : "Passed",
             "noCompletado" : "NOT Passed",
-            "tiempo" : "Time",
+            "tiempo" : "Time:",
             "empleado" : "used:",
             "intentos" : "Tries",
             "empleados" : "used:",

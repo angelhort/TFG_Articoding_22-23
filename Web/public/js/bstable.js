@@ -404,11 +404,8 @@ function aplicarFiltros(table){
   }
   else if(orden == "tiempo"){
     listaAlumnos.sort((a,b) =>{
-      const [secondsA, minutesA, hoursA] = a.tiempo.split("/").reverse();
-      const secA = (hoursA ? parseInt(hoursA, 10) * 3600 : 0) + (minutesA ? parseInt(minutesA, 10) * 60 : 0) + (secondsA ? parseInt(secondsA, 10) : 0);
-      
-      const [secondsB, minutesB, hoursB] = b.tiempo.split("/").reverse();
-      const secB =  (hoursB ? parseInt(hoursB, 10) * 3600 : 0) + (minutesB ? parseInt(minutesB, 10) * 60 : 0) + (secondsB ? parseInt(secondsB, 10) : 0);
+        var secB = pasarTiempoASegundos(b.tiempo);
+        var secA = pasarTiempoASegundos(a.tiempo);
         return secB - secA;
     });
     construirTabla(table);
@@ -429,7 +426,7 @@ function construirTabla(table){
                 '<td>' + a.nombre + '</td>' +
                 '<td>' + a.tiempo + '</td>' +
                 '<td>' + a.ultNivel + '</td>' +
-                '<td class="text-center"><a class="cursorOnHover crearPlot" idAlumno="' + a.id + '" data-bs-toggle="modal" data-bs-target="#modalIntentosJugaor' + a.id + '">'+
+                '<td class="text-center"><a class="cursorOnHover crearPlot" idAlumno="' + a.id + '" data-bs-toggle="modal" data-bs-target="#modalIntentosJugador' + a.id + '">'+
                 '<i class="fa-solid fa-eye mt-2" style="color:black"></i></a></td>'+
             '</tr>'
         );   

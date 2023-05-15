@@ -1,11 +1,14 @@
 const express = require("express");
 const path = require("path");
 const fs = require('fs');
+const utils = require('./utils')
 
 const profesor = express.Router();
 const bcrypt = require("bcrypt");
 const acceptLanguage = require('accept-language-parser');
 const defaultLanguage = "es";
+
+const util = new utils();
 
 module.exports = function(dataPath, daoU){
     profesor.use(express.static(path.join(__dirname, "public")));
@@ -57,7 +60,20 @@ module.exports = function(dataPath, daoU){
                                     }
                                     return 0;
                                 });
-                                response.render("clases", { "institutos": dataToSend });
+                                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                                if(!fs.existsSync("./languages/" + language + ".json")){
+                                    language = defaultLanguage;
+                                }
+                                fs.readFile("./languages/" + language + ".json", function(err, idioma){
+                                    if(err){
+                                        //TODO pagina error 500
+                                        console.log("No se puede leer archivo IDIOMA");
+                                    }
+                                    else{
+                                        const idiomaJSON = JSON.parse(idioma);
+                                        response.render("clases", { "institutos": dataToSend, "texto" : idiomaJSON.sesiones });
+                                    }
+                                });
                             }
                         } else {
                             const info = JSON.parse(data);
@@ -390,13 +406,21 @@ module.exports = function(dataPath, daoU){
                 var intentos = []
                 for(var n in info.tiempo[idA]){
                     var passed = false;
+                    var int = 0;
+                    var seg = 0;
                     info.tiempo[idA][n].forEach((e, i) =>{
                         if(e.stars > 0 && !passed){
                             levelName = n.replaceAll("_", " ");
                             niveles.push(levelName.charAt(0).toUpperCase() + levelName.slice(1));
-                            tiempos.push(e.time);
-                            intentos.push(info.intentos[idA][n][i].intentos);
+                            
+                            seg += util.parseTiempoASeg(e.time);
+                            tiempos.push(util.pasarSegATiempo(seg));
+                            intentos.push(int + info.intentos[idA][n][i].intentos);
                             passed = true;
+                        }
+                        else if(!passed){
+                            int += info.intentos[idA][n][i].intentos;
+                            seg += util.parseTiempoASeg(e.time);
                         }
                     });
                 }

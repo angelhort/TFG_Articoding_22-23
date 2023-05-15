@@ -76,12 +76,12 @@
             "titulo" : "Información detallada niveles de",
             "completado" : "Completado",
             "noCompletado" : "NO Completado",
-            "tiempo" : "Tiempo",
+            "tiempo" : "Tiempo:",
             "empleado" : "empleado:",
             "intentos" : "Intentos",
             "empleados" : "empleados:",
             "estrellas" : "Estrellas",
-            "obtenidas" : "obtenidas",
+            "obtenidas" : "obtenidas:",
             "cerrar" : "Cerrar"
         }
     },

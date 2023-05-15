@@ -43,7 +43,8 @@ function cambiarTabla(){
               x: data.fallosTodosNiveles.map(n => {
                     level = Object.keys(n)[0];
                     if(level.split("_")[0] != "tutorials"){
-                        return level.replaceAll("_", " ");
+                        var nivel = level.replaceAll("_", " ");
+                        return nivel.charAt(0).toUpperCase() + nivel.slice(1);
                     }
                 }),
               y: data.fallosTodosNiveles.map(n => {
@@ -52,7 +53,7 @@ function cambiarTabla(){
                     return Math.round((parseInt(n[level].errores) / parseInt(n[level].jugadores))*100)/100
                 }}),
               name: "",
-              hovertemplate:'Nivel: <b>%{x}<b><br>Errores: <b>%{y}<b>',
+              hovertemplate:'Nivel: <b>%{x}</b><br>Avisos: <b>%{y}</b>',
               marker: {
                 color: '#738FA7'
               },
@@ -60,7 +61,7 @@ function cambiarTabla(){
             }
           ];
         var plotLayout = {
-            title: "Media de errores por nivel"
+            title: "Media de avisos por nivel"
         };
           
         Plotly.newPlot('erroresNivelesPlot', plotData, plotLayout, {responsive: true, 'displaylogo': false});
