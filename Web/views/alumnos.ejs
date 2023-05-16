@@ -50,8 +50,8 @@
                                     </a>
                                 </td>
                             </tr>
-                            <div class="modal modal-xl fade" id="modalIntentosJugador<%=a.id%>">
-                                <div class="modal-dialog">
+                            <div class="modal fade modalDetallesNivel" id="modalIntentosJugador<%=a.id%>" idJugador = "<%=a.id%>">
+                                <div class="modal-dialog modal-xl">
                                   <div class="modal-content">
                                     <div class="modal-header">
                                       <h1 class="modal-title fs-5"><%= texto.alumnos.modal.titulo %> <%= a.nombre %></h1>
@@ -60,7 +60,7 @@
                                     <div class="modal-body">
                                         <div class="container-fluid">
                                             <div class="row">
-                                                <div class="col-4" style="max-height: 70vh; overflow-y: auto;">
+                                                <div class="col-3" style="max-height: 70vh; overflow-y: auto;">
                                                     <% for(var l in tiempoAlumnos.tiempo[a.id]){ %>
                                                         <h5 class="text-capitalize"><%= l.replaceAll("_", " ")%></h5>
                                                             <% tiempoAlumnos.tiempo[a.id][l].forEach((p, j) => { %>
@@ -79,7 +79,7 @@
                                                         <hr>
                                                     <% } %>
                                                 </div>
-                                                <div class="col-8" class="plotNiveles">
+                                                <div class="col-9 p-0" id="plotNiveles">
                                                     <div id="plot<%= a.id %>"></div>
                                                 </div>
                                             </div>

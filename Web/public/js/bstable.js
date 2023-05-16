@@ -365,8 +365,8 @@ $(document).ready(function(){
     aplicarFiltros(editableTable);
   });
 
-  $(".crearPlot").click(function(){
-    generarPlots($(this).attr("idAlumno"));
+  $('.modalDetallesNivel').on('shown.bs.modal', function (e) {
+    generarPlots($(this).attr("idJugador"));
   });
 });
 
@@ -433,9 +433,7 @@ function construirTabla(table){
     }
   });
   $("#cuerpoTabla").append(alumnos);
-  $(".crearPlot").click(function(){
-    generarPlots($(this).attr("idAlumno"));
-  });
+
   table.refresh();
 }
 
@@ -470,6 +468,7 @@ function generarPlots(idAlumno){
           side: 'right'
         }
       };
+      console.log("ENTRA")
       Plotly.newPlot('plot'+idAlumno, [traceTiempo, traceIntentos], plotLayoutTiempo, {responsive: true, 'displaylogo': false});
     })
     .catch(error => console.error(error));
