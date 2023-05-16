@@ -468,7 +468,6 @@ function generarPlots(idAlumno){
           side: 'right'
         }
       };
-      console.log("ENTRA")
       Plotly.newPlot('plot'+idAlumno, [traceTiempo, traceIntentos], plotLayoutTiempo, {responsive: true, 'displaylogo': false});
     })
     .catch(error => console.error(error));
