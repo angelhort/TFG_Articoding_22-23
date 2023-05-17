@@ -103,7 +103,7 @@ h6{
 }
 
 a{
-    color:var(--dark-blue)
+    color:var(--dark-blue);
 }
 
 .form-select{
@@ -125,4 +125,9 @@ input::placeholder{
 
 p{
     margin-bottom: 0;
+}
+
+.tituloError{
+    color: var(--dark-blue);
+    font-size: 500%;
 }

@@ -125,6 +125,11 @@ app.get("/getUserName", function(request, response){
     response.json({"nombre" : request.session.usuario ? request.session.usuario : null});
 });
 
+app.use(function(request, response){
+    response.status(404);
+    response.render("404");
+});
+
 app.listen(config.port, function(err) {
     if (err) {
         console.log("ERROR al iniciar el servidor");
