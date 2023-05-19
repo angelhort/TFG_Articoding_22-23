@@ -98,7 +98,11 @@ class DAOUsuario {
                         else if (rows.length == 1){
                             connection.release();
                             let users =JSON.parse(JSON.stringify(rows[0]));
-                            callback(null, users);
+                            callback(null, users,'Usuario ya existente');
+                        }
+                        else{
+                            connection.release();
+                            callback(null, null);
                         }
                     }); 
                 }
@@ -114,9 +118,23 @@ class DAOUsuario {
                     connection.release();
                     callback(err.message);
                 }
-                else{
-
-                }
+                else {
+                    connection.query("SELECT COUNT(*) AS count FROM usuario WHERE nombre = ?", [nombre],
+                    function(err, rows){
+                        if(err){
+                            callback(error,null);
+                        }
+                        else {
+                            const count = rows[0].count
+                            if(count > 0){
+                                callback(null,count,'Usuario no válido');
+                            }
+                            else{
+                                callback(null,count);
+                            }
+                        }
+                    });
+                };
             }
         );
     }

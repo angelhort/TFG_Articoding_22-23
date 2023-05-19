@@ -9,10 +9,17 @@
         <%- include("adminBar") %>
         
         <div class="container-fluid h-100">
+           
             <div class="row h-100">
-                <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
+                <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                    
                     <form id="form_login" method="POST" action="/admin/cuentas/nuevoUsuario" >
-                        <div class="row mb-3 mt-5">
+                        <% if (mostrarMensaje) { %>
+                            <div class="row mb-3 alert alert-warning text-center align-self-start"" role="alert">
+                                <%= mensaje %>
+                            </div>
+                        <% } %>
+                        <div class="row mb-3 align-self-start">
                             <h1>Nuevo Usuario</h1>
                         </div>
                         <div class="form-group">
@@ -34,6 +41,7 @@
                         <div class="form-group mt-3">
                             <button type="submit" class="btn btn-primary" value="Crear Cuenta">Aceptar</button>
                         </div>
+                       
                     </form>
                 </div>
                 <div class="col-6 backgroundColor3 d-none d-md-block">
