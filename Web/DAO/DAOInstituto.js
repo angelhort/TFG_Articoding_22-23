@@ -1,12 +1,12 @@
 "use strict"
 
-class DAOInstituto {
+class DAOExperimento {
     #poolConnections;
     constructor(poolConnections) {
         this.#poolConnections = poolConnections;
     }
 
-    getAllInstitutos(callback){
+    getAllexperimentos(callback){
         this.#poolConnections.getConnection(
             function (err, connection) {
                 if (err){
@@ -14,21 +14,21 @@ class DAOInstituto {
                     callback(err.message);
                 }
                 else{
-                    connection.query("SELECT DISTINCT * FROM instituto", 
-                    function(err, institutos){
+                    connection.query("SELECT DISTINCT * FROM experimento", 
+                    function(err, experimentos){
                         if(err){
                             connection.release();
                             callback(err.message);
                         }
-                        else if(institutos.length === 0){
+                        else if(experimentos.length === 0){
                             connection.release();
-                            callback("Institutos no existentes");
+                            callback("experimentos no existentes");
                         }
                         else{
                             connection.release();
                             var instis = [];
-                            for (let i = 0; i < institutos.length; i++) {
-                                instis.push(institutos[i].nombre);
+                            for (let i = 0; i < experimentos.length; i++) {
+                                instis.push(experimentos[i].nombre);
                             }
                             callback(null, instis);
                         }
@@ -44,11 +44,11 @@ class DAOInstituto {
             connection.release();
             callback(err.message);
           } else {
-            connection.query("SELECT nombre FROM instituto WHERE id = ?", [id], function(err, insti) {
+            connection.query("SELECT nombre FROM experimento WHERE id = ?", [id], function(err, insti) {
               if (err) {
                 callback(err.message);
               } else if (insti.length === 0) {
-                callback("Instituto not found");
+                callback("experimento not found");
               } else {
                 callback(null, insti[0].nombre);
               }
@@ -57,16 +57,16 @@ class DAOInstituto {
         });
     }
 
-    insertInstituto(fileName, profesor, nombre, callback) {
+    insertexperimento(fileName, profesor, nombre, callback) {
       this.#poolConnections.getConnection(function(err, connection) {
         if (err) {
           connection.release();
           callback(err.message);
         } else {
-          const query = 'INSERT INTO institutos (fileName, profesor, nombre) VALUES (?, ?, ?)';
+          const query = 'INSERT INTO experimentos (fileName, profesor, nombre) VALUES (?, ?, ?)';
           connection.query(query, [fileName, profesor, nombre], (error, results) => {
             if (error) {
-              console.error('Error inserting into institutos:', error);
+              console.error('Error inserting into experimentos:', error);
               callback(error);
             } else {
               const insertId = results.insertId;
@@ -80,4 +80,4 @@ class DAOInstituto {
     
 }
 
-module.exports = DAOInstituto;
+module.exports = DAOExperimento;

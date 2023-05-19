@@ -3,11 +3,6 @@
     
     <head>
         <%- include("header", {titulo : "CrearUsuario"}) %>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="custom.css">
-        <!-- <title>Sesión</title> -->
     </head>
 
     <body>
@@ -23,9 +18,7 @@
                         <div class="form-group">
                             <h5 class="p-0">Rol</h5>
                             <select class="form-select" name="rol" id="formInstituto" aria-label="Profesor">
-                                <option selected>Seleccione un rol</option>
                                 <option value="profesor">profesor</option>
-                                <option value="alumno">alumno</option>
                                 <option value="admin">admin</option>
                             </select>
                             <small id="rolHelp" class="form-text text-muted">Seleccione el rol del usuario</small>

@@ -3,16 +3,13 @@ const path = require("path");
 const fs = require("fs");
 const config = require("./config");
 const mysql = require("mysql");
-const DAOUsuario = require("./DAO/DAOUsuario");
-const DAOInstituto = require("./DAO/DAOInstituto");
+
 
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
-const daoU = new DAOUsuario(pool);
-const daoI = new DAOInstituto(pool);
 const admin = express.Router();
 
-module.exports = function (dataPath) {
+module.exports = function (dataPath,daoU,daoI) {
   console.log(dataPath);
   admin.use(express.static(path.join(__dirname, "public")));
 
