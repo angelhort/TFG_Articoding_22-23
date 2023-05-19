@@ -3,3 +3,4 @@
 *.pyc
 !Web/**/*.json
 trazasOrdenadas.json
+Web/node_modules/
