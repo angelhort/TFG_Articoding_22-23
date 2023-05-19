@@ -131,11 +131,3 @@ p{
     color: var(--dark-blue);
     font-size: 500%;
 }
-
-.center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}

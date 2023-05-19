@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
-    <%- include("header", {titulo : "Sesiones" }) %>
+    <%- include("header", {titulo : "Cuentas"}) %>
+    <script src="js/plotGenerator.js"></script>
 </head>
 
 <body>
     <%- include("adminBar") %>
+<<<<<<< HEAD
     <div class="container-fluid h-100">
         <div class="row h-100">
             <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center px-5">
@@ -45,11 +47,32 @@
                             </button>
                         </div>
                     </form>
+=======
+    <h1 class="col text-center mt-5">Rutas de archivos</h1>
+    <form>
+        <div class=" mt-5 form-group">
+            <div class="row justify-content-center">
+                <label for="AnalysisPath"  class="col-form-label text-center col-sm-1">Ánalisis</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control rounded border border-primary-subtle" id="AnalysisPath" placeholder="./analisis/">
+                    <small id="analysisHelp" class="form-text text-muted">Ruta de la carpeta que contiene todos los ficheros con los análisis de la aplicación</small>
+>>>>>>> parent of b9b5c90 (Formulario sesiones)
                 </div>
+                <button type="submit" class=" h-50 col-sm-1 col-form-label rounded border text-light bg-secondary text-center">Aceptar</button>
             </div>
-            <div class="col-6 backgroundColor3 d-none d-md-block"></div>
         </div>
-    </div>
+    </form>
+    <form>
+        <div class=" mt-5 form-group">
+            <div class="row justify-content-center">
+                <label for="DataPath"  class="col-form-label text-center col-sm-1 ">Datos</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control rounded border border-primary-subtle"aria-describedby="analysisHelp" id="DataPath" placeholder="./datos/">
+                    <small id="analysisHelp" class="form-text text-muted">Ruta de la carpeta que contiene todos los ficheros con los datos de la aplicación</small>
+                </div>
+                <button type="submit" class="col-sm-1 col-form-label rounded border text-light bg-secondary text-center h-50">Aceptar</button>
+            </div>
+        </div>
+    </form>
+    
 </body>
-
-</html>
