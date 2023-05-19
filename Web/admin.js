@@ -3,13 +3,13 @@ const path = require("path");
 const fs = require("fs");
 const config = require("./config");
 const mysql = require("mysql");
-
+const bcrypt = require("bcrypt");
 
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 const admin = express.Router();
 
-module.exports = function (dataPath,daoU,daoI) {
+module.exports = function (dataPath, daoU, daoE) {
   console.log(dataPath);
   admin.use(express.static(path.join(__dirname, "public")));
 
@@ -39,21 +39,24 @@ module.exports = function (dataPath,daoU,daoI) {
   });
 
   admin.post("/cuentas/nuevoUsuario", function (request, response) {
-    daoU.insertarUsuario(
-      request.body.usuario,
-      request.body.contrasenia,
-      request.body.rol,
-      insertarUsuario
-    );
-    function insertarUsuario(error, usuario) {
-      if (error) {
-        response.status(500);
-        response.render("cuentas");
-      } else {
-        response.status(200);
-        response.render("general");
-      }
-    }
+    bcrypt.hash(request.body.contrasenia, 10, function (err, hash) {
+    
+        daoU.insertarUsuario(
+        request.body.usuario,
+        hash,
+        request.body.rol,
+        insertarUsuario
+        );
+        function insertarUsuario(error, usuario) {
+            if (error) {
+                response.status(500);
+                response.render("cuentas");
+            } else {
+                response.status(200);
+                response.render("general");
+            }
+        }
+    });
   });
 
   admin.get("/cuentas", function (request, response) {
@@ -119,7 +122,7 @@ module.exports = function (dataPath,daoU,daoI) {
     }
   });
 
-  admin.post("/rutas", (req, res) => {
+  admin.post("/rutas", function (req, res) {
     const file = req.file;
     const fileName = file.filename;
     const profesor = req.body.profesor;
@@ -133,7 +136,7 @@ module.exports = function (dataPath,daoU,daoI) {
         .send("Sólo son admitidos archivos con formato JSON");
     }
 
-    daoI.insertInstituto(fileName, profesor, nombre, (error, insertId) => {
+    daoE.insertExperimento(fileName, profesor, nombre, (error, insertId) => {
       if (error) {
         res
           .status(500)

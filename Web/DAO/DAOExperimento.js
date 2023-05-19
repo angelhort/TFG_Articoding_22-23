@@ -6,7 +6,7 @@ class DAOExperimento {
         this.#poolConnections = poolConnections;
     }
 
-    getAllexperimentos(callback){
+    getAllExperimentos(callback){
         this.#poolConnections.getConnection(
             function (err, connection) {
                 if (err){
@@ -57,7 +57,7 @@ class DAOExperimento {
         });
     }
 
-    insertexperimento(fileName, profesor, nombre, callback) {
+    insertExperimento(fileName, profesor, nombre, callback) {
       this.#poolConnections.getConnection(function(err, connection) {
         if (err) {
           connection.release();

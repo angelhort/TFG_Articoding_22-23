@@ -107,6 +107,20 @@ class DAOUsuario {
 
     }
 
+    existeUsuario(nombre,callback){
+        this.#poolConnections.getConnection(
+            function (err,connection){
+                if (err){
+                    connection.release();
+                    callback(err.message);
+                }
+                else{
+
+                }
+            }
+        );
+    }
+
     insertarUsuario(nombre,contrasenya,rol,callback){
         this.#poolConnections.getConnection(
             function (err,connection){
@@ -115,7 +129,6 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    
                     connection.query("INSERT INTO usuario (nombre,contrasenya,rol) VALUES(?,?,?)",[nombre,contrasenya,rol],
                     function(err, rows){
                         if(err){
@@ -123,8 +136,15 @@ class DAOUsuario {
                             callback(err.message);
                         }
                         else {
-                            connection.release();
-                            callback(null, rows);
+                            if(rows.length == 0){
+                                connection.release();
+                                callback(null, rows);
+                            }
+                            else {
+                                connection.release();
+                                callback(null, rows);
+                            }
+                            
                         }
                     }); 
                 }

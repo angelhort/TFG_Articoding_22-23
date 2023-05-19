@@ -3,7 +3,7 @@ var dataPath = './datos/'
 
 const config = require("./config");
 const DAOUsuario = require("./DAO/DAOUsuario")
-const DAOInstituto = require("./DAO/DAOInstituto")
+const DAOExperimento = require("./DAO/DAOExperimento")
 
 
 const express = require("express");
@@ -24,7 +24,7 @@ const sessionStore = new MySQLStore({
 const acceptLanguage = require('accept-language-parser');
 const defaultLanguage = "es";
 const bcrypt = require("bcrypt");
-const DAOExperimento = require("./DAO/DAOInstituto");
+
 
 const app = express();
 
@@ -37,7 +37,7 @@ app.use(session({
 
 const pool = mysql.createPool(config.mysqlConfig);
 const daoU = new DAOUsuario(pool);
-const daoI = new DAOExperimento(pool);
+const daoE = new DAOExperimento(pool);
 
 const ficherosEstaticos = path.join(__dirname, "public");
 app.use(express.static(ficherosEstaticos));
@@ -47,7 +47,7 @@ app.set("views", path.join(__dirname, "views"));
 
 /* -------------------------------------------------------------------------- */
 
-const admin = require('./admin')(dataPath,daoU,daoI);
+const admin = require('./admin')(dataPath,daoU,daoE);
 app.use("/admin",admin);
 const profesor = require("./profesor")(dataPath, daoU);
 app.use("/profesor", profesor);
