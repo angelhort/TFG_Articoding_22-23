@@ -30,6 +30,7 @@ class DAOUsuario {
         );
     }
 
+
     getAllUsers (callback){
         this.#poolConnections.getConnection(
             function (err, connection){
@@ -38,7 +39,32 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    connection.query("SELECT nombre, contrasenya, instituto, rol FROM usuario WHERE rol != 'admin'",
+                    connection.query("SELECT nombre, contrasenya, rol FROM usuario WHERE rol != 'admin'",
+                    function(err, rows){
+                        if(err){
+                            connection.release();
+                            callback(err.message);
+                        }
+                        else{
+                            connection.release();
+                            let users =JSON.parse(JSON.stringify(rows));
+                            callback(null, users);
+                        }
+                    }); 
+                }
+            }
+        );
+    }
+
+    getAllTeachers (callback){
+        this.#poolConnections.getConnection(
+            function (err, connection){
+                if (err){
+                    connection.release();
+                    callback(err.message);
+                }
+                else{
+                    connection.query("SELECT nombre  FROM usuario WHERE rol = 'profesor';",
                     function(err, rows){
                         if(err){
                             connection.release();
@@ -81,7 +107,7 @@ class DAOUsuario {
 
     }
 
-    insertarUsuario(nombre,contrasenya,rol,instituto,callback){
+    insertarUsuario(nombre,contrasenya,rol,callback){
         this.#poolConnections.getConnection(
             function (err,connection){
                 if (err){
@@ -90,7 +116,7 @@ class DAOUsuario {
                 }
                 else{
                     
-                    connection.query("INSERT INTO usuario (nombre,contrasenya,rol,instituto) VALUES(?,?,?,?)",[nombre,contrasenya,rol,instituto],
+                    connection.query("INSERT INTO usuario (nombre,contrasenya,rol) VALUES(?,?,?)",[nombre,contrasenya,rol],
                     function(err, rows){
                         if(err){
                             connection.release();

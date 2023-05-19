@@ -1,0 +1,8 @@
+{
+    "configurations": 
+    {
+        "type": "firefox",
+        "request": "attach",
+        "name": "Attach"
+    }
+}
