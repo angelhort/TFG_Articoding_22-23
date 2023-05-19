@@ -111,9 +111,21 @@ app.post("/login", function(request, response){
                         response.redirect('/admin/general');
                     }
                 } else {
-                    response.status(200);
-                    response.render("login",
-                        {"errorMsg": true});
+                    var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                    if(!fs.existsSync("./languages/" + language + ".json")){
+                        language = defaultLanguage;
+                    }
+                    fs.readFile("./languages/" + language + ".json", function(err, idioma){
+                        if(err){
+                            //TODO pagina error 500
+                            console.log("No se puede leer archivo IDIOMA");
+                        }
+                        else{
+                            const idiomaJSON = JSON.parse(idioma);
+                            response.status(200);
+                            response.render("login", {"errorMsg": true, "texto" : idiomaJSON.login});
+                        }
+                    });
                 }
             });         
         }

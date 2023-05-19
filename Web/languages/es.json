@@ -45,7 +45,7 @@
         "usuario" : "Usuario",
         "contrasenia" : "Contraseña",
         "iniSesion" : "Iniciar Sesión",
-        "mensaje" : "Email y/0 contraseña no válidos"
+        "mensaje" : "Email y/o contraseña no válidos"
     },
 
     "sesiones" : {
