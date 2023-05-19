@@ -42,6 +42,7 @@ const daoE = new DAOExperimento(pool);
 const ficherosEstaticos = path.join(__dirname, "public");
 app.use(express.static(ficherosEstaticos));
 app.use(bodyParser.urlencoded({extended: true}));
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 

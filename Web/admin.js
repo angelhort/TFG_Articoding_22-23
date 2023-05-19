@@ -4,12 +4,21 @@ const fs = require("fs");
 const config = require("./config");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
+const multer = require('multer');
+const upload = multer({ storage: storage });
+const bodyParser = require('body-parser');
+
+// ...
+
+// Add the following middleware to parse the form data
+admin.use(bodyParser.urlencoded({ extended: true }));
 
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 const admin = express.Router();
 
 module.exports = function (dataPath, daoU, daoE) {
+
     console.log(dataPath);
     admin.use(express.static(path.join(__dirname, "public")));
 
@@ -18,14 +27,24 @@ module.exports = function (dataPath, daoU, daoE) {
         else response.redirect("/login");
     }
 
+
+
     function validarContrasena(contrasena) {
         const expresionRegular = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
         const valida = expresionRegular.test(contrasena);
         const mensaje = valida ? 'La contraseña es válida' : 'La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula y un número.';
       
         return { valida, mensaje };
-      }
+    }
+
+    let dataID;
+    
+    function configurarMulter(dataID, storage) {
+        const upload = multer({ storage: storage });
       
+        return upload.single('archivo');
+    }
+    
 
     admin.use(comprobarUsuario);
     //PR(15/03) La ruta inicial es /, profesor envía a resumen
@@ -164,19 +183,12 @@ module.exports = function (dataPath, daoU, daoE) {
         }
     });
 
-    admin.post("/rutas", function (req, res) {
+    admin.post("/rutas",upload.single("archivo"),function (req, res) {
         const file = req.file;
         const fileName = file.filename;
         const profesor = req.body.profesor;
         const nombre = req.body.nombre;
 
-        // Check file type
-        const fileExtension = path.extname(file.originalname);
-        if (fileExtension !== ".json") {
-            return res
-                .status(400)
-                .send("Sólo son admitidos archivos con formato JSON");
-        }
 
         daoE.insertExperimento(fileName, profesor, nombre, (error, insertId) => {
             if (error) {
@@ -184,14 +196,32 @@ module.exports = function (dataPath, daoU, daoE) {
                     .status(500)
                     .send("Erros al insertar los datos en la tabla de institutos");
             } else {
-                const newFilePath = path.join("datos", insertId.toString());
-                fs.rename(file.path, newFilePath, (error) => {
-                    if (error) {
-                        console.error("Error al mover el fichero:", error);
-                        res.status(500).send("Error al mover el fichero");
-                    } else {
-                        res.send("¡Archivo subido y sesión creada correctamente!");
+                dataID = insertId;
+
+                const storage = multer.diskStorage({
+                    destination: function (req, file, cb) {
+                      const folderPath = path.join(dataPath, dataID.toString()); // Generate the dynamically folder path
+                      fs.mkdirSync(folderPath, { recursive: true }); // Create the folder if it doesn't exist
+                      cb(null, folderPath);
+                    },
+                    filename: function (req, file, cb) {
+                      cb(null, file.originalname); // Use the original file name
                     }
+                  });
+                
+
+                const uploadMiddleware = configurarMulter(dataID,storage);
+                uploadMiddleware(req, res, function (err) {
+                if (err instanceof multer.MulterError) {
+                    // Error de multer
+                    res.status(500).send("Error al procesar el archivo");
+                } else if (err) {
+                    // Otro error
+                    res.status(500).send("Error en el servidor");
+                } else {
+                    // El archivo se subió correctamente
+                    res.send("¡Archivo subido y sesión creada correctamente!");
+                }
                 });
             }
         });
