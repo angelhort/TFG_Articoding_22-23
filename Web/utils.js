@@ -1,5 +1,7 @@
 "use strict"
 
+const fs = require("fs");
+
 class utils{
     constructor() {
     }
@@ -38,6 +40,51 @@ class utils{
         timeArray.push(remainingSeconds + 's');
         } 
         return timeArray.join('/');
+    }
+
+    cambiarNombreNiveles(text, language){
+        try{
+            const data = fs.readFileSync("./languages/" + language + ".json",{ encoding: 'utf8', flag: 'r' });
+            const nombres = JSON.parse(data);
+            const niveles = nombres.nombreNiveles;
+            var outputText = JSON.stringify(text);
+            for (const key in niveles) {
+                const regex = new RegExp(key, "gi");
+                outputText = outputText.replaceAll(regex, niveles[key]);
+            }
+            return JSON.parse(outputText);
+        }
+        catch(err){
+            return text;
+        }
+    }
+
+    cambiarNombreNiveles_SoloValores(json, language) {
+        try {
+          const data = fs.readFileSync(`./languages/${language}.json`, { encoding: 'utf8', flag: 'r' });
+          const nombres = JSON.parse(data);
+          const niveles = nombres.nombreNiveles;
+      
+          const replaceValues = (obj) => {
+            for (const key in obj) {
+              if (typeof obj[key] === 'object') {
+                replaceValues(obj[key]);
+              } else if (typeof obj[key] === 'string') {
+                for (const levelKey in niveles) {
+                  const regex = new RegExp(levelKey, "gi");
+                  obj[key] = obj[key].replace(regex, niveles[levelKey]);
+                }
+              }
+            }
+          };
+      
+          const clonedJson = JSON.parse(JSON.stringify(json));
+          replaceValues(clonedJson);
+      
+          return clonedJson;
+        } catch (err) {
+          return json;
+        }
     }
 }
 

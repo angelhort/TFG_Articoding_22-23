@@ -153,5 +153,16 @@
             "sinErrores" : "Without Warnings",
             "cerrar" : "Close"
         }
+    },
+
+    "nombreNiveles":{
+        "tutorials" : "Introduction",
+        "variables" : "Variables",
+        "types" : "Data Types",
+        "basic operators" : "Basic Operators",
+        "basic_operators" : "Basic Operators",
+        "loops" : "Loops",
+        "conditionals" : "Conditions",
+        "procedures" : "Functions"
     }
 }

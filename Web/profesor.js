@@ -187,10 +187,12 @@ module.exports = function(dataPath, daoU){
                     else{
                         const datosMedios = JSON.parse(data);
                         const nJugadores = Object.keys(JSON.parse(jugadores)).length;
+
                         var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
                         if(!fs.existsSync("./languages/" + language + ".json")){
                             language = "en";
                         }
+
                         fs.readFile("./languages/" + language + ".json", function(err, idioma){
                             if(err){
                                 //TODO pagina error 500
@@ -198,7 +200,7 @@ module.exports = function(dataPath, daoU){
                             }
                             else{
                                 const idiomaJSON = JSON.parse(idioma);
-                                response.render("resumen", {"medias" : datosMedios["general"], "nJugadores" : nJugadores, "texto" : {"resumen" : idiomaJSON.resumen, "comun" : idiomaJSON.comun}})
+                                response.render("resumen", {"medias" : util.cambiarNombreNiveles(datosMedios["general"], language), "nJugadores" : nJugadores, "texto" : {"resumen" : idiomaJSON.resumen, "comun" : idiomaJSON.comun}})
                             }
                         });
                     }
@@ -267,7 +269,7 @@ module.exports = function(dataPath, daoU){
                                     }
                                     else{
                                         const idiomaJSON = JSON.parse(idioma);
-                                        response.render("erroresAlumnos" , {"jugMasErr" : jugadoresData, "erroresJugadores" : errores, "texto" : {"avisosAlumnos" : idiomaJSON.avisosAlumnos, "comun" : idiomaJSON.comun}});
+                                        response.render("erroresAlumnos" , {"jugMasErr" : util.cambiarNombreNiveles(jugadoresData,language), "erroresJugadores" : util.cambiarNombreNiveles(errores,language), "texto" : {"avisosAlumnos" : idiomaJSON.avisosAlumnos, "comun" : idiomaJSON.comun}});
                                     }
                                 });
                                 
@@ -305,7 +307,7 @@ module.exports = function(dataPath, daoU){
                             }
                             else{
                                 const idiomaJSON = JSON.parse(idioma);
-                                response.render("categorias", {"info" : info, "jugadores" : infoJ, "texto" : {"categorias" : idiomaJSON.categorias, "comun" : idiomaJSON.comun}});
+                                response.render("categorias", {"info" : util.cambiarNombreNiveles_SoloValores(info,language), "jugadores" : infoJ, "texto" : {"categorias" : idiomaJSON.categorias, "comun" : idiomaJSON.comun}});
                             }
                         });
                     }
@@ -334,7 +336,7 @@ module.exports = function(dataPath, daoU){
                         }
                         else{
                             const idiomaJSON = JSON.parse(idioma);
-                            response.render("comparativa", {"info" : info, "texto" : {"comparativa" : idiomaJSON.comparativa, "comun" : idiomaJSON.comun}});
+                            response.render("comparativa", {"info" : util.cambiarNombreNiveles_SoloValores(info,language), "texto" : {"comparativa" : idiomaJSON.comparativa, "comun" : idiomaJSON.comun}});
                         }
                     });
             }
@@ -370,7 +372,7 @@ module.exports = function(dataPath, daoU){
                             }
                             else{
                                 const idiomaJSON = JSON.parse(idioma);
-                                response.render("alumnos" , {"infoAlumnos" : infoAlumnosArray, "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : tiempoAlumnos, "texto" : {"alumnos" : idiomaJSON.alumnos, "comun" : idiomaJSON.comun}});
+                                response.render("alumnos" , {"infoAlumnos" : util.cambiarNombreNiveles(infoAlumnosArray,language), "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : util.cambiarNombreNiveles(tiempoAlumnos,language), "texto" : {"alumnos" : idiomaJSON.alumnos, "comun" : idiomaJSON.comun}});
                             }
                         });
                     }
@@ -387,7 +389,11 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const jsonData = JSON.parse(data);
-                response.json(jsonData);
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
+                response.json(util.cambiarNombreNiveles(jsonData, language));
             }
         });      
     });
@@ -424,7 +430,11 @@ module.exports = function(dataPath, daoU){
                         }
                     });
                 }
-                response.json({"niveles" : niveles, "tiempos" : tiempos, "intentos" : intentos});
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
+                response.json({"niveles" : util.cambiarNombreNiveles(niveles,language), "tiempos" : tiempos, "intentos" : intentos});
             }
         });      
     });
@@ -437,7 +447,11 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const jsonData = JSON.parse(data);
-                response.json(jsonData);
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
+                response.json(util.cambiarNombreNiveles(jsonData,language));
             }
         });      
     });
@@ -450,7 +464,11 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const jsonData = JSON.parse(data);
-                response.json(jsonData[request.params.categoria]);
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
+                response.json(util.cambiarNombreNiveles(jsonData[request.params.categoria], language));
             }
         });      
     });
@@ -463,7 +481,11 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const jsonData = JSON.parse(data);
-                response.json(jsonData);
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
+                response.json(util.cambiarNombreNiveles(jsonData,language));
             }
         });      
     });
@@ -475,8 +497,12 @@ module.exports = function(dataPath, daoU){
                 console.log("No se puede leer archivo COMPARATIVA_CATEGORIAS");
             }
             else{
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
                 const jsonData = JSON.parse(data);
-                response.json(jsonData);
+                response.json(util.cambiarNombreNiveles(jsonData,language));
             }
         });      
     });
@@ -489,7 +515,11 @@ module.exports = function(dataPath, daoU){
             }
             else{
                 const jsonData = JSON.parse(data);
-                response.json(jsonData);
+                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                if(!fs.existsSync("./languages/" + language + ".json")){
+                    language = defaultLanguage;
+                }
+                response.json(util.cambiarNombreNiveles(jsonData,language));
             }
         });      
     });
@@ -533,7 +563,11 @@ module.exports = function(dataPath, daoU){
                                     }
                                 }
                                 var jugadoresData = Object.values(jugadores).sort((a, b) => b.mediaErroresVar - a.mediaErroresVar);
-                                response.json({"jugadores" : jugadoresData.slice(0,7), "niveles" : info["nErrores" + request.params.concepto].slice(0,7), "fallosTodosNiveles" : fallosTodosNiveles});
+                                var language = acceptLanguage.parse(request.headers['accept-language'])[0].code;
+                                if(!fs.existsSync("./languages/" + language + ".json")){
+                                    language = defaultLanguage;
+                                }
+                                response.json({"jugadores" : util.cambiarNombreNiveles(jugadoresData.slice(0,7), language), "niveles" : util.cambiarNombreNiveles(info["nErrores" + request.params.concepto].slice(0,7), language), "fallosTodosNiveles" : util.cambiarNombreNiveles(fallosTodosNiveles, language)});
                             }
                         });
                     }

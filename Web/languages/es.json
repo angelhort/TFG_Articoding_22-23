@@ -153,5 +153,16 @@
             "sinErrores" : "Sin errores",
             "cerrar" : "Cerrar"
         }
+    },
+
+    "nombreNiveles":{
+        "tutorials" : "Introducción",
+        "variables" : "Variables",
+        "types" : "Tipos de Datos",
+        "basic operators" : "Operadores Básicos",
+        "basic_operators" : "Operadores Básicos",
+        "loops" : "Bucles",
+        "conditionals" : "Condiciones",
+        "procedures" : "Funciones"
     }
 }
