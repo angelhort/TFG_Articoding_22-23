@@ -207,7 +207,7 @@ class DAOUsuario {
                     callback(err.message);
                 }
                 else{
-                    connection.query("SELECT * FROM instituto WHERE idProfesor = ?",[idProf],
+                    connection.query("SELECT * FROM experimento WHERE idProfesor = ?",[idProf],
                     function(err, inst){
                         if(err){
                             connection.release();
