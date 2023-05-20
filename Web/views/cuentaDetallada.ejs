@@ -2,7 +2,7 @@
 <html lang="en">
     
     <head>
-        <%- include("./header", {titulo : "Cuenta detallada"}) %>
+        <%- include("header", {titulo : "Cuenta detallada"}) %>
     </head>
 
     <body>
@@ -13,7 +13,7 @@
                 <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
                     <form id="form_login" method="POST" action="/admin/cuentas/<%= usuario.nombre %>" >
                         <% if (mostrarMensaje) { %>
-                            <div class="row mb-3 mt-5 alert alert-warning text-center role="alert">
+                            <div class="row mb-3 mt-5 alert alert-warning text-center" role="alert">
                                 <%= mensaje %>
                             </div>
                         <% } %>

@@ -6,8 +6,6 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const multer = require('multer');
 
-const bodyParser = require('body-parser');
-
 // ...
 
 // Add the following middleware to parse the form data
@@ -18,6 +16,7 @@ const pool = mysql.createPool(config.mysqlConfig);
 const admin = express.Router();
 
 module.exports = function (dataPath, daoU, daoE) {
+    admin.use(express.static(path.join(__dirname, "public")));
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -26,7 +25,7 @@ module.exports = function (dataPath, daoU, daoE) {
         filename: function (req, file, cb) {
           cb(null, file.originalname);
         }
-      });
+    });
     const upload = multer({ storage: storage });
 
 
@@ -123,7 +122,7 @@ module.exports = function (dataPath, daoU, daoE) {
                 response.render("cuentas");
             } else {
                 response.status(200);
-                response.render("cuentaDetallada", { usuario: usuario, mostrarMensaje: false, mensaje: '' });
+                response.render("cuentaDetallada", { usuario: usuario, mostrarMensaje:false, mensaje:'' });
             }
         }
     });
