@@ -5,22 +5,35 @@ const config = require("./config");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const multer = require('multer');
-const upload = multer({ storage: storage });
+
 const bodyParser = require('body-parser');
 
 // ...
 
 // Add the following middleware to parse the form data
-admin.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Crear un pool de conexiones a la base de datos de MySQL
 const pool = mysql.createPool(config.mysqlConfig);
 const admin = express.Router();
 
-module.exports = function (dataPath, daoU, daoE) {
+module.exports = function (dataPath, bodyParser ,daoU, daoE) {
 
     console.log(dataPath);
     admin.use(express.static(path.join(__dirname, "public")));
+    admin.use(bodyParser.urlencoded({ extended: true }));
+
+
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, dataPath);
+        },
+        filename: function (req, file, cb) {
+          cb(null, file.originalname);
+        }
+      });
+    const upload = multer({ storage: storage });
+
 
     function comprobarUsuario(request, response, next) {
         if (request.session.usuario && request.session.rol == "admin") next();
@@ -37,13 +50,7 @@ module.exports = function (dataPath, daoU, daoE) {
         return { valida, mensaje };
     }
 
-    let dataID;
-    
-    function configurarMulter(dataID, storage) {
-        const upload = multer({ storage: storage });
-      
-        return upload.single('archivo');
-    }
+    let dataID = 0;
     
 
     admin.use(comprobarUsuario);
@@ -183,49 +190,34 @@ module.exports = function (dataPath, daoU, daoE) {
         }
     });
 
-    admin.post("/rutas",upload.single("archivo"),function (req, res) {
+    admin.post("/rutas", upload.single("archivo"), function (req, res) {
         const file = req.file;
         const fileName = file.filename;
         const profesor = req.body.profesor;
         const nombre = req.body.nombre;
-
-
-        daoE.insertExperimento(fileName, profesor, nombre, (error, insertId) => {
-            if (error) {
-                res
-                    .status(500)
-                    .send("Erros al insertar los datos en la tabla de institutos");
+      
+        daoE.insertExperimento( profesor, nombre, (error, insertId) => {
+          if (error) {
+            res.status(500).send("Error al insertar los datos en la tabla de institutos");
+          } else {
+            if (insertId !== undefined) {
+              const dataID = insertId;
+      
+              const folderPath = path.join(dataPath, dataID.toString());
+              fs.mkdirSync(folderPath, { recursive: true });
+      
+              const filePath = path.join(folderPath, fileName);
+              fs.renameSync(file.path, filePath);
+      
+              res.send("¡Archivo subido y sesión creada correctamente!");
             } else {
-                dataID = insertId;
-
-                const storage = multer.diskStorage({
-                    destination: function (req, file, cb) {
-                      const folderPath = path.join(dataPath, dataID.toString()); // Generate the dynamically folder path
-                      fs.mkdirSync(folderPath, { recursive: true }); // Create the folder if it doesn't exist
-                      cb(null, folderPath);
-                    },
-                    filename: function (req, file, cb) {
-                      cb(null, file.originalname); // Use the original file name
-                    }
-                  });
-                
-
-                const uploadMiddleware = configurarMulter(dataID,storage);
-                uploadMiddleware(req, res, function (err) {
-                if (err instanceof multer.MulterError) {
-                    // Error de multer
-                    res.status(500).send("Error al procesar el archivo");
-                } else if (err) {
-                    // Otro error
-                    res.status(500).send("Error en el servidor");
-                } else {
-                    // El archivo se subió correctamente
-                    res.send("¡Archivo subido y sesión creada correctamente!");
-                }
-                });
+              res.status(500).send("Error: insertId is undefined");
             }
+          }
         });
-    });
+      });
+      
+      
 
     return admin;
 };

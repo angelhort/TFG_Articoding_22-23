@@ -57,14 +57,14 @@ class DAOExperimento {
         });
     }
 
-    insertExperimento(fileName, profesor, nombre, callback) {
+    insertExperimento(profesor, nombre, callback) {
       this.#poolConnections.getConnection(function(err, connection) {
         if (err) {
           connection.release();
           callback(err.message);
         } else {
-          const query = 'INSERT INTO experimentos (fileName, profesor, nombre) VALUES (?, ?, ?)';
-          connection.query(query, [fileName, profesor, nombre], (error, results) => {
+          const query = 'INSERT INTO experimento (idProfesor, nombre) VALUES ((SELECT id FROM usuario WHERE nombre = ?), ?)';
+          connection.query(query, [ profesor, nombre], (error, results) => {
             if (error) {
               console.error('Error inserting into experimentos:', error);
               callback(error);
