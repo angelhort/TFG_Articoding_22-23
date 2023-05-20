@@ -185,20 +185,20 @@ module.exports = function (dataPath, bodyParser ,daoU, daoE) {
                 response.render("cuentas");
             } else {
                 response.status(200);
-                response.render("rutas", { profesores: profesores });
+                response.render("rutas", {mostrarMensaje:false,mensaje:'', profesores: profesores });
             }
         }
     });
 
     admin.post("/rutas", upload.single("archivo"), function (req, res) {
         const file = req.file;
-        const fileName = file.filename;
+        const fileName = "trazasOrdenadas.json";
         const profesor = req.body.profesor;
         const nombre = req.body.nombre;
       
         daoE.insertExperimento( profesor, nombre, (error, insertId) => {
           if (error) {
-            res.status(500).send("Error al insertar los datos en la tabla de institutos");
+            res.render("rutas",{mostrarMensaje: true,mensaje:"Error al insertar los datos en la tabla de experimentos"});
           } else {
             if (insertId !== undefined) {
               const dataID = insertId;
@@ -209,13 +209,13 @@ module.exports = function (dataPath, bodyParser ,daoU, daoE) {
               const filePath = path.join(folderPath, fileName);
               fs.renameSync(file.path, filePath);
       
-              res.send("¡Archivo subido y sesión creada correctamente!");
+              res.render("general");
             } else {
-              res.status(500).send("Error: insertId is undefined");
+              res.render("rutas",{mostrarMensaje: true,mensaje:"No se ha podido crear el experimento, datos inválidos"});
             }
           }
         });
-      });
+    });
       
       
 
