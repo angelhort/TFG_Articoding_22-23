@@ -199,7 +199,7 @@ class DAOUsuario {
         );
     }
 
-    getInstitutosProf(idProf, callback){
+    getExprerimentosProf(idProf, callback){
         this.#poolConnections.getConnection(
             function (err,connection){
                 if (err){

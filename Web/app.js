@@ -48,7 +48,7 @@ app.set("views", path.join(__dirname, "views"));
 
 /* -------------------------------------------------------------------------- */
 
-const admin = require('./admin')(dataPath,bodyParser,daoU,daoE);
+const admin = require('./admin')(dataPath,daoU,daoE);
 app.use("/admin",admin);
 const profesor = require("./profesor")(dataPath, daoU);
 app.use("/profesor", profesor);

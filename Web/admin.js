@@ -17,12 +17,7 @@ const bodyParser = require('body-parser');
 const pool = mysql.createPool(config.mysqlConfig);
 const admin = express.Router();
 
-module.exports = function (dataPath, bodyParser ,daoU, daoE) {
-
-    console.log(dataPath);
-    admin.use(express.static(path.join(__dirname, "public")));
-    admin.use(bodyParser.urlencoded({ extended: true }));
-
+module.exports = function (dataPath, daoU, daoE) {
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {

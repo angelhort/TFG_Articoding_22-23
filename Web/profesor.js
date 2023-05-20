@@ -25,7 +25,7 @@ module.exports = function(dataPath, daoU){
     profesor.use(comprobarUsuario);
 
     profesor.get("/", function(request, response){
-        daoU.getInstitutosProf(request.session.idProf, selectInstituto);
+        daoU.getExprerimentosProf(request.session.idProf, selectInstituto);
         function selectInstituto(err, institutos){
             if(err){
                 //TODO pagina error 500
