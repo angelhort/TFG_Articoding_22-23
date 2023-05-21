@@ -16,7 +16,8 @@
             "participantes" : "Participantes",
             "nAvisos" : "Nº avisos por nivel",
             "avisos" : "Nº avisos",
-            "verAvisos" : "Avisos"
+            "verAvisos" : "Avisos",
+            "grupo" : "Grupo"
         },
         "modalConocimientos":{
             "titulo" : "Conocimientos adquiridos en cada categoría",
@@ -72,6 +73,7 @@
         "nombre" : "Nombre",
         "ultNivel" : "Ult. Nivel Alcanzado",
         "tiempo" : "Tiempo Jugado",
+        "significadoGrupo" : "¿Qué implica pertenecer a cada grupo?",
         "modal" : {
             "titulo" : "Información detallada niveles de",
             "completado" : "Completado",
@@ -83,6 +85,25 @@
             "estrellas" : "Estrellas",
             "obtenidas" : "obtenidas:",
             "cerrar" : "Cerrar"
+        },
+        "modalGrupos" : {
+            "titulo" : "Grupos generados",
+            "parrafo" : "Los grupos que aparecen en la tabla de participantes se crean para agrupar a los distintos jugadores con características similares que puedan describir su compartamiento en el juego.",
+            "grupos" : [
+                {"titulo" : "Grupo 0",
+                "contenido" : "Jugadores con valores atípicos respecto a tiempo, intentos o errores. Son los que necesitan ayuda con más urgencia."},
+                {"titulo" : "Grupo 1",
+                "contenido" : "Grupo formado por los alumnos que han jugado menos niveles (y por lo tanto tienen menos errores), con un tiempo medio normal, pero con más intentos, por lo que no han jugado tantos niveles debido a ello."},
+                {"titulo" : "Grupo 2",
+                "contenido" : "Formado por los alumnos que más niveles se han pasado y con muy pocos intentos de media. Son los que tienen más errores al jugar más niveles. Su tiempo también está en la media."},
+                {"titulo" : "Grupo 3",
+                "contenido" : "Jugadores que han pasado bastantes niveles, pero no tantos como el anterior grupo, teniendo unos intentos similares, pero más tiempo de media. Tienen menos errores al jugar menos niveles que el grupo 2."},
+                {"titulo" : "Grupo 4",
+                "contenido" : "Son los que tienen menos errores, pero son los segundos por la cola respecto a número de niveles superados, solo por delante del grupo 1. Se los suelen pasar con pocos intentos, pero su tiempo medio es el mayor de todos."},
+                {"titulo" : "Grupo 5",
+                "contenido" : "Grupo formado por alumnos que se han pasado un número de niveles similar al grupo 3, pero con algo más de errores. Su tiempo es inferior, pero sus intentos son mayores."}
+            ],
+            "cerrar" : "¡Entendido!"
         }
     },
 

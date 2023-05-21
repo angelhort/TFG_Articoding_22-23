@@ -11,6 +11,10 @@ import sys
 import os
 import xml.etree.ElementTree as ET
 import keyword
+import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 
 sys.stdout.flush()
 print("Analizando datos...")
@@ -20,7 +24,7 @@ nombreInstituto = sys.argv[1]
 if not os.path.exists("./datos/" + nombreInstituto + "/plots"):
     os.makedirs("./datos/" + nombreInstituto + "/plots")
 
-def extraerTiemposPorNivelJugador(rawData):
+def extraerTiemposPorNivelJugador(rawData, tenerEnCuentaMove = False):
     
     tiempos = defaultdict(defaultdict)
     intentosNecesarios = defaultdict(defaultdict)
@@ -38,6 +42,11 @@ def extraerTiemposPorNivelJugador(rawData):
     nivelesError1Excepcion = ['variables_2', 'variables_3', 'variables_4', 'variables_6', 'variables_8', 'variables_10', 'types_2', 'basic_operators_1', 'basic_operators_3', 'basic_operators_6']
     nivelesError3Excepcion = ['tutorials_1', 'tutorials_2', 'tutorials_3', 'tutorials_4', 'tutorials_5', 'tutorials_6', 'tutorials_7', 'tutorials_8', 'tutorials_9']
 
+    ultimaInteraccionJugador = defaultdict()
+    tiempoInicio_Interaccion_Jugador = defaultdict(defaultdict) #Tiempo entre inicio de nivel y la siguiente interaccion (reinicio, completado o interaccion con tarjeta)
+    tiempoInteraccion_Completado_Jugador = defaultdict(defaultdict) #Tiempo entre una interaccion (inicio, reinicio o interaccion con tarjeta) y terminar el nivel
+    tiempoInteraccion_Interaccion_Jugador = defaultdict(defaultdict) #Tiempo entre una interaccion con tarjeta y otra interaccion con tarjeta
+
     erLevel = re.compile(r'\blevel$\b')
     erIdLevel = re.compile(r'/')
     
@@ -45,9 +54,12 @@ def extraerTiemposPorNivelJugador(rawData):
     erCompleted = re.compile(r'\bcompleted$\b')
     erAccessed = re.compile(r'\baccessed$\b')
     erProgressed = re.compile(r'\bprogressed$\b')
+    erInteracted = re.compile(r'\binteracted$\b')
 
     erSeriousGame = re.compile(r'\bserious-game$\b')  
     erCategoryMain = re.compile(r'\bcategories_main$\b') 
+    erGameObject = re.compile(r'\bgame-object$\b')
+    erLevelExitButton = re.compile(r'\blevel_exit_button$\b') 
 
     estandarNombreVar = re.compile(r'^_*[a-zA-Z][a-zA-Z0-9_]*$')
     
@@ -73,8 +85,24 @@ def extraerTiemposPorNivelJugador(rawData):
                         else:
                             intentosNecesarios[name][levelCode] = [{"intentos" : 1, "success" : False}]
                             tiempos[name][levelCode] = [{"ini" : timestamp, "fin" : None, "stars" : ""}]
+
+                        ultimaInteraccionJugador[name] = {"t" : timestamp, "accion" : "inicio"}
                     else:
                         intentosNecesarios[name][levelCode][-1]["intentos"] += 1
+                        try:
+                            t = Tiempo(ultimaInteraccionJugador[name]["t"], timestamp)               
+                            if ultimaInteraccionJugador[name]["accion"] == "inicio":
+                                #Añadimos la dif de tiempo al diccionario del jugador
+                                if levelCode in tiempoInicio_Interaccion_Jugador[name]:
+                                    tiempoInicio_Interaccion_Jugador[name][levelCode].append({"tiempo" : t, "accion" : "reinicio"})
+                                else:
+                                    tiempoInicio_Interaccion_Jugador[name][levelCode] = [{"tiempo" : t, "accion" : "reinicio"}]
+                            #Actualizamos ultima interaccion
+                            ultimaInteraccionJugador[name] = {"t" : timestamp, "accion" : "reinicio"}
+                        except:
+                            #Si entra aqui es porque ha reiniciado un nivel que no habia iniciado
+                            #Trazas estan mal
+                            None
 
                 elif erProgressed.search(verb):
                     cod = ET.fromstring(evento['result']['extensions']['code'])
@@ -82,6 +110,39 @@ def extraerTiemposPorNivelJugador(rawData):
                     codUltNivel[name] = levelCode
 
                 elif erCompleted.search(verb):
+                    if evento["result"]["score"]["raw"] != 0:
+                        try:
+                            t = Tiempo(ultimaInteraccionJugador[name]["t"], timestamp)                        
+                            #Añadimos la dif de tiempo al diccionario del jugador
+                            if ultimaInteraccionJugador[name]["accion"] == "inicio":
+                                    #Añadimos la dif de tiempo al diccionario del jugador
+                                if levelCode in tiempoInicio_Interaccion_Jugador[name]:
+                                    tiempoInicio_Interaccion_Jugador[name][levelCode].append({"tiempo" : t, "accion" : "terminado", "exito" : evento["result"]["success"]})
+                                else:
+                                    tiempoInicio_Interaccion_Jugador[name][levelCode] = [{"tiempo" : t, "accion" : "terminado", "exito" : evento["result"]["success"]}]
+                                    
+                                if levelCode in tiempoInteraccion_Completado_Jugador[name]:
+                                    tiempoInteraccion_Completado_Jugador[name][levelCode].append({"tiempo" : t, "accion_anterior" : "inicio"})
+                                else:
+                                    tiempoInteraccion_Completado_Jugador[name][levelCode] = [{"tiempo" : t, "accion_anterior" : "inicio"}]
+                                        
+                            elif ultimaInteraccionJugador[name]["accion"] == "reinicio":
+                                if levelCode in tiempoInteraccion_Completado_Jugador[name]:
+                                    tiempoInteraccion_Completado_Jugador[name][levelCode].append({"tiempo" : t, "accion_anterior" : "reinicio"})
+                                else:
+                                    tiempoInteraccion_Completado_Jugador[name][levelCode] = [{"tiempo" : t, "accion_anterior" : "reinicio"}]
+
+                            elif ultimaInteraccionJugador[name]["accion"] == "interaccion":
+                                if levelCode in tiempoInteraccion_Completado_Jugador[name]:
+                                    tiempoInteraccion_Completado_Jugador[name][levelCode].append({"tiempo" : t, "accion_anterior" : "interaccionTarjeta"})
+                                else:
+                                    tiempoInteraccion_Completado_Jugador[name][levelCode] = [{"tiempo" : t, "accion_anterior" : "interaccionTarjeta"}]
+                            #Actualizamos ultima interaccion, la borramos
+                            del ultimaInteraccionJugador[name]
+                        except:
+                            #Si entra aqui es porque se ha completado un nivel que no se habia iniciado
+                            #Probablemente por anomalias en las trazas
+                            None
                     if evento["result"]["score"]["raw"] > 0 :
                         if levelCode in tiempos[name]:
                             intentosNecesarios[name][levelCode][-1]["success"] = True
@@ -178,14 +239,58 @@ def extraerTiemposPorNivelJugador(rawData):
                 inicioYFinJuego[name].append({"inicio" : timestamp, "fin" : None})
             else:
                 inicioYFinJuego[name] = [{"inicio" : timestamp, "fin" : None}]
+
+            if name in ultimaInteraccionJugador:
+                    del ultimaInteraccionJugador[name]
         
+        elif erGameObject.search(obj) and erInteracted.search(verb):
+                if "result" in evento and "extensions" in evento["result"] and "level" in evento["result"]["extensions"]:
+                    levelCode = evento["result"]["extensions"]["level"]
+                    if not erLevelExitButton.search(objectId) and levelCode != "editor_level":
+                        if name in ultimaInteraccionJugador:
+                            if evento["result"]["extensions"]["action"] != "move" or tenerEnCuentaMove: #<-- Que accion realiza
+                                t = Tiempo(ultimaInteraccionJugador[name]["t"], timestamp)
+                                #Añadimos la dif de tiempo al diccionario del jugador
+
+                                if ultimaInteraccionJugador[name]["accion"] == "inicio":
+                                    if levelCode in tiempoInicio_Interaccion_Jugador[name]:
+                                        tiempoInicio_Interaccion_Jugador[name][levelCode].append({"tiempo" : t, "accion" : "interaccionTarjeta"})
+                                    else:
+                                        tiempoInicio_Interaccion_Jugador[name][levelCode] = [{"tiempo" : t, "accion" : "interaccionTarjeta"}]
+
+                                if ultimaInteraccionJugador[name]["accion"] == "interaccionTarjeta":
+                                    if levelCode in tiempoInteraccion_Interaccion_Jugador[name]:
+                                        tiempoInteraccion_Interaccion_Jugador[name][levelCode].append({"tiempo" : t, "accion_anterior" : "interaccionTarjeta"})
+                                    else:
+                                        tiempoInteraccion_Interaccion_Jugador[name][levelCode] = [{"tiempo" : t, "accion_anterior" : "interaccionTarjeta"}]
+
+                                ultimaInteraccionJugador[name] = {"t" : timestamp, "accion" : "interaccionTarjeta"}
+                        else:
+                            #Se ha interactuado en un nivel que no estaba iniciado
+                            None
+
         if not(erAccessed.search(verb) and erCategoryMain.search(objectId)):
             try:
                 inicioYFinJuego[name][-1]["fin"] = timestamp
             except:
                 None
     
-    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresVar" : erroresVar, "erroresCod" : erroresCod, "fechaSesion" : fechaSesion}
+     # Dataframe 1: tiempoInteraccion_Completado_Jugador
+    df_tiempoInteraccion_Completado_Jugador = pd.DataFrame(tiempoInteraccion_Completado_Jugador)
+    df_tiempoInteraccion_Completado_Jugador = df_tiempoInteraccion_Completado_Jugador.applymap(lambda x: np.nan if not isinstance(x, list) or len(x) == 0 else int(x[-1]["tiempo"]))
+    df_tiempoInteraccion_Completado_Jugador.index.name = "nivel"
+
+    # Dataframe 2: tiempoInicio_Interaccion_Jugador
+    df_tiempoInicio_Interaccion_Jugador = pd.DataFrame(tiempoInicio_Interaccion_Jugador)
+    df_tiempoInicio_Interaccion_Jugador = df_tiempoInicio_Interaccion_Jugador.applymap(lambda x: np.nan if not isinstance(x, list) or len(x) == 0 else int(x[0]["tiempo"]))
+    df_tiempoInicio_Interaccion_Jugador.index.name = "nivel"
+
+    # Dataframe 3: tiempoInteraccion_Interaccion_Jugador
+    df_tiempoInteraccion_Interaccion_Jugador = pd.DataFrame(tiempoInteraccion_Interaccion_Jugador)
+    df_tiempoInteraccion_Interaccion_Jugador = df_tiempoInteraccion_Interaccion_Jugador.applymap(lambda x: np.nan if not isinstance(x, list) or len(x) == 0 else sum(int(tiempo["tiempo"]) for tiempo in x) / len(x))
+    df_tiempoInteraccion_Interaccion_Jugador.index.name = "nivel"
+    
+    return {"tiempos" : tiempos, "intentosNecesarios" : intentosNecesarios, "inicioYFinJuego" : inicioYFinJuego, "erroresVar" : erroresVar, "erroresCod" : erroresCod, "fechaSesion" : fechaSesion, "tiempoInteraccion_Completado_Jugador" : df_tiempoInteraccion_Completado_Jugador, "tiempoInicio_Interaccion_Jugador" : df_tiempoInicio_Interaccion_Jugador, "tiempoInteraccion_Interaccion_Jugador" : df_tiempoInteraccion_Interaccion_Jugador}
 
 def tiempoPorNiveles_Jugador(data):
     tiemposJugados = defaultdict(defaultdict)
@@ -430,7 +535,7 @@ def create_boxplots(data_dict, titulo):
         fig.update_traces(marker_color='#738FA7', hovertemplate='<b>%{hovertext}</b><br>' + titulo + ': %{y}')
         fig.write_json("./datos/" + nombreInstituto + "/plots/"+ c.split(" ")[0] + "_"+ titulo +".json")
 
-def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
+def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase, tiempoInteraccion_Interaccion):
     cuantosHanLlegadoAlNivel = getCuantasPersonasHanAlcanzadoNivel(ultNivelCompletado, niveles)
     ultNivelCat = {}
     for level in cuantosHanLlegadoAlNivel:
@@ -468,6 +573,8 @@ def getChartsComparativas(niveles, tiemposMedios, ultNivelCompletado, jugClase):
         datosGlobales["institutos"].append(nombreInstituto)
         with open('./datos/datosGlobales.json', 'w') as json_file:
             json.dump(datosGlobales, json_file)
+
+        clustering(tiempoInteraccion_Interaccion)
 
 
     fig = go.Figure(data=[
@@ -555,6 +662,186 @@ def getDatosMediosPorCategoria(df_tiempo, df_intentos):
 
     return data
 
+def clustering(df_tiempoInteraccion_Interaccion_Jugador):
+    # Crear un DataFrame con los datos de los intentos medios de cada jugador
+
+    intentosJugadores = pd.DataFrame(intentosMedios_Individual["intentosIndividual"])
+    #intentosJugadores
+
+    # Convertir columnas en filas
+    df_stacked = intentosJugadores.stack().reset_index()
+    df_stacked.columns = ['nivel', 'token', 'intentos']
+
+    # Calcular promedio de intentos por jugador
+    promedio_intentos = df_stacked.groupby('token')['intentos'].mean()
+
+    # Crear DataFrame final
+    df_final = pd.DataFrame({'token': promedio_intentos.index, 'intentos': promedio_intentos.values})
+    df_final
+
+    # Convertir índice de df_tiempoInteraccion_Interaccion_Jugador en columna
+    df_tiempoInteraccion_Interaccion_Jugador2 = df_tiempoInteraccion_Interaccion_Jugador.stack().reset_index()
+    df_tiempoInteraccion_Interaccion_Jugador2.columns = ['nivel', 'token', 'tiempo']
+
+    # Calcular promedio de intentos por jugador
+    promedio_interaccion = df_tiempoInteraccion_Interaccion_Jugador2.groupby('token')['tiempo'].mean()
+
+    # Crear DataFrame final
+    df_final2 = pd.DataFrame({'token': promedio_interaccion.index, 'tiempo': promedio_interaccion.values})
+
+    # Unir con intentosJugadores usando merge en'token'
+    df_jugadores = pd.merge(df_final, df_final2, on=['token'])
+
+
+    #Añadimos los errores:
+    resultados_Tiempos_Nivel_Jugador = extraerTiemposPorNivelJugador(rawData)
+    res = defaultdict(int)
+
+    for j in resultados_Tiempos_Nivel_Jugador["erroresCod"]:
+        res[j] += len(resultados_Tiempos_Nivel_Jugador["erroresCod"][j])
+    for j in resultados_Tiempos_Nivel_Jugador["erroresVar"]:
+        res[j] += len(resultados_Tiempos_Nivel_Jugador["erroresVar"][j])
+
+    for i, row in df_jugadores.iterrows():
+        jugador = row['token']
+        if jugador in res:
+            df_jugadores.at[i, 'errores'] = res[jugador]
+        else:
+            df_jugadores.at[i, 'errores'] = 0
+
+    niveles = list(tiemposMedios["listaNiveles"])
+    nivel_numeros = {nivel: i+1 for i, nivel in enumerate(niveles)}
+
+    ultNivelAlcanzado = getUltimoNivelAlcanzado(tiemposMedios["tiemposIndividuales"])
+
+    for jugador, nivel in ultNivelAlcanzado.items():
+        ultNivelAlcanzado[jugador] = nivel_numeros[nivel]
+
+    for i, row in df_jugadores.iterrows():
+        jugador = row['token']
+        if jugador in ultNivelAlcanzado:
+            df_jugadores.at[i, 'nivel'] = ultNivelAlcanzado[jugador]
+        else:
+            df_jugadores.at[i, 'nivel'] = 0
+
+    # Calcular los límites de los valores atípicos
+    # regla empírica, que establece que los valores atípicos se encuentran a más de 3 desviaciones estándar de la media.
+
+    Q1_intentos = df_jugadores['intentos'].quantile(0.25)
+    Q3_intentos = df_jugadores['intentos'].quantile(0.75)
+    IQR_intentos = Q3_intentos - Q1_intentos
+    outlier_threshold_intentos = Q3_intentos + 1.5*IQR_intentos
+
+    Q1_tiempo = df_jugadores['tiempo'].quantile(0.25)
+    Q3_tiempo = df_jugadores['tiempo'].quantile(0.75)
+    IQR_tiempo = Q3_tiempo - Q1_tiempo
+    outlier_threshold_tiempo = Q3_tiempo + 1.5*IQR_tiempo
+
+    Q1_errores = df_jugadores['errores'].quantile(0.25)
+    Q3_errores = df_jugadores['errores'].quantile(0.75)
+    IQR_errores = Q3_errores - Q1_errores
+    outlier_threshold_errores = Q3_errores + 1.5*IQR_errores
+
+    df = df_jugadores[(df_jugadores['errores'] <= outlier_threshold_errores) & (df_jugadores['intentos'] <= outlier_threshold_intentos) & (df_jugadores['tiempo'] <= outlier_threshold_tiempo)]
+
+    df = df.reset_index(drop=True)
+
+    # Seleccionamos las columnas que se van a usar en el análisis
+    columnas = ['intentos', 'tiempo', 'errores', 'nivel']
+
+    # Seleccionamos los datos que se van a usar en el análisis
+    data = df[columnas]
+
+    # Estandarizamos los datos
+    data_std = StandardScaler().fit_transform(data)
+
+    # Creamos un objeto PCA con el número de componentes que queremos obtener
+    pca = PCA(n_components=2)
+
+    # Aplicamos PCA a los datos estandarizados
+    componentes_principales = pca.fit_transform(data_std)
+
+    # Creamos un nuevo DataFrame con las componentes principales y los tokens
+    df_pca = pd.DataFrame(data = componentes_principales, columns = ['PC1', 'PC2'])
+    df_pca['token'] = df['token']
+
+    # Ruta del archivo CSV
+    archivo_csv = './datos/jugadores_pca.csv'
+
+    # Comprobar si el archivo CSV existe
+    if os.path.isfile(archivo_csv):
+        # Cargar el archivo CSV existente
+        df_pca_guardado = pd.read_csv(archivo_csv)
+
+        # Combinar los datos guardados con los nuevos jugadores
+        df_pca = pd.concat([df_pca_guardado, df_pca], ignore_index=True)
+    else:
+        df_pca_guardado = pd.DataFrame()
+
+    # Guardar el dataframe actualizado en el archivo CSV (agregar nuevas filas)
+    df_pca.to_csv(archivo_csv, mode='a', header=not os.path.isfile(archivo_csv), index=False)
+
+    matriz_caracteristicas = df_pca[['PC1', 'PC2']].values
+
+    # Normalizar los datos
+    matriz_caracteristicas_norm = StandardScaler().fit_transform(matriz_caracteristicas)
+
+    n_iter = 20
+
+    SEED_VALUE = 190463 
+    np.random.seed(SEED_VALUE)
+    centr_iniciais = matriz_caracteristicas_norm[np.random.choice(matriz_caracteristicas_norm.shape[0], size=5, replace=False)]
+
+    model = KMeans(n_clusters=len(centr_iniciais), init=centr_iniciais, n_init=1,
+                max_iter=n_iter, algorithm='lloyd', random_state=SEED_VALUE)
+
+    np.random.seed(SEED_VALUE)
+    agrupamento = model.fit(matriz_caracteristicas_norm)
+
+
+    # Crear la figura. Si quisiesemos incluirla en la web sería guardar la figura
+    """fig = go.Figure(data=[go.Scatter(x=df_pca['PC1'], y=df_pca['PC2'], mode='markers',
+                                    marker=dict(size=10, color=agrupamento.labels_ + 1, opacity=0.8,
+                                                colorscale='Viridis'),
+                                                hovertext=df['token'] + '<br>' +
+                                                'Tiempo: ' + df['tiempo'].astype(str) + '<br>' +
+                                                'Nivel: ' + df['nivel'].astype(str) + '<br>' +
+                                                'Intentos: ' + df['intentos'].astype(str) + '<br>' +
+                                                'Errores: ' + df['errores'].astype(str))]) 
+
+    # Configurar layout
+    fig.update_layout(title='Clustering de intentos',
+                    xaxis_title='PC1',
+                    yaxis_title='PC2',
+                    width=800, height=600)"""
+    
+    # Obtener los últimos valores de los clusters en agrupamento
+    ultimos_clusters = agrupamento.labels_[-len(df):] +1
+
+    # Crear una nueva columna 'cluster' en el dataframe df y asignar los valores de los clusters
+    df['cluster'] = ultimos_clusters
+
+    # Copiar la columna 'cluster' del dataframe df a df_jugadores
+    df_jugadores['cluster'] = 00
+    for index, row in df.iterrows():
+        jugador_id = row['token']  # Obtener el ID de jugador de df
+        
+        # Comprobar si el ID de jugador existe en df_jugadores
+        if jugador_id in df_jugadores['token'].values:
+            cluster_valor = row['cluster']  # Obtener el valor de la columna "cluster" de df
+            
+            # Asignar el valor correspondiente a la fila correspondiente en df_jugadores
+            df_jugadores.loc[df_jugadores['token'] == jugador_id, 'cluster'] = cluster_valor
+
+    jugadoresCluster = df_jugadores.to_dict()
+    jugadoresClusterDict = defaultdict()
+    for j in jugadoresCluster['token']:
+        jugadoresClusterDict[jugadoresCluster['token'][j]] = jugadoresCluster['cluster'][j]
+
+    with open("./datos/" + nombreInstituto + "/cluster.json", 'w') as json_file:
+        json.dump(jugadoresClusterDict, json_file)
+ 
+
 #####################################################################################################################
 
 JSONFile = open('./datos/' + nombreInstituto + '/trazasOrdenadas.json')
@@ -597,7 +884,7 @@ create_boxplots(intentosListNombres, 'Intentos')
 
 create_boxplots(parseTiemposDictConNombresToInteger(tiemposListNombres), "Tiempo(s)")
 
-getChartsComparativas(tiemposMedios["listaNiveles"], tiemposMedios["mediaTiempos"], ultNivelAlcanzado, len(ultNivelAlcanzado))
+getChartsComparativas(tiemposMedios["listaNiveles"], tiemposMedios["mediaTiempos"], ultNivelAlcanzado, len(ultNivelAlcanzado), resultados_Tiempos_Nivel_Jugador["tiempoInteraccion_Interaccion_Jugador"])
 
 getMediaCategorias(tiemposMedios["mediaTiempos"], intentosMedios_Individual["intentosMedios"], tiemposMedios["mediaEstrellas"])
 

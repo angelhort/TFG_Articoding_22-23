@@ -7,21 +7,50 @@
 <body>
     <%- include("navBar") %>
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-between">
             <div class="col-auto mt-3">
-                <h6><%= texto.alumnos.buscar %></h6>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" id="searchP" placeholder="<%= texto.alumnos.nombreOID %>">                        
-                </form>
+                <div class="row">
+                    <div class="col-auto">
+                        <h6><%= texto.alumnos.buscar %></h6>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" id="searchP" placeholder="<%= texto.alumnos.nombreOID %>">                        
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <h6><%= texto.alumnos.ordenar %></h6>
+                        <select class="form-select" id="orden">
+                            <option value="num"><%= texto.alumnos.numero %></option>
+                            <option value="nombre"><%= texto.alumnos.nombre %></option>
+                            <option value="nivel"><%= texto.alumnos.ultNivel %></option>
+                            <option value="tiempo"><%= texto.alumnos.tiempo %></option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="col-auto mt-3">
-                <h6><%= texto.alumnos.ordenar %></h6>
-                <select class="form-select" id="orden">
-                    <option value="num"><%= texto.alumnos.numero %></option>
-                    <option value="nombre"><%= texto.alumnos.nombre %></option>
-                    <option value="nivel"><%= texto.alumnos.ultNivel %></option>
-                    <option value="tiempo"><%= texto.alumnos.tiempo %></option>
-                </select>
+            <div class="col-auto mt-5">
+                <a href="" data-bs-toggle="modal" data-bs-target="#explicacionGrupos"><%= texto.alumnos.significadoGrupo %></a>
+            </div>
+            <div class="modal fade" id="explicacionGrupos" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title fs-5"><%= texto.alumnos.modalGrupos.titulo %></h2>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6><%= texto.alumnos.modalGrupos.parrafo %></h6>
+                        <hr>
+                        <% texto.alumnos.modalGrupos.grupos.forEach(g => { %>
+                            <h5><%= g.titulo %></h5>
+                            <p><%= g.contenido %></p>
+                            <hr>
+                        <% }); %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.alumnos.modalGrupos.cerrar %></button>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
         <div class="row mt-3">
@@ -34,17 +63,19 @@
                             <th scope="col"><%= texto.comun.tablas.nombre %></th>
                             <th scope="col"><%= texto.comun.tablas.tiempoJugado %></th>
                             <th scope="col"><%= texto.comun.tablas.ultNivel %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.grupo %></th>
                             <th scope="col" class="text-center"><%= texto.comun.tablas.verIntentos %></th>
                         </tr>
                     </thead>
                     <tbody id="cuerpoTabla">
                         <% infoAlumnos.forEach(function(a,i){ %>
-                            <tr class="alumno" idAlumno = "<%= a.id %>" nombre = "<%= a.nombre %>" tiempo="<%= a.tiempo %>" ultNivel="<%= a.ultNivel %>" numAlumno="<%= i + 1%>">
+                            <tr class="alumno" idAlumno = "<%= a.id %>" nombre = "<%= a.nombre %>" tiempo="<%= a.tiempo %>" ultNivel="<%= a.ultNivel %>" numAlumno="<%= i + 1%>" grupoCluster="<%= cluster[a.id] %>">
                                 <th scope="row"> <%= i + 1%> </th>
                                 <td><%= a.id %></td>
                                 <td><%= a.nombre %></td>
                                 <td><%= a.tiempo %></td>
                                 <td><%= a.ultNivel %></td>
+                                <td class="text-center"><%= cluster[a.id] %></td>
                                 <td class="text-center"><a class="cursorOnHover crearPlot" idAlumno="<%= a.id %>" data-bs-toggle="modal" data-bs-target="#modalIntentosJugador<%=a.id%>">
                                         <i class="fa-solid fa-eye mt-2" style="color:black"></i>
                                     </a>

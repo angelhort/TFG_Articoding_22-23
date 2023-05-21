@@ -16,7 +16,8 @@
             "participantes" : "Players",
             "nAvisos" : "Nº of warnings per level",
             "avisos" : "Nº of warnings",
-            "verAvisos" : "Warnings"
+            "verAvisos" : "Warnings",
+            "grupo" : "Group"
         },
         "modalConocimientos":{
             "titulo" : "Knowledge acquired in each category",
@@ -72,6 +73,7 @@
         "nombre" : "Name",
         "ultNivel" : "Last level passed",
         "tiempo" : "Time played",
+        "significadoGrupo" : "What does it mean to belong to each group?",
         "modal" : {
             "titulo" : "Detailed level info of ",
             "completado" : "Passed",
@@ -83,6 +85,25 @@
             "estrellas" : "Stars",
             "obtenidas" : "obtained:",
             "cerrar" : "Close"
+        },
+        "modalGrupos" : {
+            "titulo" : "Groups generated",
+            "parrafo" : "The groups that appear in the participants table are created to group different players with similar characteristics that can describe their behavior in the game.",
+            "grupos" : [
+                {"titulo" : "Group 0",
+                "contenido" : "Players with outlier values in terms of time, attempts, or errors. They are the ones who need urgent help."},
+                {"titulo" : "Group 1",
+                "contenido" : "Group formed by students who have played fewer levels (and therefore have fewer errors), with average time but more attempts, resulting in playing fewer levels overall."},
+                {"titulo" : "Group 2",
+                "contenido" : "Formed by students who have completed the most levels with very few attempts on average. They have more errors due to playing more levels. Their time is also average."},
+                {"titulo" : "Group 3",
+                "contenido" : "Players who have completed a considerable number of levels, but not as many as Group 2. They have similar attempts but more average time. They have fewer errors compared to Group 2 since they played fewer levels."},
+                {"titulo" : "Group 4",
+                "contenido" : "Players with fewer errors but second to last in terms of the number of levels completed, only ahead of Group 1. They usually complete levels with fewer attempts, but their average time is the highest among all groups."},
+                {"titulo" : "Group 5",
+                "contenido" : "Group formed by students who have completed a similar number of levels as Group 3, but with slightly more errors. Their time is lower, but their attempts are higher."}
+            ],
+            "cerrar" : "Got it!"
         }
     },
 

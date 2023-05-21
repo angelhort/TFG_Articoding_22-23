@@ -354,7 +354,7 @@ $(document).ready(function(){
   editableTable.refresh();
 
   $(".alumno").each(function(){
-      listaAlumnos.push({"id" : $(this).attr("idAlumno"), "nombre" : $(this).attr("nombre"), "tiempo" : $(this).attr("tiempo"), "ultNivel" : $(this).attr("ultNivel") , "numAlumno" : $(this).attr("numAlumno")})
+      listaAlumnos.push({"id" : $(this).attr("idAlumno"), "nombre" : $(this).attr("nombre"), "tiempo" : $(this).attr("tiempo"), "ultNivel" : $(this).attr("ultNivel") , "numAlumno" : $(this).attr("numAlumno"), "grupo" : $(this).attr("grupoCluster")})
   });
 
   $("#searchP").keyup(function(){
@@ -420,12 +420,13 @@ function construirTabla(table){
     const filtro = new RegExp($("#searchP").val().toLowerCase());
     if(filtro.test(a.id.toLowerCase()) || filtro.test(a.nombre.toLowerCase())){
         alumnos.push(
-            '<tr class="alumno" idAlumno ="' + a.id + '" nombre ="' + a.nombre + '" tiempo="'+a.tiempo + '" ultNivel="'+a.ultNivel+'" numAlumno"' + a.numAlumnos +'">' +
+            '<tr class="alumno" idAlumno ="' + a.id + '" nombre ="' + a.nombre + '" tiempo="'+a.tiempo + '" ultNivel="'+a.ultNivel+'" numAlumno="' + a.numAlumnos +'" grupoCluster="' + a.grupo + '">' +
                 '<th scope="row">' + a.numAlumno + '</th>' +
                 '<td>' + a.id + '</td>' +
                 '<td>' + a.nombre + '</td>' +
                 '<td>' + a.tiempo + '</td>' +
                 '<td>' + a.ultNivel + '</td>' +
+                '<td class="text-center">' + a.grupo + '</td>' +
                 '<td class="text-center"><a class="cursorOnHover crearPlot" idAlumno="' + a.id + '" data-bs-toggle="modal" data-bs-target="#modalIntentosJugador' + a.id + '">'+
                 '<i class="fa-solid fa-eye mt-2" style="color:black"></i></a></td>'+
             '</tr>'

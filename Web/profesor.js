@@ -372,7 +372,16 @@ module.exports = function(dataPath, daoU){
                             }
                             else{
                                 const idiomaJSON = JSON.parse(idioma);
-                                response.render("alumnos" , {"infoAlumnos" : util.cambiarNombreNiveles(infoAlumnosArray,language), "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : util.cambiarNombreNiveles(tiempoAlumnos,language), "texto" : {"alumnos" : idiomaJSON.alumnos, "comun" : idiomaJSON.comun}});
+                                fs.readFile(dataPath + request.session.instituto + "/cluster.json", function(err, cluster){
+                                    if(err){
+                                        //TODO pagina error 500
+                                        console.log("No se puede leer archivo CLUSTER");
+                                    }
+                                    else{
+                                        const clusterAlumnos = JSON.parse(cluster);
+                                        response.render("alumnos" , {"infoAlumnos" : util.cambiarNombreNiveles(infoAlumnosArray,language), "nAlumnos" : infoAlumnosArray.length, "tiempoAlumnos" : util.cambiarNombreNiveles(tiempoAlumnos,language), "cluster" : clusterAlumnos, "texto" : {"alumnos" : idiomaJSON.alumnos, "comun" : idiomaJSON.comun}});
+                                    }
+                                });
                             }
                         });
                     }
