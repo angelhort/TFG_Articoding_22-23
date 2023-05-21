@@ -3,35 +3,45 @@
     
 <head>
     <%- include("header", {titulo : "General"}) %>
-    <script src="js/plotGenerator.js"></script>
 </head>
 
 <body>
     <%- include("adminBar") %>
-    
-    <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">¡Bienvenido a la vista del administrador!</h5>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-start">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">¡Bienvenido a la vista del administrador!</h5>
+                        </div>
+                        <p class="mb-1">El administrador es capaz de modificar información vital para el funcionamiento de la aplicación, como las cuentas de los usuarios y las rutas de acceso de los diferentes datasets</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Gestión de usuarios</h5>
+                            <small class="text-muted"></small>
+                        </div>
+                        <p class="mb-1">La gestión de usuarios le permite crear nuevas cuentas y modificar las existentes inclusive la selección del rol del usuario en la aplicación</p>
+                        <small class="text-muted"></small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Gestión de sesiones</h5>
+                            <small class="text-muted"></small>
+                        </div>
+                        <p class="mb-1">Cada Sesión contiene unas trazas concretas, el administrador puede decicidir que trazas van a formar parte de la sesión durante el uso de la aplicación</p>
+                        <small class="text-muted"></small>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6 backgroundColor3 d-none d-md-block">
+              
+            </div>
+
           </div>
-          <p class="mb-1">El administrador es capaz de modificar información vital para el funcionamiento de la aplicación, como las cuentas de los usuarios y las rutas de acceso de los diferentes datasets</p>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">Gestión de usuarios</h5>
-            <small class="text-muted"></small>
-          </div>
-          <p class="mb-1">La gestión de usuarios le permite crear nuevas cuentas y modificar las existentes</p>
-          <small class="text-muted"></small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">Gestión de rutas de archivos</h5>
-            <small class="text-muted"></small>
-          </div>
-          <p class="mb-1">Cada dataset equivale a un experimento concreto, el administrador puede decicidir que datasets van a ser tenidos en cuenta durante el uso de la aplicación</p>
-          <small class="text-muted"></small>
-        </a>
-      </div>
+          
+        </div>
+    </div>
 </body>
 </html>

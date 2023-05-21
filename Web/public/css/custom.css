@@ -115,6 +115,10 @@ nav{
     --bs-breadcrumb-divider: '>';
 }
 
+.nav-link.active {
+    font-weight: bold;
+}
+
 .cursorOnHover{
     cursor: pointer;
 }
@@ -122,6 +126,7 @@ nav{
 input::placeholder{
     font-weight: bold;
 }
+
 
 p{
     margin-bottom: 0;

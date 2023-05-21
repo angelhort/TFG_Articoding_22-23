@@ -10,28 +10,28 @@
         
         <div class="container-fluid h-100">
             <div class="row h-100">
-                <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
+                <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-start mt-5">
                     <form id="form_login" method="POST" action="/admin/cuentas/<%= usuario.nombre %>" >
                         <% if (mostrarMensaje) { %>
-                            <div class="row mb-3 mt-5 alert alert-warning text-center" role="alert">
+                            <div class="mb-3 alert alert-warning text-center" role="alert">
                                 <%= mensaje %>
                             </div>
                         <% } %>
-                        <div class="row mb-3 mt-5">
+                        <div class="mb-5 mt-5">
                             <h1>Detalles Usuario Actual</h1>
                         </div>
-                        <div class="form-group">
-                            <h5 class="p-0">Rol</h5>
-                            <input type="email" class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= usuario.rol%>"readonly>
+                        <div class="form-group mt-3">
+                            <h5 class="p-0 custom-label">Rol</h5>
+                            <input type="email" class="form-control font-weight-bold" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="<%= usuario.rol %>"readonly>
                             <small id="emailHelp" class="form-text text-muted">El rol no puede cambiarse</small>
                         </div>
                         <input type="hidden" name="usuarioName" value="<%= usuario.nombre %>">
                         <div class="form-group mt-3">
-                            <h5 class="p-0">Usuario</h5>
+                            <h5 class="p-0 custom-label">Usuario</h5>
                             <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="<%= usuario.nombre %>" aria-label="Username"/>
                         </div>
                         <div class="form-group mt-3">
-                            <h5 class="p-0">Contraseña</h5>
+                            <h5 class="p-0 custom-label">Contraseña</h5>
                             <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
                         </div>
 

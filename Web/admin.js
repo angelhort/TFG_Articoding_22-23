@@ -48,23 +48,30 @@ module.exports = function (dataPath, daoU, daoE) {
     
 
     admin.use(comprobarUsuario);
+
+    //Middleware
+    admin.use((request, res, next) => {
+        res.locals.currentRoute = request.url;
+        next();
+    });
+
     //PR(15/03) La ruta inicial es /, profesor envía a resumen
     admin.get("/", function (request, response) {
-        response.render("general");
+        response.render("general",{currentRoute: request.url});
     });
 
     admin.get("/general", function (request, response) {
-        response.render("general");
+        response.render("general",{currentRoute: request.url});
     });
 
     admin.get("/cuentas/nuevoUsuario", function (request, response) {
-        response.render("crearUsuario", { mostrarMensaje: false, mensaje: '' });
+        response.render("crearUsuario", {currentRoute: request.url, mostrarMensaje: false, mensaje: '' });
     });
 
     admin.post("/cuentas/nuevoUsuario", function (request, response) {
         const validacion = validarContrasena(request.body.contrasenia);
         if  (!validacion.valida){
-            response.render("crearUsuario", { mostrarMensaje: true, mensaje: validacion.mensaje });
+            response.render("crearUsuario", { currentRoute: request.url,mostrarMensaje: true, mensaje: validacion.mensaje });
         }
         else{
             bcrypt.hash(request.body.contrasenia, 10, function (err, hash) {
@@ -74,7 +81,7 @@ module.exports = function (dataPath, daoU, daoE) {
                     response.status(500).send('Error a la hora de comprobar los usuarios en la tabla de usuarios');
                 }
                 else if (contador > 0 || request.body.usuario == '') {
-                    response.render("crearUsuario", { mostrarMensaje: true, mensaje: mensaje });
+                    response.render("crearUsuario", {currentRoute: request.url, mostrarMensaje: true, mensaje: mensaje });
                 }
                 else {
                     daoU.insertarUsuario(
@@ -86,10 +93,10 @@ module.exports = function (dataPath, daoU, daoE) {
                     function insertarUsuario(error, usuario) {
                         if (error) {
                             response.status(500);
-                            response.render("cuentas");
+                            response.render("cuentas",{currentRoute: request.url});
                         } else {
                             response.status(200);
-                            response.render("general");
+                            response.render("general",{currentRoute: request.url});
                         }
                     }
                 }
@@ -106,10 +113,10 @@ module.exports = function (dataPath, daoU, daoE) {
         function mostrarUsuarios(error, usuarios) {
             if (error) {
                 response.status(500);
-                response.render("general");
+                response.render("general",{currentRoute: request.url});
             } else if (usuarios) {
                 //TODO obtener lista de nombre de usuarios
-                response.render("cuentas", { usuarios: usuarios });
+                response.render("cuentas", { currentRoute: request.url,usuarios: usuarios });
             }
         }
     });
@@ -119,10 +126,10 @@ module.exports = function (dataPath, daoU, daoE) {
         function mostrarUsuario(error, usuario) {
             if (error) {
                 response.status(500);
-                response.render("cuentas");
+                response.render("cuentas",{currentRoute: request.url});
             } else {
                 response.status(200);
-                response.render("cuentaDetallada", { usuario: usuario, mostrarMensaje:false, mensaje:'' });
+                response.render("cuentaDetallada", { currentRoute: request.url, usuario: usuario, mostrarMensaje:false, mensaje:'' });
             }
         }
     });
@@ -134,7 +141,7 @@ module.exports = function (dataPath, daoU, daoE) {
                     response.status(500).send('Error a la hora de comprobar los usuarios en la tabla de usuarios');
                 }
                 else if (usuario != null) {
-                    response.render("cuentaDetallada", { usuario: usuario,mostrarMensaje: true, mensaje: mensaje });
+                    response.render("cuentaDetallada", {currentRoute: request.url, usuario: usuario,mostrarMensaje: true, mensaje: mensaje });
                 }
                 else {
                     const validacion = validarContrasena(request.body.contrasenia);
@@ -157,10 +164,10 @@ module.exports = function (dataPath, daoU, daoE) {
                             function mostrarUsuario(error, usuario) {
                                 if (error) {
                                     response.status(500);
-                                    response.render("cuentas");
+                                    response.render("cuentas",{currentRoute: request.url,});
                                 } else {
                                     response.status(200);
-                                    response.render("general");
+                                    response.render("general",{currentRoute: request.url});
                                 }
                             }  
                         });
@@ -176,10 +183,10 @@ module.exports = function (dataPath, daoU, daoE) {
         function insertarSesion(error, profesores) {
             if (error) {
                 response.status(500);
-                response.render("cuentas");
+                response.render("cuentas",{currentRoute: request.url,});
             } else {
                 response.status(200);
-                response.render("rutas", {mostrarMensaje:false,mensaje:'', profesores: profesores });
+                response.render("rutas", {currentRoute: request.url,mostrarMensaje:false,mensaje:'', profesores: profesores });
             }
         }
     });

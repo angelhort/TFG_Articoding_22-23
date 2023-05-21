@@ -9,27 +9,27 @@
     <%- include("adminBar") %>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center px-5">
+            <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-start mt-5">
                 <div class="d-flex align-items-center justify-content-center">
                     <form action="/admin/rutas" method="post" enctype="multipart/form-data" class="needs-validation"
                         novalidate>
 
                         <% if (mostrarMensaje) { %>
-                            <div class="row mb-3 mt-5 alert alert-warning text-center" role="alert">
+                            <div class="row mb-3 alert alert-warning text-center" role="alert">
                                 <%= mensaje %>
                             </div>
                         <% } %>
-                        <div class="row mb-3 mt-5">
+                        <div class="row mb-4 mt-5">
                             <h1>Nueva sesión</h1>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="nombre" class="form-label">Nombre:</label>
                             <input type="text" name="nombre" id="nombre" class="form-control"  required />
                             <div class="invalid-feedback">
                                 Por favor, ingrese un nombre.
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="profesor" class="form-label">Profesor:</label>
                             <select name="profesor" id="profesor" class="form-select" required>
                                 <% profesores.forEach(function(profesor) { %>
@@ -40,7 +40,7 @@
                                 Por favor, seleccione un profesor.
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-5">
                             <label for="archivo" class="form-label">Archivo JSON:</label>
                             <input type="file" name="archivo" id="archivo" class="form-control" accept="application/json" required />
                             <div class="invalid-feedback">
