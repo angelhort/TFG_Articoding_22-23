@@ -1,0 +1,189 @@
+{
+    "comun" : {
+        "tablas" : {
+            "categorias" : "Categories",
+            "tiempo" : "Time", 
+            "intentos" : "Tries",
+            "numero" : "Nº",
+            "id" : "ID",
+            "nombre" : "Name",
+            "tiempoJugado" : "Time played",
+            "ultNivel" : "Last level passed",
+            "verIntentos" : "View tries",
+            "editar" : "Edit name",
+            "nivel" : "Level",
+            "estrellas" : "Stars",
+            "participantes" : "Players",
+            "nAvisos" : "Nº of warnings per level",
+            "avisos" : "Nº of warnings",
+            "verAvisos" : "Warnings",
+            "grupo" : "Group"
+        },
+        "modalConocimientos":{
+            "titulo" : "Knowledge acquired in each category",
+            "categorias": [
+                {"titulo" : "Introduction:",
+                "contenido" : "In this category you learn the basics of the game, the different actions that can be performed on objects and how they work."},
+                {"titulo" : "Variables:",
+                "contenido" : "Within this section of levels you learn how a variable works, which can be used in different places in the same code."},
+                {"titulo" : "Data Types:",
+                "contenido" : "In these levels the different types of variables that are in the game are taught, for example: letters, words, numbers, etc."},
+                {"titulo" : "Basic Operators:",
+                "contenido" : "Here are the various operations that can be carried out with the different types of data, such as comparisons, additions, subtractions..."},
+                {"titulo" : "Loops:",
+                "contenido" : "After completing these levels, you will learn to program code that will be repeated a specific number of times or while a condition is met using while or for loops."},
+                {"titulo" : "Conditions:",
+                "contenido" : "Using the 'bool' data type seen before, you will learn how to develop conditional code using if, if-else, etc. statements."},
+                {"titulo" : "Functions:",
+                "contenido" : "Finally, in this category of levels it will be shown how you can organize and clean up your code using functions."}
+            ],
+            "cerrar" : "Got it!"
+        }
+    },
+
+    "login" : {
+        "titulo" : "Articoding Analysis",
+        "usuario" : "User",
+        "contrasenia" : "Password",
+        "iniSesion" : "Log In",
+        "mensaje" : "Email or password not valid"
+    },
+
+    "sesiones" : {
+        "titulo" : "Sessions",
+        "participantes" : "Players",
+        "entrar" : "Enter for results",
+        "resultados" : "See session results",
+        "analizar" : "Analyze session"
+    }, 
+
+    "resumen":{
+        "titulo" : "General results",
+        "subT1" : "Passed categories",
+        "subT2" : "Results",
+        "subT3" : "Number of players: ",
+        "subT4" : "Average values of the class"
+    },
+
+    "alumnos" :{
+        "buscar" : "Search player:",
+        "nombreOID" : "Name or ID",
+        "ordenar" : "Order by:",
+        "numero" : "Number",
+        "nombre" : "Name",
+        "ultNivel" : "Last level passed",
+        "tiempo" : "Time played",
+        "significadoGrupo" : "What does it mean to belong to each group?",
+        "modal" : {
+            "titulo" : "Detailed level info of ",
+            "completado" : "Passed",
+            "noCompletado" : "NOT Passed",
+            "tiempo" : "Time:",
+            "empleado" : "used:",
+            "intentos" : "Tries",
+            "empleados" : "used:",
+            "estrellas" : "Stars",
+            "obtenidas" : "obtained:",
+            "cerrar" : "Close"
+        },
+        "modalGrupos" : {
+            "titulo" : "Groups generated",
+            "parrafo" : "The groups that appear in the participants table are created to group different players with similar characteristics that can describe their behavior in the game.",
+            "grupos" : [
+                {"titulo" : "Group 0",
+                "contenido" : "Players with outlier values in terms of time, attempts, or errors. They are the ones who need urgent help."},
+                {"titulo" : "Group 1",
+                "contenido" : "Group formed by students who have played fewer levels (and therefore have fewer errors), with average time but more attempts, resulting in playing fewer levels overall."},
+                {"titulo" : "Group 2",
+                "contenido" : "Formed by students who have completed the most levels with very few attempts on average. They have more errors due to playing more levels. Their time is also average."},
+                {"titulo" : "Group 3",
+                "contenido" : "Players who have completed a considerable number of levels, but not as many as Group 2. They have similar attempts but more average time. They have fewer errors compared to Group 2 since they played fewer levels."},
+                {"titulo" : "Group 4",
+                "contenido" : "Players with fewer errors but second to last in terms of the number of levels completed, only ahead of Group 1. They usually complete levels with fewer attempts, but their average time is the highest among all groups."},
+                {"titulo" : "Group 5",
+                "contenido" : "Group formed by students who have completed a similar number of levels as Group 3, but with slightly more errors. Their time is lower, but their attempts are higher."}
+            ],
+            "cerrar" : "Got it!"
+        }
+    },
+
+    "categorias":{
+        "conocimientosTitulo" : "What knowledge is acquired in each category?",
+        "subT1" : "Average values of the class",
+        "subT2" : "Distribution for time used",
+        "representacionBoxplots" : "What do boxplots represent?",
+        "subT3" : "Distribution for tries",
+        "modalBoxplots" : {
+            "titulo" : "What is a boxplot?",
+            "contenido" : "In the candlestick charts, also called boxplots, different statistical values ​​are shown, such as the quartiles, the median, the minimum, maximum and outlier values ​​of the set, in order to graphically analyze the dispersion of the data set.",
+            "cerrar" : "Got it!"
+        }
+    },
+
+    "comparativa":{
+        "titulo" : "General Comparison",
+        "conocimientosTitulo" : "What knowledge is acquired in each category?"
+    },
+
+    "avisos" : {
+        "titulo": "Warnings",
+        "exp1" : "The warnings represent errors that the participants have had in their codes once they have passed the level.",
+        "exp2" : "These mistakes are not detected by the game and allow players to complete the levels.",
+        "exp3" : "With these mistakes it is possible to detect if the participants have understood the programming concepts.",
+        "concepto" : "Concept:",
+        "variables" : "Variables",
+        "codigo" : "Code",
+        "verParticipantes" : "View all participants: ",
+        "btnAvisos" : "See warnings",
+        "subT1" : "Participants with the most difficulties:",
+        "exp4" : "Here are the players who have the most warnings per level, the ones who have understood the programming concepts the worst.",
+        "subT2" : "Levels with the most warnings:",
+        "exp5" : "Here we find the levels with the greatest number of warnings. It is convenient to review which concepts are learned at these levels."
+    },
+
+    "avisosAlumnos" : {
+        "buscar" :"Search player:",
+        "nombre" : "Name",
+        "ordenar" : "Order by:",
+        "nAvisos" :"Nº of warnings per level",
+        "ultNivel" :"Last level passed",
+        "tiempo" :"Time played",
+        "significadoAvisos" : "What does each warning mean?",
+        "modalSignificadoAvisos" : {
+            "titulo" : "Meaning Warnings",
+            "avisos" : [
+                {"titulo" : "No necesario crear variable",
+                "texto" : "It means that the participant has created a variable that it only uses once, therefore it is not necessary to create it."},
+                {"titulo" : "Asignacion mismo valor en variable",
+                "texto" : "Indicates that the participant has assigned the same value 2 or more times to a variable, using extra integer or text values."},
+                {"titulo" : "Entero o texto utilizado 2 veces",
+                "texto" : "When a player uses an integer or text value 2 or more times they get this warning. The player should have created a variable to store the value and use it only 1 time."},
+                {"titulo" : "Código muerto",
+                "texto" : "It means that the participant has placed cards on the board through which the execution of the level never passes."},
+                {"titulo" : "Variable: 'x' no tiene un nombre que siga el estandar de programacion",
+                "texto" : "The player has named a variable with a name that does not follow the programming convention. Variables must start with a letter or _ and contain letters, numbers, and _."},
+                {"titulo" : "Variable: 'for' es una palabra reservada",
+                "texto" : "It means that the participant has used a reserved word to name a variable, in programming this can lead to the program not working."}                
+            ],
+            "cerrar" : "Got it!"
+        },
+        "modalAvisos" : {
+            "titulo" : "Warnings",
+            "aviso" : "º Warning:",
+            "nivel" : "Level:",
+            "sinErrores" : "Without Warnings",
+            "cerrar" : "Close"
+        }
+    },
+
+    "nombreNiveles":{
+        "tutorials" : "Introduction",
+        "variables" : "Variables",
+        "types" : "Data Types",
+        "basic operators" : "Basic Operators",
+        "basic_operators" : "Basic Operators",
+        "loops" : "Loops",
+        "conditionals" : "Conditions",
+        "procedures" : "Functions"
+    }
+}

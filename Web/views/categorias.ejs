@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("header", {titulo : "Categorías"}) %>
+    <script src="js/changeTableCategorias.js"></script>
+</head>
+
+<body>
+    <%- include("navBar") %>
+    <div class="container-fluid">
+        <div class="row mt-5 pb-5">
+            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
+                <div class="row">
+                    <div class="col ms-lg-5">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <select class="form-select">
+                                    <% for(var c in info["categorias"]){ %>
+                                        <option value="<%= c %>"> <%= info["categorias"][c] %></option>
+                                    <% }; %>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <a href="" data-bs-toggle="modal" data-bs-target="#conocimientosCategoria"><%= texto.categorias.conocimientosTitulo %></a>
+                            </div>
+                            <div class="modal fade" id="conocimientosCategoria" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h2 class="modal-title fs-5"><%= texto.comun.modalConocimientos.titulo %></h2>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <% texto.comun.modalConocimientos.categorias.forEach(e => { %>
+                                            <h5><%= e.titulo %></h5>
+                                            <p><%= e.contenido %></p>
+                                            <hr>
+                                        <% }); %>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.comun.modalConocimientos.cerrar %></button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col ms-5 mt-5">
+                        <h6><%= texto.categorias.subT1 %></h6>
+                    </div>
+                </div>
+                <div class="row ms-lg-5 me-5 mb-5">
+                    <div class="col mt-3">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><%= texto.comun.tablas.nivel %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.tiempo %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.estrellas %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.intentos %></th>
+                                    <th scope="col" class="text-center"><%= texto.comun.tablas.participantes %></th>
+                                </tr>
+                            </thead>
+                            <tbody ruta = "/profesor/getMediasCategoria/">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="row ms-5">
+                    <div class="col-auto">
+                        <h6><%= texto.categorias.subT2 %></h6>
+                    </div>
+                    <div class="col-auto">                        
+                        <a href="" data-bs-toggle="modal" data-bs-target="#explicacionBoxplots"><%= texto.categorias.representacionBoxplots %></a>
+                    </div>
+                    <div class="modal fade" id="explicacionBoxplots" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h2 class="modal-title fs-5"><%= texto.categorias.modalBoxplots.titulo %></h2>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><%= texto.categorias.modalBoxplots.contenido %></p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.categorias.modalBoxplots.cerrar %></button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="tiempos" class="plotTiempo p-0" ruta="/profesor/getTiempoCategoria/"></div>
+                    </div>                   
+                </div>
+                <div class="row ms-5 mt-4">
+                    <div class="col">
+                        <h6><%= texto.categorias.subT3 %></h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div id="intentos" class="plotIntentos p-0" ruta="/profesor/getIntentosCategoria/"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="infoJugadores" value = "<%= JSON.stringify(jugadores) %>"></div>
+    </div>
+       
+</body>
+</html>

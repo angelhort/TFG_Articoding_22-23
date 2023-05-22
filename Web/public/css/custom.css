@@ -1,0 +1,146 @@
+:root {
+    --lighter-blue: #C3CEDA;
+    --light-blue: #738FA7;
+    --light-blue-hover: #678096;
+    --dark-blue: #0C4160;
+    --darker-blue: #071330;
+}
+
+.backgroundColor1{
+    background-color: var(--lighter-blue);
+}
+
+.backgroundColor2{
+    background-color: var(--light-blue);
+}
+
+.backgroundColor3{
+    background-color: var(--dark-blue);
+}
+
+.backgroundColor4{
+    background-color: var(--darker-blue);
+}
+
+html, body{
+    font-family: 'Inter', sans-serif;
+    height: 100%;
+}
+
+h1{
+    color: var(--darker-blue);
+    font-weight: 800;
+}
+
+h2{
+    color: var(--darker-blue);
+    font-weight: 700;
+}
+
+h4{
+    color: var(--darker-blue);
+    font-weight: 700;
+}
+
+h5{
+    color: var(--darker-blue);
+    font-weight: 600;
+}
+
+h6{
+    color: var(--darker-blue);
+    font-weight: 600;
+}
+
+.btn {
+    background-color: var(--light-blue);
+    color: white;
+}
+
+.btn-primary{
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--dark-blue);
+    --bs-btn-border-color: var(--dark-blue);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--dark-blue);
+    --bs-btn-hover-border-color: var(--dark-blue);
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--dark-blue);
+    --bs-btn-active-border-color: var(--dark-blue);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--dark-blue);
+    --bs-btn-disabled-border-color: var(--dark-blue);
+}
+
+.btn:hover {
+    background-color: var(--light-blue-hover);
+    color: white;
+}
+
+.btn:active {
+    background-color: var(--light-blue-hover);
+    color: white;
+}
+.btn-link {
+    background-color: transparent;
+    color: white;
+}
+
+.table{
+    --bs-table-accent-bg: var(--light-blue);
+    --bs-table-striped-bg: var(--lighter-blue);
+    --bs-table-border-color: var(--dark-blue);
+}
+
+.bg-body-tertiary{
+    background-color: var(--light-blue)!important;
+}
+
+.nav-link, .navbar-brand{
+    color:white;
+}
+
+a{
+    color:var(--dark-blue);
+}
+
+.form-select{
+    background-color: var(--light-blue);
+    color: white;
+}
+
+nav{
+    --bs-breadcrumb-divider: '>';
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.cursorOnHover{
+    cursor: pointer;
+}
+
+input::placeholder{
+    font-weight: bold;
+}
+
+
+p{
+    margin-bottom: 0;
+}
+
+.tituloError{
+    color: var(--dark-blue);
+    font-size: 500%;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

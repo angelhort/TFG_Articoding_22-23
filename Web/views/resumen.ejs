@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <%- include("header", {titulo : "Resumen"}) %>
+    <script src="js/plotGenerator.js"></script>
+</head>
+
+<body>
+    <%- include("navBar") %>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mt-3">
+                <h2><%= texto.resumen.titulo %></h2>
+            </div>
+        </div>
+        <div class="row mt-5 pb-5">
+            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
+                <div class="row">
+                    <h4><%= texto.resumen.subT1 %></h4>
+                    <h5 class="mt-3"><%= texto.resumen.subT3 %> <%= nJugadores %></h5>
+                </div>
+                <div class="row">
+                    <div id="categoriasSuperadas" class="plot p-0" ruta="/profesor/getDatosResumen"></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="row ps-2 ps-lg-5">
+                    <h4 class="p-0"><%= texto.resumen.subT2 %></h4>
+                    <h5 class="mt-3 p-0"><%= texto.resumen.subT4 %></h5>
+                </div>
+                <div class="row mt-5">
+                    <div class="col ps-lg-5">                   
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col"><%= texto.comun.tablas.categorias %></th>
+                                <th scope="col"><%= texto.comun.tablas.tiempo %></th>
+                                <th scope="col"><%= texto.comun.tablas.intentos %></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var c in medias){ %>
+                                <tr>
+                                    <th scope="row"><%= c %></th>
+                                    <td><%= medias[c]["tiempo"] %></td>
+                                    <td><%= medias[c]["intentos"] %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

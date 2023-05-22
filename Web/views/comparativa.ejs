@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("header", {titulo : "Comparativa"}) %>
+</head>
+
+<body>
+    <%- include("navBar") %>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mt-3">
+                <h2><%= texto.comparativa.titulo %></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-5">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <select class="form-select">
+                            <% for(var c in info["categorias"]){ %>
+                                <option value="<%= c %>"> <%= info["categorias"][c] %></option>
+                            <% }; %>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <a href="" data-bs-toggle="modal" data-bs-target="#conocimientosCategoria"><%= texto.comparativa.conocimientosTitulo %></a>
+                    </div>
+                    <div class="modal fade" id="conocimientosCategoria" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h2 class="modal-title fs-5"><%= texto.comun.modalConocimientos.titulo %></h2>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <% texto.comun.modalConocimientos.categorias.forEach(e => { %>
+                                    <h5><%= e.titulo %></h5>
+                                    <p><%= e.contenido %></p>
+                                    <hr>
+                                <% }); %>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.comun.modalConocimientos.cerrar %></button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6 border-end border-dark-subtle border-2">
+                <div class="row">
+                    <div id="tiempos" class="plotCategorias" ruta="/profesor/getComparativaCategorias"></div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="row">
+                    <div id="intentos" class="plotMediaTiempos" ruta="/profesor/getTiempoCategoriaComparativa/"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(cambiarPlot);
+
+        $(document).ready(function(){
+            $(".form-select").change(cambiarPlot);
+        });
+
+
+        function cambiarPlot(){
+            var categoria = $(this).val();
+            if(categoria=="")
+                categoria="tutorials"
+            $('.plotCategorias').each(function() {
+                var ruta = $(this).attr('ruta');
+                fetch(ruta)
+                .then(response => response.json())
+                .then(data => {
+                    data.data = data.data.map(e => {
+                        e.y = e.y.map(p => {
+                            return Math.round(p * 100) / 100;
+                        });
+                        return e
+                    });
+                    Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true, 'displaylogo': false});
+                })
+                .catch(error => console.error(error));
+            });
+
+            $('.plotMediaTiempos').each(function() {
+                var ruta = $(this).attr('ruta');
+                fetch(ruta + categoria)
+                .then(response => response.json())
+                .then(data => {
+                    data.data = data.data.map(e =>{
+                        e.customdata = e.y.map(formatTime);
+                        e.hovertemplate = '<b>%{customdata}</b>'
+                        return e;
+                    });
+                    Plotly.newPlot($(this).attr('id'), data.data, data.layout, {responsive: true, 'displaylogo': false});
+                })
+                .catch(error => console.error(error));
+            });
+        }
+
+        function formatTime(seconds) {
+            seconds = Math.round(seconds);
+            var hours = Math.floor(seconds / 3600);
+            var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+            var remainingSeconds = seconds - (hours * 3600) - (minutes * 60);
+        
+            var timeArray = [];
+            if (hours > 0) {
+            timeArray.push(hours + 'h');
+            }
+            if (minutes > 0) {
+            timeArray.push(minutes + 'm');
+            }
+            if (remainingSeconds > 0 || timeArray.length === 0) {
+            timeArray.push(remainingSeconds + 's');
+            }
+        
+            return timeArray.join('/');
+        }
+    </script>
+</body>
+</html>

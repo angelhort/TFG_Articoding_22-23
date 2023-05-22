@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("header", {titulo : "Avisos Alumnos"}) %>
+    <script src="../js/filtrosTablaErrores.js"></script>
+</head>
+<body>
+    <%- include("navBar") %>
+    <div class = "container">
+        <div class="row justify-content-between mt-5">
+            <div class="col-auto">
+                <div class="row">
+                    <div class="col">
+                        <h6><%= texto.avisosAlumnos.buscar %></h6>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" id="searchP" placeholder="<%= texto.avisosAlumnos.nombre %>">                        
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <h6><%= texto.avisosAlumnos.ordenar %></h6>
+                        <select class="form-select" id="orden">
+                            <option value="num"><%= texto.avisosAlumnos.nAvisos %></option>
+                            <option value="nombre"><%= texto.avisosAlumnos.nombre %></option>
+                            <option value="nivel"><%= texto.avisosAlumnos.ultNivel %></option>
+                            <option value="tiempo"><%= texto.avisosAlumnos.tiempo %></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <a href="" data-bs-toggle="modal" data-bs-target="#significadoAviso"><%= texto.avisosAlumnos.significadoAvisos %></a>
+            </div>
+            <div class="modal fade" id="significadoAviso" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title fs-5"><%= texto.avisosAlumnos.modalSignificadoAvisos.titulo %></h2>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <% texto.avisosAlumnos.modalSignificadoAvisos.avisos.forEach(e => { %>
+                            <h5><%= e.titulo %></h5>
+                            <p><%= e.texto %></p>
+                            <hr>
+                        <% }); %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.avisosAlumnos.modalSignificadoAvisos.cerrar %></button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <table class="table table-striped" id="example">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.numero %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.nombre %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.tiempoJugado %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.ultNivel %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.nAvisos %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.verAvisos %></th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla">
+                        <% jugMasErr.forEach(function(j, i){ %>            
+                            <tr class="alumno" idAlumno="<%= j.id %>" numAlumno="<%= i + 1 %>" nombre="<%= j.nombre %>" tiempo="<%= j.tiempo %>" ultNivel="<%= j.ultNivel %>" mediaErrores="<%= j.mediaErroresVar %>">
+                                <th scope="row" class="text-center"><%= i + 1 %></th>
+                                <td class="text-center"><%= j.nombre %></td>
+                                <td class="text-center"><%= j.tiempo %></td>
+                                <td class="text-center"><%= j.ultNivel %></td>
+                                <td class="text-center"><%= j.mediaErroresVar %></td>
+                                <td class="text-center">
+                                    <a class="cursorOnHover" data-bs-toggle="modal" data-bs-target="#modal<%= j.id %>">
+                                        <i class="fa-solid fa-eye" style="color:black"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                            
+                        </tbody>
+                    </table>
+                    <% for(var alumno in jugMasErr){ %>  
+                        <div class="modal modal-lg fade" id="modal<%= jugMasErr[alumno]['id'] %>">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel"><%= texto.avisosAlumnos.modalAvisos.titulo %> <%= jugMasErr[alumno]["nombre"] %></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <% if(jugMasErr[alumno]["id"] in erroresJugadores) { %>
+                                        <% erroresJugadores[jugMasErr[alumno]["id"]].forEach((e, i) => { %>
+                                            <h6 class="mb-0"><%= i + 1 %><%= texto.avisosAlumnos.modalAvisos.aviso %></h6>
+                                            <%= e.error %>
+                                            <br><br>
+                                            <h6 class="mb-0"><%= texto.avisosAlumnos.modalAvisos.nivel %></h6>
+                                            <%= (e.level.charAt(0).toUpperCase() + e.level.slice(1)).replaceAll("_", " ")%>
+                                            <hr>
+                                        <% }); %>
+                                    <% } else{ %>
+                                        <h6><%= texto.avisosAlumnos.modalAvisos.sinErrores %></h6>
+                                    <% } %>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="container">
+                                        <div class="row justify-content-between">
+                                            <div class="col-auto">
+                                                <a href="" data-bs-toggle="modal" data-bs-target="#significadoAviso"><%= texto.avisosAlumnos.significadoAvisos %></a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.avisosAlumnos.modalAvisos.cerrar %></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    <% }; %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

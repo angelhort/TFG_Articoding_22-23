@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <%- include("header", {titulo : "Cuentas"}) %>
+    </head>
+
+    <body>
+        <%- include("adminBar") %>
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+                <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-start mt-50">
+
+                    <h1 class=" text-center row mb-3 mt-5">Usuarios </h1>
+
+                    <div class=" tab-content d-flex justify-content-center mb-3 mt-5" id="nav-tabContent">
+                        <ul class="list-group  list-group-sm ">
+                            <% usuarios.forEach(usuario => { %>
+                                <a href="/admin/cuentas/<%= usuario.nombre %>"class="--bs-primary-bg-subtle list-group-item list-group-item-action text-center mt-3 rounded border border-primary "> <%= usuario.nombre %> </a>
+                            <% }); %>
+                            <a href="/admin/cuentas/nuevoUsuario" class="bg-primary list-group-item list-group-item-action text-center text-white mt-3 rounded border border-primary "> Crear nuevo usuario </a>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 backgroundColor3 d-none d-md-block">
+                    
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

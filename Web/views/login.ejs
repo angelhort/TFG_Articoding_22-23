@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("header", {titulo : "Login"}) %>
+</head>
+
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center px-5">
+                <form method="POST" action="/login">
+                    <div class="row mb-5">
+                        <h1><%= texto.titulo %></h1>
+                    </div>
+                    <div class="row">
+                        <h5 class="p-0"><%= texto.usuario %></h5>
+                        <input type="text" class="form-control" name="usuario" id="formUsuario" placeholder="<%= texto.usuario %>" aria-label="Username"/>
+                    </div>
+                    <div class="row mt-4">
+                        <h5 class="p-0"><%= texto.contrasenia %></h5>
+                        <input type="password" class="form-control" name="contrasenia" id="formContrasenia" placeholder="**********"/>
+                    </div>
+                    <% if (errorMsg) { %>
+                        <div class="alert alert-danger mt-3" role="alert">
+                            <%= texto.mensaje %>
+                        </div>    
+                    <% } %>
+                    <div class="row mt-5">
+                        <div class="col text-center">
+                            <input type="submit" class="btn btn-primary" value="<%= texto.iniSesion %>" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 backgroundColor3 d-none d-md-block">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

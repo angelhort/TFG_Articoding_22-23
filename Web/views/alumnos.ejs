@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("header", {titulo : "Participantes"}) %>
+    <script src="js/bstable.js"></script>
+</head>
+<body>
+    <%- include("navBar") %>
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-auto mt-3">
+                <div class="row">
+                    <div class="col-auto">
+                        <h6><%= texto.alumnos.buscar %></h6>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" id="searchP" placeholder="<%= texto.alumnos.nombreOID %>">                        
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <h6><%= texto.alumnos.ordenar %></h6>
+                        <select class="form-select" id="orden">
+                            <option value="num"><%= texto.alumnos.numero %></option>
+                            <option value="nombre"><%= texto.alumnos.nombre %></option>
+                            <option value="nivel"><%= texto.alumnos.ultNivel %></option>
+                            <option value="tiempo"><%= texto.alumnos.tiempo %></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto mt-5">
+                <a href="" data-bs-toggle="modal" data-bs-target="#explicacionGrupos"><%= texto.alumnos.significadoGrupo %></a>
+            </div>
+            <div class="modal fade" id="explicacionGrupos" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title fs-5"><%= texto.alumnos.modalGrupos.titulo %></h2>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6><%= texto.alumnos.modalGrupos.parrafo %></h6>
+                        <hr>
+                        <% texto.alumnos.modalGrupos.grupos.forEach(g => { %>
+                            <h5><%= g.titulo %></h5>
+                            <p><%= g.contenido %></p>
+                            <hr>
+                        <% }); %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.alumnos.modalGrupos.cerrar %></button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <table class="table table-striped" id="example">
+                    <thead>
+                        <tr>
+                            <th scope="col"><%= texto.comun.tablas.numero %></th>
+                            <th scope="col"><%= texto.comun.tablas.id %></th>
+                            <th scope="col"><%= texto.comun.tablas.nombre %></th>
+                            <th scope="col"><%= texto.comun.tablas.tiempoJugado %></th>
+                            <th scope="col"><%= texto.comun.tablas.ultNivel %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.grupo %></th>
+                            <th scope="col" class="text-center"><%= texto.comun.tablas.verIntentos %></th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla">
+                        <% infoAlumnos.forEach(function(a,i){ %>
+                            <tr class="alumno" idAlumno = "<%= a.id %>" nombre = "<%= a.nombre %>" tiempo="<%= a.tiempo %>" ultNivel="<%= a.ultNivel %>" numAlumno="<%= i + 1%>" grupoCluster="<%= cluster[a.id] %>">
+                                <th scope="row"> <%= i + 1%> </th>
+                                <td><%= a.id %></td>
+                                <td><%= a.nombre %></td>
+                                <td><%= a.tiempo %></td>
+                                <td><%= a.ultNivel %></td>
+                                <td class="text-center"><%= cluster[a.id] %></td>
+                                <td class="text-center"><a class="cursorOnHover crearPlot" idAlumno="<%= a.id %>" data-bs-toggle="modal" data-bs-target="#modalIntentosJugador<%=a.id%>">
+                                        <i class="fa-solid fa-eye mt-2" style="color:black"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <div class="modal fade modalDetallesNivel" id="modalIntentosJugador<%=a.id%>" idJugador = "<%=a.id%>">
+                                <div class="modal-dialog modal-xl">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5"><%= texto.alumnos.modal.titulo %> <%= a.nombre %></h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-3" style="max-height: 70vh; overflow-y: auto;">
+                                                    <% for(var l in tiempoAlumnos.tiempo[a.id]){ %>
+                                                        <h5 class="text-capitalize"><%= l.replaceAll("_", " ")%></h5>
+                                                            <% tiempoAlumnos.tiempo[a.id][l].forEach((p, j) => { %>
+                                                                <% if(p.stars > 0){ %>
+                                                                    <h6 class="text-success"><%= texto.alumnos.modal.completado %></h6>
+                                                                <% } else {%>
+                                                                    <h6 class="text-danger"><%= texto.alumnos.modal.noCompletado %></h6>
+                                                                <% } %>
+                                                                <p><n class="fw-bold"><%= texto.alumnos.modal.tiempo %></n> <%= texto.alumnos.empleado %> <%= p.time %></p>
+                                                                <p><n class="fw-bold"><%= texto.alumnos.modal.intentos %></n> <%= texto.alumnos.modal.empleados %> <%= tiempoAlumnos.intentos[a.id][l][j].intentos %></p>
+                                                                <% if(p.stars > 0){ %>
+                                                                    <p><n class="fw-bold"><%= texto.alumnos.modal.estrellas %></n> <%= texto.alumnos.modal.obtenidas %> <%= p.stars %></p>
+                                                                <% } %>
+                                                                <br>
+                                                            <% }) %>
+                                                        <hr>
+                                                    <% } %>
+                                                </div>
+                                                <div class="col-9 p-0" id="plotNiveles">
+                                                    <div id="plot<%= a.id %>"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= texto.alumnos.modal.cerrar %></button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
