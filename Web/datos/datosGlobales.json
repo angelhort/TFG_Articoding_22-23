@@ -1,1 +1,253 @@
-{"porcentaje": {"Tutorials": 100.0, "Variables": 87.18, "Types": 41.03, "Basic operators": 15.38, "Loops": 5.13, "Conditionals": 2.56, "Procedures": 0}, "tiempoMedio": {"Tutorials": {"tutorials_1": {"tiempo": 72.0, "jugadores": 39}, "tutorials_2": {"tiempo": 42.0, "jugadores": 39}, "tutorials_3": {"tiempo": 24.0, "jugadores": 39}, "tutorials_4": {"tiempo": 110.0, "jugadores": 39}, "tutorials_5": {"tiempo": 25.0, "jugadores": 39}, "tutorials_6": {"tiempo": 86.0, "jugadores": 39}, "tutorials_7": {"tiempo": 74.0, "jugadores": 39}}, "Variables": {"variables_1": {"tiempo": 48.0, "jugadores": 39}, "variables_2": {"tiempo": 193.0, "jugadores": 39}, "variables_3": {"tiempo": 138.0, "jugadores": 38}, "variables_4": {"tiempo": 161.0, "jugadores": 37}, "variables_5": {"tiempo": 179.0, "jugadores": 37}, "variables_6": {"tiempo": 262.0, "jugadores": 36}, "variables_7": {"tiempo": 137.0, "jugadores": 36}, "variables_8": {"tiempo": 159.0, "jugadores": 36}, "variables_9": {"tiempo": 122.0, "jugadores": 35}, "variables_10": {"tiempo": 125.0, "jugadores": 34}}, "Types": {"types_1": {"tiempo": 64.0, "jugadores": 34}, "types_2": {"tiempo": 74.0, "jugadores": 34}, "types_3": {"tiempo": 228.0, "jugadores": 32}, "types_4": {"tiempo": 311.0, "jugadores": 30}, "types_5": {"tiempo": 310.0, "jugadores": 26}, "types_6": {"tiempo": 209.0, "jugadores": 22}, "types_7": {"tiempo": 281.0, "jugadores": 19}, "types_8": {"tiempo": 187.0, "jugadores": 16}, "types_9": {"tiempo": 146.0, "jugadores": 16}}, "Basic operators": {"basic_operators_1": {"tiempo": 62.0, "jugadores": 15}, "basic_operators_2": {"tiempo": 321.0, "jugadores": 13}, "basic_operators_3": {"tiempo": 382.0, "jugadores": 11}, "basic_operators_4": {"tiempo": 466.0, "jugadores": 9}, "basic_operators_5": {"tiempo": 170.0, "jugadores": 7}, "basic_operators_6": {"tiempo": 149.0, "jugadores": 6}, "basic_operators_7": {"tiempo": 112.0, "jugadores": 6}, "basic_operators_8": {"tiempo": 100.0, "jugadores": 6}, "basic_operators_9": {"tiempo": 76.0, "jugadores": 6}}, "Loops": {"loops_1": {"tiempo": 90.0, "jugadores": 6}, "loops_2": {"tiempo": 58.0, "jugadores": 6}, "loops_3": {"tiempo": 96.0, "jugadores": 6}, "loops_4": {"tiempo": 269.0, "jugadores": 6}, "loops_5": {"tiempo": 133.0, "jugadores": 5}, "loops_6": {"tiempo": 223.0, "jugadores": 5}, "loops_7": {"tiempo": 178.0, "jugadores": 4}, "loops_8": {"tiempo": 287.0, "jugadores": 3}, "loops_9": {"tiempo": 216.0, "jugadores": 2}}, "Conditionals": {"conditionals_1": {"tiempo": 32.0, "jugadores": 2}, "conditionals_2": {"tiempo": 214.0, "jugadores": 2}, "conditionals_3": {"tiempo": 283.0, "jugadores": 1}, "conditionals_4": {"tiempo": 0, "jugadores": 0}, "conditionals_5": {"tiempo": 0, "jugadores": 0}, "conditionals_6": {"tiempo": 0, "jugadores": 0}, "conditionals_7": {"tiempo": 0, "jugadores": 0}, "conditionals_8": {"tiempo": 0, "jugadores": 0}, "conditionals_9": {"tiempo": 0, "jugadores": 0}}, "Procedures": {"procedures_1": {"tiempo": 0, "jugadores": 0}, "procedures_2": {"tiempo": 0, "jugadores": 0}, "procedures_3": {"tiempo": 0, "jugadores": 0}}}, "numeroAlumnos": 39, "institutos": ["3"]}
+{
+    "porcentaje": {
+        "Tutorials": 0,
+        "Variables": 0,
+        "Types": 0,
+        "Basic operators": 0,
+        "Loops": 0,
+        "Conditionals": 0,
+        "Procedures": 0
+    },
+    "tiempoMedio": {
+        "Tutorials": {
+            "tutorials_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "tutorials_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Variables": {
+            "variables_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "variables_10": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Types": {
+            "types_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "types_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Basic operators": {
+            "basic_operators_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "basic_operators_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Loops": {
+            "loops_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "loops_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Conditionals": {
+            "conditionals_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_4": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_5": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_6": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_7": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_8": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "conditionals_9": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        },
+        "Procedures": {
+            "procedures_1": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "procedures_2": {
+                "tiempo": 0,
+                "jugadores": 0
+            },
+            "procedures_3": {
+                "tiempo": 0,
+                "jugadores": 0
+            }
+        }
+    },
+    "numeroAlumnos": 0,
+    "institutos": []
+}
