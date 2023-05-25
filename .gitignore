@@ -2,4 +2,3 @@
 *.ipynb_checkpoints
 *.pyc
 !Web/**/*.json
-trazasOrdenadas.json
